@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e14">
+
+<!-- ============ Primary SEO ============ -->
+<title>Sina Rezaei (SRXL) — Red Team Operator &amp; Malware Developer</title>
+<meta name="description" content="The quiet portfolio of Sina Rezaei (SRXL) — red team operator and malware developer. A calm walk through the fundamentals: Network+, Linux, a little Python, and a small C2 built for understanding.">
+<meta name="keywords" content="Sina Rezaei, SRXL, red team operator, malware developer, adversary simulation, Active Directory security, penetration testing, C2, lateral movement, portfolio">
+<meta name="author" content="Sina Rezaei">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://srxl.dev/">
+
+<!-- ============ Open Graph ============ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sina Rezaei (SRXL)">
+<meta property="og:title" content="Sina Rezaei (SRXL) — Red Team Operator &amp; Malware Developer">
+<meta property="og:description" content="A calm corner of the internet. Red teaming, learning useful things, and a lot of quiet curiosity.">
+<meta property="og:url" content="https://srxl.dev/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:image:alt" content="Soft blue abstract artwork used as the desktop wallpaper">
+<meta property="og:locale" content="en_US">
+
+<!-- ============ Twitter ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sina Rezaei (SRXL) — Red Team Operator &amp; Malware Developer">
+<meta name="twitter:description" content="A calm corner of the internet. Red teaming, learning useful things, and a lot of quiet curiosity.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1200&q=80">
+
+<!-- ============ Fonts & Icons ============ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- ============ Structured Data ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://srxl.dev/#person",
+      "name": "Sina Rezaei",
+      "alternateName": "SRXL",
+      "jobTitle": "Red Team Operator & Malware Developer",
+      "description": "Red team operator and malware developer focused on adversary simulation, Active Directory security and learning useful things.",
+      "url": "https://srxl.dev/",
+      "knowsAbout": [
+        "Red Teaming","Malware Development","Adversary Simulation",
+        "Active Directory Security","Lateral Movement","C2 Development",
+        "Computer Networking","Linux Administration","Python"
+      ],
+      "sameAs": ["https://www.linkedin.com/in/sina-rezaei-srxl"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://srxl.dev/#website",
+      "url": "https://srxl.dev/",
+      "name": "Sina Rezaei (SRXL)",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://srxl.dev/#person" }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://srxl.dev/#profilepage",
+      "url": "https://srxl.dev/",
+      "name": "Sina Rezaei (SRXL) — Portfolio",
+      "isPartOf": { "@id": "https://srxl.dev/#website" },
+      "about": { "@id": "https://srxl.dev/#person" }
+    }
+  ]
+}
+</script>
+
+<style>
+/* =================================================================
+   DESIGN TOKENS — matched to the meadow wallpapers
+   ================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* Twilight base */
+  --bg: #0a0e14;
+  --bg-2: #121826;
+  --panel: rgba(20, 26, 38, .74);
+  --panel-solid: #141a26;
+  --panel-hi: rgba(255, 255, 255, .05);
+
+  /* Lines */
+  --stroke: rgba(255, 255, 255, .085);
+  --stroke-strong: rgba(255, 255, 255, .18);
+  --stroke-glow: rgba(108, 184, 240, .38);
+
+  /* Text */
+  --text: #f0f4f8;
+  --text-soft: #ccd5e0;
+  --muted: #8a98a8;
+  --dim: #5f6b78;
+
+  /* Palette from wallpaper */
+  --accent: #6cb8f0;              /* sky blue */
+  --accent-hi: #a3d5ff;
+  --accent-2: #b08fd8;            /* purple flower */
+  --accent-3: #8bc47a;            /* meadow green */
+  --accent-warm: #f5c95c;         /* sunlit gold */
+  --accent-pink: #f0a8d0;         /* soft petal */
+
+  /* Effects */
+  --glow-blue: 0 0 24px rgba(108, 184, 240, .5);
+  --glow-purple: 0 0 24px rgba(176, 143, 216, .45);
+  --glow-gold: 0 0 24px rgba(245, 201, 92, .5);
+  --shadow-window: 0 40px 90px -30px rgba(0,0,0,.95), 0 12px 32px -12px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.05);
+
+  /* Layout */
+  --bar-h: 52px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --ease: cubic-bezier(.22, .8, .25, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-feature-settings: "cv02","cv03","cv04","cv11","ss01";
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -.005em;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; }
+
+::selection { background: rgba(108, 184, 240, .35); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid rgba(108, 184, 240, .8);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* =================================================================
+   SCREEN SHELL
+   ================================================================= */
+.screen {
+  position: fixed;
+  inset: 0;
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.screen.hide { opacity: 0; pointer-events: none; transform: scale(1.02); }
+
+/* =================================================================
+   BOOT / OS PICKER
+   ================================================================= */
+#boot-screen {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(1200px 700px at 15% -15%, rgba(108, 184, 240, .22), transparent 60%),
+    radial-gradient(1000px 600px at 90% 115%, rgba(176, 143, 216, .18), transparent 60%),
+    radial-gradient(700px 500px at 50% 50%, rgba(245, 201, 92, .09), transparent 70%),
+    #0a0e14;
+  z-index: 9000;
+  overflow: hidden;
+}
+
+#boot-screen::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(420px 420px at 25% 30%, rgba(108, 184, 240, .26), transparent 65%),
+    radial-gradient(360px 360px at 78% 68%, rgba(176, 143, 216, .20), transparent 65%),
+    radial-gradient(300px 300px at 55% 18%, rgba(245, 201, 92, .16), transparent 70%);
+  filter: blur(40px);
+  animation: orbDrift 22s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes orbDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(3%, -3%, 0) scale(1.05); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.02); }
+}
+
+#boot-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.65), transparent),
+    radial-gradient(1.5px 1.5px at 78% 14%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 34% 78%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1.5px 1.5px at 62% 62%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.5px 1.5px at 88% 82%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1.5px 1.5px at 22% 52%, rgba(255,255,255,.3), transparent),
+    radial-gradient(1.5px 1.5px at 8% 88%, rgba(255,255,255,.45), transparent),
+    radial-gradient(1.5px 1.5px at 92% 32%, rgba(255,255,255,.35), transparent);
+  pointer-events: none;
+  animation: twinkle 7s ease-in-out infinite alternate;
+}
+@keyframes twinkle { from { opacity: .35 } to { opacity: 1 } }
+
+.boot-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 24px;
+  animation: rise 1s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.boot-eyebrow {
+  margin: 0 0 16px;
+  font-size: .7rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  padding-left: .5em;
+  position: relative;
+  display: inline-block;
+}
+.boot-eyebrow::before,
+.boot-eyebrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,201,92,.7), transparent);
+}
+.boot-eyebrow::before { right: 100%; margin-right: 14px; }
+.boot-eyebrow::after  { left: 100%;  margin-left: 14px; }
+
+.boot-title {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 5.5vw, 3.1rem);
+  font-weight: 300;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  background: linear-gradient(120deg, #ffffff 5%, #a3d5ff 35%, #c9a8e8 65%, #ffdb7a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 32px rgba(108, 184, 240, .3));
+}
+
+.boot-sub {
+  margin: 0 0 56px;
+  color: var(--muted);
+  font-size: .95rem;
+  font-weight: 300;
+  letter-spacing: .01em;
+}
+
+.os-selection {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.os-card {
+  position: relative;
+  width: 176px;
+  padding: 32px 20px 26px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+    rgba(20, 26, 38, .55);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  transition:
+    transform .5s var(--ease-out),
+    border-color .4s,
+    background .4s,
+    box-shadow .5s;
+}
+
+.os-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.1), transparent);
+  transform: skewX(-18deg);
+  transition: left .9s var(--ease-out);
+  pointer-events: none;
+}
+.os-card:hover::before { left: 130%; }
+
+.os-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 20%;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 201, 92, .65), transparent);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.os-card:hover::after { opacity: 1; }
+
+.os-card:hover,
+.os-card:focus-visible {
+  transform: translateY(-10px);
+  border-color: rgba(108, 184, 240, .55);
+  background:
+    linear-gradient(180deg, rgba(108,184,240,.10), rgba(108,184,240,.02)),
+    rgba(20, 26, 38, .72);
+  box-shadow:
+    0 30px 70px -28px rgba(108, 184, 240, .75),
+    0 0 0 1px rgba(108, 184, 240, .18) inset;
+  outline: none;
+}
+
+.os-card i {
+  font-size: 3.6rem;
+  transition: transform .5s var(--ease-out), filter .5s;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,.5));
+}
+.os-card:hover i { transform: scale(1.1) rotate(-2deg); }
+.os-card .fa-windows { color: #4cc2ff; }
+.os-card .fa-linux   { color: #f4f6fb; }
+.os-card:hover .fa-windows { filter: drop-shadow(0 0 22px rgba(76,194,255,.75)); }
+.os-card:hover .fa-linux   { filter: drop-shadow(0 0 22px rgba(244,246,251,.6)); }
+
+.os-card span {
+  font-size: .92rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #e2e7f2;
+}
+
+/* =================================================================
+   LOADING — sun orb + ripples + floating pollen
+   ================================================================= */
+#loading-screen {
+  display: none;
+  place-items: center;
+  background:
+    radial-gradient(900px 600px at 50% 40%, rgba(108, 184, 240, .08), transparent 60%),
+    radial-gradient(700px 500px at 50% 60%, rgba(245, 201, 92, .06), transparent 65%),
+    #070a10;
+  z-index: 9500;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
+#loading-screen.show { display: grid; }
+
+/* Ambient blurred orbs behind the loader */
+#loading-screen::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(360px 360px at 30% 30%, rgba(108, 184, 240, .18), transparent 65%),
+    radial-gradient(320px 320px at 72% 68%, rgba(176, 143, 216, .14), transparent 65%),
+    radial-gradient(280px 280px at 50% 78%, rgba(245, 201, 92, .12), transparent 70%);
+  filter: blur(50px);
+  animation: orbDrift 18s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Windows loader */
+.win-loader {
+  display: none;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+  z-index: 2;
+}
+.win-loader.show { display: flex; }
+
+/* The central sun-orb */
+.orb-loader {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+}
+
+.orb-core {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%,
+    #ffffff 0%,
+    #ffe8a6 22%,
+    #f5c95c 50%,
+    #6cb8f0 100%);
+  box-shadow:
+    0 0 30px rgba(245, 201, 92, .7),
+    0 0 60px rgba(108, 184, 240, .55),
+    0 0 90px rgba(108, 184, 240, .3);
+  animation: corePulse 3.4s ease-in-out infinite;
+  position: relative;
+  z-index: 3;
+}
+
+@keyframes corePulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 30px rgba(245,201,92,.7), 0 0 60px rgba(108,184,240,.55), 0 0 90px rgba(108,184,240,.3); }
+  50%      { transform: scale(1.08); box-shadow: 0 0 40px rgba(245,201,92,.85), 0 0 80px rgba(108,184,240,.7), 0 0 120px rgba(108,184,240,.4); }
+}
+
+.orb-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(108, 184, 240, .5);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: ripple 3.4s ease-out infinite;
+}
+
+.ring-1 { width: 76px;  height: 76px;  animation-delay: 0s;    border-color: rgba(245, 201, 92, .65); }
+.ring-2 { width: 76px;  height: 76px;  animation-delay: 1.1s;  border-color: rgba(108, 184, 240, .6); }
+.ring-3 { width: 76px;  height: 76px;  animation-delay: 2.2s;  border-color: rgba(176, 143, 216, .55); }
+
+@keyframes ripple {
+  0%   { width: 58px;  height: 58px;  opacity: 1;   border-width: 2px; }
+  100% { width: 168px; height: 168px; opacity: 0;   border-width: 1px; }
+}
+
+/* Floating pollen / petals around the orb */
+.loader-particles {
+  position: absolute;
+  inset: -70px;
+  pointer-events: none;
+  z-index: 1;
+}
+.loader-particles span {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe8a6, rgba(245, 201, 92, 0));
+  box-shadow: 0 0 8px rgba(245, 201, 92, .85);
+  animation: float 5.6s ease-in-out infinite;
+}
+
+.loader-particles span:nth-child(1) { top: 10%; left: 8%;  animation-delay: 0s;    }
+.loader-particles span:nth-child(2) { top: 78%; left: 14%; animation-delay: .7s;   background: radial-gradient(circle, #a3d5ff, rgba(108,184,240,0)); box-shadow: 0 0 8px rgba(108,184,240,.85); }
+.loader-particles span:nth-child(3) { top: 22%; left: 82%; animation-delay: 1.4s;  }
+.loader-particles span:nth-child(4) { top: 68%; left: 88%; animation-delay: 2.1s;  background: radial-gradient(circle, #d9c3f0, rgba(176,143,216,0)); box-shadow: 0 0 8px rgba(176,143,216,.85); }
+.loader-particles span:nth-child(5) { top: 44%; left: 4%;  animation-delay: 2.8s;  background: radial-gradient(circle, #c7e6b4, rgba(139,196,122,0)); box-shadow: 0 0 8px rgba(139,196,122,.85); }
+.loader-particles span:nth-child(6) { top: 4%;  left: 58%; animation-delay: 3.5s;  }
+.loader-particles span:nth-child(7) { top: 88%; left: 44%; animation-delay: 4.2s;  background: radial-gradient(circle, #a3d5ff, rgba(108,184,240,0)); box-shadow: 0 0 8px rgba(108,184,240,.85); }
+.loader-particles span:nth-child(8) { top: 56%; left: 92%; animation-delay: 4.9s;  }
+
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1);    opacity: .35; }
+  50%      { transform: translate3d(6px, -14px, 0) scale(1.35); opacity: 1; }
+}
+
+/* Loading caption */
+.loader-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.loader-caption .cap-title {
+  font-size: .74rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  font-weight: 500;
+  padding-left: .5em;
+  text-shadow: 0 0 18px rgba(245, 201, 92, .5);
+  animation: softGlow 2.8s ease-in-out infinite;
+}
+
+.loader-caption .cap-sub {
+  font-size: .82rem;
+  color: var(--muted);
+  font-weight: 300;
+  letter-spacing: .04em;
+}
+
+@keyframes softGlow {
+  0%, 100% { opacity: .8;  text-shadow: 0 0 18px rgba(245, 201, 92, .5); }
+  50%      { opacity: 1;   text-shadow: 0 0 26px rgba(245, 201, 92, .9); }
+}
+
+/* Linux loader (terminal) */
+.linux-loader {
+  display: none;
+  width: min(720px, 88vw);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.95;
+  color: #cfd6e4;
+  z-index: 2;
+  position: relative;
+}
+.linux-loader.show { display: block; }
+.linux-loader .ok { color: var(--accent-3); font-weight: 500; }
+.linux-loader .line { opacity: 0; animation: fadeLine .4s var(--ease-out) forwards; }
+@keyframes fadeLine { to { opacity: 1 } }
+
+.linux-loader .welcome {
+  margin-top: 24px;
+  color: var(--accent-warm);
+  font-size: .98rem;
+  letter-spacing: .05em;
+  text-shadow: 0 0 18px rgba(245, 201, 92, .6);
+}
+
+/* =================================================================
+   DESKTOP
+   ================================================================= */
+#desktop {
+  display: none;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-image: url('pic/win_bag.jpg');
+  animation: deskIn 1.4s var(--ease-out) both;
+}
+#desktop.show { display: block; }
+
+#desktop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(140% 90% at 50% 0%, transparent 35%, rgba(6, 10, 18, .42) 100%),
+    linear-gradient(180deg, rgba(6, 10, 18, .28) 0%, rgba(6, 10, 18, .10) 45%, rgba(6, 10, 18, .5) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#desktop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: .05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+@keyframes deskIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+#desktop-icons {
+  position: absolute;
+  top: 24px;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 3;
+}
+
+.desk-icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100px;
+  padding: 14px 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background .3s,
+    border-color .3s,
+    transform .35s var(--ease-out),
+    box-shadow .35s;
+}
+
+.desk-icon:hover,
+.desk-icon:focus-visible {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  border-color: rgba(255, 255, 255, .2);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px -14px rgba(0,0,0,.9);
+  outline: none;
+}
+
+.desk-icon i {
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .75));
+  transition: transform .35s var(--ease-out);
+}
+.desk-icon:hover i { transform: scale(1.08); }
+
+.desk-icon .ic-about   { color: #7cc4ff; }
+.desk-icon .ic-learn   { color: #ffd067; }
+.desk-icon .ic-skills  { color: #bca3e6; }
+.desk-icon .ic-gallery { color: #9ed48d; }
+.desk-icon .ic-term    { color: #f0f4f8; }
+
+.desk-icon span {
+  font-size: .74rem;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  line-height: 1.25;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .95);
+  letter-spacing: .01em;
+}
+
+/* =================================================================
+   WINDOWS
+   ================================================================= */
+.window {
+  position: absolute;
+  width: min(680px, 88vw);
+  height: min(480px, 74vh);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+  resize: both;
+  min-width: 300px;
+  min-height: 220px;
+  animation: winOpen .4s var(--ease-out);
+}
+
+.window::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,201,92,.75), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes winOpen {
+  from { opacity: 0; transform: scale(.94) translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+.window.closing { animation: winClose .24s ease forwards; }
+@keyframes winClose {
+  to { opacity: 0; transform: scale(.94) translateY(12px); filter: blur(3px); }
+}
+
+.window.minimized { display: none; }
+
+.window.maximized {
+  left: 8px !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(100vw - 16px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  padding-left: 20px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  border-bottom: 1px solid var(--stroke);
+  cursor: grab;
+  user-select: none;
+  flex: none;
+  position: relative;
+}
+.window-header:active { cursor: grabbing; }
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: .84rem;
+  font-weight: 500;
+  color: #e2e7f2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: .005em;
+}
+.window-title i {
+  color: var(--accent);
+  font-size: .88rem;
+  filter: drop-shadow(0 0 8px rgba(108,184,240,.55));
+}
+
+.window-controls { display: flex; height: 100%; }
+
+.ctrl {
+  width: 48px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #c6cddb;
+  font-size: .78rem;
+  display: grid;
+  place-items: center;
+  transition: background .2s, color .2s;
+}
+.ctrl:hover { background: rgba(255, 255, 255, .09); color: #fff; }
+.ctrl.close:hover { background: #e5484d; color: #fff; box-shadow: inset 0 0 20px rgba(0,0,0,.2); }
+
+.window-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 34px 38px 42px;
+  font-size: .92rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.2) transparent;
+  position: relative;
+}
+.window-body::-webkit-scrollbar { width: 10px; }
+.window-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .18);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.window-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(108,184,240,.5);
+  background-clip: content-box;
+}
+
+/* =================================================================
+   DOCUMENT CONTENT
+   ================================================================= */
+.doc h1 {
+  margin: 0 0 10px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  color: #fff;
+  line-height: 1.15;
+}
+
+.doc h2 {
+  margin: 38px 0 14px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.doc h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(108,184,240,.4), transparent);
+}
+
+.doc h3 {
+  margin: 22px 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -.005em;
+}
+
+.doc p { margin: 0 0 16px; }
+.doc strong { color: #fff; font-weight: 600; }
+.doc em { color: var(--muted); font-style: normal; }
+
+.doc-sub {
+  margin: 0 0 6px !important;
+  color: var(--muted);
+  font-size: .86rem;
+  letter-spacing: .05em;
+}
+
+.doc-head {
+  text-align: center;
+  padding-bottom: 28px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--stroke);
+  position: relative;
+}
+.doc-head::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-warm), transparent);
+}
+
+.avatar {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6cb8f0, #b08fd8);
+  font-size: 1.9rem;
+  color: #0b0d14;
+  box-shadow:
+    0 14px 38px -12px rgba(108, 184, 240, .85),
+    0 0 0 1px rgba(255,255,255,.15) inset,
+    0 0 0 8px rgba(108,184,240,.07);
+  animation: avatarPulse 4s ease-in-out infinite;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 14px 38px -12px rgba(108,184,240,.85), 0 0 0 1px rgba(255,255,255,.15) inset, 0 0 0 8px rgba(108,184,240,.07); }
+  50%      { box-shadow: 0 14px 42px -10px rgba(176,143,216,.9), 0 0 0 1px rgba(255,255,255,.2) inset, 0 0 0 12px rgba(176,143,216,.06); }
+}
+
+.quote {
+  margin: 0 auto 24px;
+  max-width: 44ch;
+  font-size: .98rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #bcc5d6;
+  font-style: italic;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 11px;
+  background:
+    linear-gradient(180deg, rgba(108,184,240,.16), rgba(108,184,240,.07));
+  border: 1px solid rgba(108, 184, 240, .35);
+  color: #dceeff;
+  text-decoration: none;
+  font-size: .84rem;
+  font-weight: 500;
+  letter-spacing: .01em;
+  transition:
+    background .3s,
+    border-color .3s,
+    transform .35s var(--ease-out),
+    box-shadow .35s;
+}
+.btn:hover {
+  background:
+    linear-gradient(180deg, rgba(108,184,240,.26), rgba(108,184,240,.12));
+  border-color: rgba(108, 184, 240, .7);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -12px rgba(108,184,240,.8), 0 0 0 1px rgba(108,184,240,.18) inset;
+}
+
+.doc ul { list-style: none; margin: 0 0 18px; padding: 0; }
+.doc li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+}
+.doc li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: .74em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 12px rgba(139, 196, 122, .9);
+}
+
+.doc table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0 10px;
+  font-size: .87rem;
+}
+.doc th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--stroke-strong);
+}
+.doc td {
+  padding: 14px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--stroke);
+  color: #b9c1d0;
+}
+.doc td:first-child { color: #fff; font-weight: 500; width: 34%; }
+.doc tr:hover td { background: rgba(255, 255, 255, .03); }
+
+.doc .roadmap {
+  list-style: none;
+  margin: 26px 0 8px;
+  padding: 0;
+  counter-reset: step;
+  position: relative;
+}
+.doc .roadmap::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: linear-gradient(180deg,
+    rgba(108,184,240,.65) 0%,
+    rgba(176,143,216,.5) 55%,
+    transparent 100%);
+}
+.doc .roadmap > li {
+  position: relative;
+  padding: 0 0 24px 56px;
+  margin: 0;
+  counter-increment: step;
+}
+.doc .roadmap > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(108,184,240,.14), rgba(108,184,240,.04));
+  border: 1px solid rgba(108, 184, 240, .45);
+  color: #cfe8ff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  font-weight: 500;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 0 0 6px rgba(10, 14, 20, .95),
+    0 0 18px -4px rgba(108,184,240,.45);
+  z-index: 1;
+  transition:
+    border-color .35s,
+    background .35s,
+    transform .4s var(--ease-out),
+    box-shadow .4s;
+}
+.doc .roadmap > li:hover::before {
+  border-color: rgba(108, 184, 240, .98);
+  background: linear-gradient(180deg, rgba(108,184,240,.24), rgba(108,184,240,.1));
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 6px rgba(10, 14, 20, .95),
+    0 0 26px -2px rgba(108,184,240,.85);
+}
+.doc .roadmap > li:last-child { padding-bottom: 0; }
+.doc .roadmap h3 { margin: 3px 0 7px; font-size: 1rem; }
+.doc .roadmap p { margin: 0; color: #b9c1d0; font-size: .88rem; line-height: 1.75; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+.tag {
+  padding: 8px 15px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .74rem;
+  color: #d1d9e6;
+  transition:
+    border-color .3s,
+    color .3s,
+    background .3s,
+    transform .35s var(--ease-out),
+    box-shadow .35s;
+}
+.tag:hover {
+  border-color: rgba(108, 184, 240, .6);
+  color: #e5f1ff;
+  background:
+    linear-gradient(180deg, rgba(108,184,240,.16), rgba(108,184,240,.06));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -10px rgba(108,184,240,.75);
+}
+
+/* =================================================================
+   GALLERY
+   ================================================================= */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 13px;
+  margin-top: 20px;
+}
+.shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  cursor: zoom-in;
+  background-size: cover;
+  background-position: center;
+  transition:
+    transform .5s var(--ease-out),
+    border-color .5s,
+    box-shadow .5s;
+  margin: 0;
+}
+.shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, .78));
+  opacity: 0;
+  transition: opacity .5s;
+}
+
+.shot .zoom-hint {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: rgba(12, 16, 24, .6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #eef2f8;
+  font-size: .72rem;
+  opacity: 0;
+  transform: scale(.85) translateY(-2px);
+  transition: opacity .4s, transform .4s var(--ease-out);
+  pointer-events: none;
+}
+
+.shot:hover {
+  transform: translateY(-5px) scale(1.015);
+  border-color: rgba(108, 184, 240, .6);
+  box-shadow:
+    0 22px 44px -20px rgba(0, 0, 0, .95),
+    0 0 0 1px rgba(108,184,240,.18),
+    0 0 30px -10px rgba(108,184,240,.45);
+}
+.shot:hover::after { opacity: 1; }
+.shot:hover .zoom-hint { opacity: 1; transform: scale(1) translateY(0); }
+
+.shot figcaption {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  z-index: 2;
+  font-size: .72rem;
+  color: #eef2f8;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .45s var(--ease-out), transform .45s var(--ease-out);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .9);
+  letter-spacing: .01em;
+}
+.shot:hover figcaption { opacity: 1; transform: translateY(0); }
+
+/* =================================================================
+   LIGHTBOX
+   ================================================================= */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 6, 12, .93);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  opacity: 0;
+  transition: opacity .35s var(--ease-out);
+  padding: 40px;
+}
+#lightbox.show { display: flex; opacity: 1; }
+#lightbox.closing { opacity: 0; pointer-events: none; }
+
+.lb-stage {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(.94);
+  opacity: 0;
+  transition: transform .45s var(--ease-out), opacity .45s var(--ease-out);
+}
+#lightbox.show .lb-stage { transform: scale(1); opacity: 1; }
+
+.lb-image {
+  max-width: min(92vw, 1600px);
+  max-height: 86vh;
+  border-radius: 14px;
+  box-shadow:
+    0 40px 100px -30px rgba(0, 0, 0, .95),
+    0 0 0 1px rgba(255, 255, 255, .08),
+    0 0 80px -20px rgba(108, 184, 240, .4);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  background: #0a0e14;
+}
+
+.lb-caption {
+  position: absolute;
+  bottom: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: .84rem;
+  letter-spacing: .03em;
+  color: #d1d9e6;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .9);
+}
+
+.lb-counter {
+  position: absolute;
+  top: -44px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .74rem;
+  letter-spacing: .15em;
+  color: var(--accent-warm);
+  background: rgba(245, 201, 92, .08);
+  border: 1px solid rgba(245, 201, 92, .25);
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-shadow: 0 0 14px rgba(245,201,92,.5);
+}
+
+.lb-close {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(20, 26, 38, .72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #eef2f8;
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .25s, border-color .25s, transform .3s var(--ease-out);
+  z-index: 2;
+}
+.lb-close:hover {
+  background: rgba(229, 72, 77, .85);
+  border-color: rgba(229, 72, 77, .9);
+  transform: rotate(90deg);
+}
+
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(20, 26, 38, .58);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #eef2f8;
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .25s, border-color .25s, transform .3s var(--ease-out);
+  z-index: 2;
+  opacity: .6;
+}
+.lb-nav:hover {
+  background: rgba(108, 184, 240, .22);
+  border-color: rgba(108, 184, 240, .65);
+  opacity: 1;
+  transform: translateY(-50%) scale(1.06);
+}
+.lb-prev { left: 22px; }
+.lb-next { right: 22px; }
+
+@media (max-width: 640px) {
+  #lightbox { padding: 20px; }
+  .lb-image { max-width: 96vw; max-height: 76vh; border-radius: 10px; }
+  .lb-close { top: 14px; right: 14px; width: 40px; height: 40px; }
+  .lb-nav { width: 42px; height: 42px; }
+  .lb-prev { left: 10px; }
+  .lb-next { right: 10px; }
+  .lb-caption { font-size: .76rem; bottom: -34px; }
+  .lb-counter { top: -38px; font-size: .68rem; }
+}
+
+/* =================================================================
+   TERMINAL
+   ================================================================= */
+.terminal {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(108,184,240,.05), transparent 60%),
+    #06090f !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .84rem;
+  line-height: 2.05;
+  color: #cfd8e6;
+}
+.terminal .prompt {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(108,184,240,.6);
+}
+.terminal .out { color: #eef2f8; padding-left: 16px; }
+.terminal .soft { color: var(--accent-3); }
+.caret {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--accent-warm);
+  vertical-align: -2px;
+  margin-left: 3px;
+  box-shadow: 0 0 10px rgba(245,201,92,.85);
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0 } }
+
+/* =================================================================
+   TASKBAR
+   ================================================================= */
+#taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  background:
+    linear-gradient(180deg, rgba(24, 30, 44, .72), rgba(14, 18, 28, .82));
+  backdrop-filter: blur(30px) saturate(170%);
+  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  z-index: 500;
+  box-shadow: 0 -12px 40px -18px rgba(0,0,0,.9);
+}
+
+.taskbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.25) inset,
+    0 10px 30px -18px rgba(0,0,0,.9);
+}
+
+.start-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #dbe3f0;
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .25s, color .25s, transform .3s var(--ease-out);
+}
+.start-btn:hover {
+  background: linear-gradient(180deg, rgba(108,184,240,.22), rgba(108,184,240,.08));
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.task-app {
+  min-width: 40px;
+  height: 38px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #c2cadb;
+  font-size: .9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  transition: background .25s, color .25s, transform .3s var(--ease-out);
+}
+.task-app:hover {
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.task-app.active { color: #fff; }
+.task-app.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+  box-shadow:
+    0 0 12px rgba(108, 184, 240, .95),
+    0 0 24px rgba(245, 201, 92, .55);
+}
+
+.taskbar-right {
+  position: absolute;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: .82rem;
+  color: #c8cfdc;
+}
+.taskbar-right i { font-size: .82rem; opacity: .78; transition: opacity .25s; }
+.taskbar-right:hover i { opacity: 1; }
+
+#clock {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  font-weight: 500;
+}
+
+.activities { display: none; }
+
+/* =================================================================
+   LINUX MODE
+   ================================================================= */
+body.linux-mode #desktop {
+  background-image: url('pic/linux_bag.jpg');
+}
+
+body.linux-mode #taskbar {
+  top: 0;
+  bottom: auto;
+  height: 38px;
+  justify-content: flex-start;
+  padding: 0 16px;
+  border-top: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background: linear-gradient(180deg, rgba(10, 14, 20, .9), rgba(10, 14, 20, .74));
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  box-shadow: 0 8px 30px -14px rgba(0,0,0,.9);
+}
+
+body.linux-mode .taskbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  padding: 0 8px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+}
+body.linux-mode .task-app { height: 30px; min-width: 32px; }
+body.linux-mode .start-btn { display: none; }
+
+body.linux-mode .activities {
+  display: block;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  color: #dfe5f0;
+  cursor: default;
+}
+
+body.linux-mode .taskbar-right { right: 18px; font-size: .78rem; }
+body.linux-mode #desktop-icons { top: 58px; }
+
+body.linux-mode .window { --bar-offset: 38px; }
+
+/* =================================================================
+   RESPONSIVE
+   ================================================================= */
+@media (max-width: 760px) {
+  .window {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100% - var(--bar-h)) !important;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    resize: none;
+  }
+  body.linux-mode .window {
+    top: 38px !important;
+    height: calc(100% - 38px) !important;
+  }
+  .window-body { padding: 24px 22px 36px; }
+  #desktop-icons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    top: 14px;
+    left: 12px;
+    right: 12px;
+  }
+  .desk-icon { width: 78px; padding: 10px 4px 8px; }
+  .desk-icon i { font-size: 1.6rem; }
+  .desk-icon span { font-size: .66rem; }
+  .doc td:first-child { width: 42%; }
+  .taskbar-right i { display: none; }
+  .os-card { width: 148px; padding: 26px 14px 22px; }
+  .os-card i { font-size: 2.9rem; }
+  .doc-head { padding-bottom: 22px; }
+  .avatar { width: 68px; height: 68px; font-size: 1.7rem; }
+
+  .orb-loader { width: 108px; height: 108px; }
+  .orb-core   { width: 48px; height: 48px; }
+  .ring-1, .ring-2, .ring-3 { width: 62px; height: 62px; }
+  @keyframes ripple {
+    0%   { width: 48px;  height: 48px;  opacity: 1; border-width: 2px; }
+    100% { width: 136px; height: 136px; opacity: 0; border-width: 1px; }
+  }
+}
+
+/* =================================================================
+   MOTION PREFERENCES
+   ================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* =================================================================
+   NO-JS FALLBACK
+   ================================================================= */
+.nojs {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 70px 24px;
+  line-height: 1.85;
+}
+.nojs h1 { font-size: 2rem; margin-bottom: 6px; }
+.nojs h2 { color: var(--accent); font-size: .78rem; letter-spacing: .2em;
+           text-transform: uppercase; margin-top: 36px; }
+.nojs a { color: var(--accent); }
+</style>
+</head>
+
+<body>
+
+<!-- ===================== Boot screen ===================== -->
+<div id="boot-screen" class="screen">
+  <div class="boot-inner">
+    <p class="boot-eyebrow">SRXL OS</p>
+    <p class="boot-title">Choose your view</p>
+    <p class="boot-sub">A quiet corner of the internet.</p>
+
+    <div class="os-selection">
+      <button class="os-card" data-os="windows" aria-label="Enter the Windows-style desktop">
+        <i class="fab fa-windows" aria-hidden="true"></i>
+        <span>Windows</span>
+      </button>
+      <button class="os-card" data-os="linux" aria-label="Enter the Linux-style desktop">
+        <i class="fab fa-linux" aria-hidden="true"></i>
+        <span>Linux</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Loading ===================== -->
+<div id="loading-screen" class="screen">
+  <!-- Windows-style: sun orb with ripple rings + floating pollen -->
+  <div class="win-loader" id="win-loader" aria-hidden="true">
+    <div class="orb-loader">
+      <div class="orb-core"></div>
+      <div class="orb-ring ring-1"></div>
+      <div class="orb-ring ring-2"></div>
+      <div class="orb-ring ring-3"></div>
+      <div class="loader-particles">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="loader-caption">
+      <div class="cap-title">Loading</div>
+      <div class="cap-sub">A quiet moment in the meadow…</div>
+    </div>
+  </div>
+  <!-- Linux-style: terminal boot log -->
+  <div class="linux-loader" id="linux-loader" aria-hidden="true"></div>
+</div>
+
+<!-- ===================== Desktop ===================== -->
+<div id="desktop" role="application" aria-label="SRXL desktop">
+
+  <nav id="desktop-icons" aria-label="Desktop shortcuts">
+    <button class="desk-icon" data-open="about">
+      <i class="fas fa-user-secret ic-about" aria-hidden="true"></i>
+      <span>About</span>
+    </button>
+    <button class="desk-icon" data-open="learning">
+      <i class="fas fa-folder-open ic-learn" aria-hidden="true"></i>
+      <span>Path</span>
+    </button>
+    <button class="desk-icon" data-open="skills">
+      <i class="fas fa-code ic-skills" aria-hidden="true"></i>
+      <span>Skills</span>
+    </button>
+    <button class="desk-icon" data-open="gallery">
+      <i class="fas fa-images ic-gallery" aria-hidden="true"></i>
+      <span>Gallery</span>
+    </button>
+    <button class="desk-icon" data-open="terminal">
+      <i class="fas fa-terminal ic-term" aria-hidden="true"></i>
+      <span>Terminal</span>
+    </button>
+  </nav>
+
+  <div id="windows-container"></div>
+
+  <div id="taskbar">
+    <div class="taskbar-left">
+      <span class="activities">Activities</span>
+    </div>
+
+    <div class="taskbar-center">
+      <button class="start-btn" aria-label="Start">
+        <i class="fab fa-windows" aria-hidden="true"></i>
+      </button>
+      <div id="taskbar-items" style="display:flex;gap:6px;align-items:center;"></div>
+    </div>
+
+    <div class="taskbar-right">
+      <i class="fas fa-wifi" aria-hidden="true"></i>
+      <i class="fas fa-volume-high" aria-hidden="true"></i>
+      <i class="fas fa-battery-full" aria-hidden="true"></i>
+      <span id="clock">--:--</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LIGHTBOX ===================== -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <button class="lb-close" aria-label="Close viewer">
+    <i class="fas fa-xmark"></i>
+  </button>
+  <button class="lb-nav lb-prev" aria-label="Previous image">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="lb-nav lb-next" aria-label="Next image">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+  <div class="lb-stage">
+    <span class="lb-counter" id="lb-counter">1 / 6</span>
+    <img class="lb-image" id="lb-image" src="" alt="">
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</div>
+
+<!-- ===================== Content source (semantic & crawlable) ===================== -->
+<div id="app-source" hidden>
+
+  <!-- ---------- About ---------- -->
+  <section class="doc" data-app="about" aria-labelledby="about-title">
+    <header class="doc-head">
+      <div class="avatar">
+        <img src="pic/1.png" alt="Sina Rezaei">
+      </div>
+      <h1 id="about-title">Sina Rezaei</h1>
+      <p class="doc-sub">SRXL &middot; Red Team Operator &middot; Malware Developer</p>
+    </header>
+
+    <p class="quote">Hello, and welcome. Take your time — nothing here is in a hurry.</p>
+
+    <p>
+      I'm Sina. I spend most of my days reading, taking things apart, and slowly
+      learning whatever seems useful. Most of that happens in a terminal,
+      usually late, usually with music on.
+    </p>
+
+    <p>
+      I studied <strong>Network+</strong> and a little <strong>CCNA</strong>
+      just for fun — they turned out to be two of the most useful things
+      I've ever learned. Right now I'm building a small <strong>C2</strong>
+      and learning <strong>lateral movement</strong>, one quiet step at a time.
+    </p>
+
+    <p>
+      I'm not here to collect badges or fill a GitHub profile. I like learning
+      things that are <strong>useful</strong>, and I like using different
+      pieces together to do my own purpose.
+    </p>
+
+    <p>
+      Outside of all this, I love philosophy — the quiet study of how to be
+      great, how to be better, how to live well. And above all, I'm grateful
+      for <strong>my family</strong>. They're the reason any of this is
+      possible, and the reason it's worth doing slowly.
+    </p>
+
+    <h2>Right now</h2>
+    <ul>
+      <li>Building a small C2 — mostly to understand how the pieces fit together.</li>
+      <li>Learning lateral movement — slowly, and with a lot of notes.</li>
+      <li>Reading philosophy in the evenings, because it makes the rest make more sense.</li>
+      <li>Learning things that are useful, at my own pace, and enjoying the process.</li>
+    </ul>
+
+    <p style="text-align:center;margin-top:28px;">
+      <a class="btn" href="https://www.linkedin.com/in/sina-rezaei-srxl" target="_blank" rel="noopener noreferrer me">
+        <i class="fab fa-linkedin" aria-hidden="true"></i> Say hello on LinkedIn
+      </a>
+    </p>
+  </section>
+
+  <!-- ---------- Learning / Roadmap ---------- -->
+  <section class="doc" data-app="learning" aria-labelledby="learning-title">
+    <header class="doc-head" style="text-align:left;border-bottom:none;padding-bottom:6px;">
+      <h1 id="learning-title">The path so far</h1>
+      <p class="doc-sub">A quiet walk through the fundamentals — one step at a time.</p>
+    </header>
+
+    <p>
+      I like learning things that are useful. Not to collect badges, but so I
+      can actually use them. Here's the road I've been walking — and the road
+      still ahead.
+    </p>
+
+    <ol class="roadmap">
+      <li>
+        <h3>Network+</h3>
+        <p>Working with computers, learning the fundamentals — how the pieces connect, and how they talk to each other.</p>
+      </li>
+      <li>
+        <h3>A little of CCNA</h3>
+        <p>Just enough to see how networks are really put together. Studied for fun — turned out to be one of the most useful things I've learned.</p>
+      </li>
+      <li>
+        <h3>LPIC-1</h3>
+        <p>Learning Linux properly — configuring services, getting comfortable on the command line, making the system feel like home.</p>
+      </li>
+      <li>
+        <h3>A little HTML &amp; CSS</h3>
+        <p>Designing a login page. Small — but the first time something I made was actually visible to someone else.</p>
+      </li>
+      <li>
+        <h3>Python</h3>
+        <p>It's easy to start, and it's useful. Learning it to build a small tool — for myself, not for a portfolio.</p>
+      </li>
+      <li>
+        <h3>Build a website</h3>
+        <p>Learning about HTTP, HTTPS and other protocols along the way. Understanding what actually happens when you open a page.</p>
+      </li>
+      <li>
+        <h3>A little about databases</h3>
+        <p>Just enough to understand how information is stored, moved around, and found again.</p>
+      </li>
+      <li>
+        <h3>CEH &amp; PWK / PWD</h3>
+        <p>The next quiet step. Learning the discipline — then learning to break it gently.</p>
+      </li>
+    </ol>
+
+    <h2>The trick</h2>
+    <p>
+      Learn different things — and then use them together to do <em>your own</em>
+      purpose. Nothing is wasted. A little HTML makes the protocols make sense.
+      A little Python makes the tooling make sense. A little philosophy makes
+      the rest make sense.
+    </p>
+  </section>
+
+  <!-- ---------- Skills ---------- -->
+  <section class="doc" data-app="skills" aria-labelledby="skills-title">
+    <header class="doc-head" style="text-align:left;border-bottom:none;padding-bottom:6px;">
+      <h1 id="skills-title">Things I enjoy working on</h1>
+      <p class="doc-sub">A rough map of where my curiosity usually leads.</p>
+    </header>
+
+    <h3>Red team operations</h3>
+    <p>C2 infrastructure (Cobalt Strike, Sliver, Mythic), phishing campaigns (GoPhish, Evilginx), lateral movement and evasion.</p>
+
+    <h3>Malware development</h3>
+    <p>Custom loaders and droppers, reflective DLL injection, and the endless little dance with EDR and AV.</p>
+
+    <h3>Active Directory security</h3>
+    <p>Enumeration, trust relationships, privilege paths — the parts that reward patience.</p>
+
+    <h3>Web application security</h3>
+    <p>OWASP Top 10, API security and modern authentication attacks.</p>
+
+    <h3>OSINT &amp; reconnaissance</h3>
+    <p>Passive and active intelligence gathering, social media recon, wireless auditing.</p>
+
+    <h3>Philosophy</h3>
+    <p>A quieter interest. Reading about how to be great, how to be better, how to live a good life. It shapes everything else — including the way I learn.</p>
+
+    <h2>Languages</h2>
+    <div class="tags">
+      <span class="tag">C</span>
+      <span class="tag">C++</span>
+      <span class="tag">Python</span>
+      <span class="tag">PHP</span>
+      <span class="tag">x86 / x64 Assembly</span>
+      <span class="tag">PowerShell</span>
+      <span class="tag">Bash</span>
+      <span class="tag">HTML &amp; CSS</span>
+    </div>
+  </section>
+
+  <!-- ---------- Gallery ---------- -->
+  <section class="doc" data-app="gallery" aria-labelledby="gallery-title">
+    <header class="doc-head" style="text-align:left;border-bottom:none;padding-bottom:6px;">
+      <h1 id="gallery-title">Gallery</h1>
+      <p class="doc-sub">Click any picture to see it full size.</p>
+    </header>
+
+    <div class="gallery">
+      <figure class="shot" data-full="pic/1.png" data-caption="Picture 1" style="background-image:url('pic/1.png')" role="img" aria-label="Picture 1" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 1</figcaption>
+      </figure>
+      <figure class="shot" data-full="pic/2.png" data-caption="Picture 2" style="background-image:url('pic/2.png')" role="img" aria-label="Picture 2" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 2</figcaption>
+      </figure>
+      <figure class="shot" data-full="pic/3.png" data-caption="Picture 3" style="background-image:url('pic/3.png')" role="img" aria-label="Picture 3" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 3</figcaption>
+      </figure>
+      <figure class="shot" data-full="pic/4.png" data-caption="Picture 4" style="background-image:url('pic/4.png')" role="img" aria-label="Picture 4" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 4</figcaption>
+      </figure>
+      <figure class="shot" data-full="pic/5.png" data-caption="Picture 5" style="background-image:url('pic/5.png')" role="img" aria-label="Picture 5" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 5</figcaption>
+      </figure>
+      <figure class="shot" data-full="pic/6.png" data-caption="Picture 6" style="background-image:url('pic/6.png')" role="img" aria-label="Picture 6" tabindex="0">
+        <span class="zoom-hint"><i class="fas fa-expand"></i></span>
+        <figcaption>Picture 6</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ---------- Terminal (filled dynamically per OS) ---------- -->
+  <section class="doc" data-app="terminal" data-terminal="true" aria-label="Terminal window"></section>
+</div>
+
+<!-- ===================== No-JS fallback ===================== -->
+<noscript>
+  <div class="nojs" style="position:fixed;inset:0;overflow:auto;background:#0a0e14;">
+    <h1>Sina Rezaei <span style="color:#6cb8f0">(SRXL)</span></h1>
+    <p style="color:#8a98a8;">Red Team Operator &amp; Malware Developer</p>
+
+    <p>Hello, and welcome. I'm Sina — I spend my time learning how systems work,
+       how they break, and how to make them stronger again. This page normally
+       runs as a small desktop; without JavaScript, here's the plain version.</p>
+
+    <h2>Right now</h2>
+    <p>Building a small C2, learning lateral movement, and reading philosophy
+       in the evenings. Grateful for my family, and for the quiet time to learn.</p>
+
+    <h2>The path so far</h2>
+    <p>Network+ → a little of CCNA → LPIC-1 → a little HTML &amp; CSS →
+       Python → build a website → a little about databases → CEH &amp; PWK.</p>
+    <p>The trick: learn different things, and use them together for your own purpose.</p>
+
+    <h2>Skills</h2>
+    <p>Red team operations, malware development, Active Directory security, web
+       application security, OSINT &amp; reconnaissance. Languages: C, C++, Python,
+       PHP, x86/x64 Assembly, PowerShell, Bash, HTML &amp; CSS.</p>
+
+    <h2>Elsewhere</h2>
+    <p>
+      <a href="https://www.linkedin.com/in/sina-rezaei-srxl" rel="me noopener">LinkedIn</a>
+    </p>
+  </div>
+</noscript>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ================= App registry ================= */
+  const APPS = {
+    about:    { title: "About",   icon: "fas fa-user-secret" },
+    learning: { title: "Path",    icon: "fas fa-folder-open" },
+    skills:   { title: "Skills",  icon: "fas fa-code" },
+    gallery:  { title: "Gallery", icon: "fas fa-images" },
+    terminal: { title: "Terminal", icon: "fas fa-terminal", terminal: true }
+  };
+
+  const source  = document.getElementById("app-source");
+  const desk    = document.getElementById("desktop");
+  const taskbar = document.getElementById("taskbar-items");
+  const winHost = document.getElementById("windows-container");
+
+  const openApps = new Map();
+  let zIndex = 100;
+  let cascade = 0;
+
+  /* ================= Boot sequence ================= */
+  const bootScreen    = document.getElementById("boot-screen");
+  const loadingScreen = document.getElementById("loading-screen");
+  const winLoader     = document.getElementById("win-loader");
+  const linuxLoader   = document.getElementById("linux-loader");
+
+  const LINUX_LINES = [
+    "Started Initialize Hardware.",
+    "Reached target Local File Systems.",
+    "Starting Load/Save Random Seed...",
+    "Starting Network Manager...",
+    "Started Quiet Focus Service.",
+    "Started Notes &amp; Notebooks Daemon.",
+    "Reached target Multi-User System.",
+    "Welcome to SRXL Linux v1.0"
+  ];
+
+  document.querySelectorAll(".os-card").forEach(function (card) {
+    card.addEventListener("click", function () {
+      startLoading(card.dataset.os);
+    });
+  });
+
+  function startLoading(os) {
+    bootScreen.classList.add("hide");
+
+    setTimeout(function () {
+      loadingScreen.classList.add("show");
+
+      if (os === "windows") {
+        winLoader.classList.add("show");
+        setTimeout(finish, 2600);
+      } else {
+        linuxLoader.classList.add("show");
+        renderLinuxBoot(function () { setTimeout(finish, 600); });
+      }
+
+      function finish() {
+        loadingScreen.classList.remove("show");
+        setTimeout(function () {
+          loadingScreen.classList.add("hide");
+          if (os === "linux") document.body.classList.add("linux-mode");
+          desk.classList.add("show");
+          startClock();
+        }, 440);
+      }
+    }, 440);
+  }
+
+  function renderLinuxBoot(done) {
+    let i = 0;
+    linuxLoader.innerHTML = "";
+    (function next() {
+      if (i >= LINUX_LINES.length) { done(); return; }
+      const last = i === LINUX_LINES.length - 1;
+      const line = document.createElement("div");
+      line.className = "line" + (last ? " welcome" : "");
+      line.innerHTML = last
+        ? LINUX_LINES[i]
+        : "[ <span class='ok'>  OK  </span> ] " + LINUX_LINES[i];
+      linuxLoader.appendChild(line);
+      i++;
+      setTimeout(next, last ? 420 : 175);
+    })();
+  }
+
+  /* ================= Window management ================= */
+  function openApp(id) {
+    if (!APPS[id]) return;
+
+    if (openApps.has(id)) {
+      const existing = openApps.get(id);
+      existing.classList.remove("minimized");
+      focusApp(id);
+      return;
+    }
+
+    const meta = APPS[id];
+    const isLinux = document.body.classList.contains("linux-mode");
+
+    let title = meta.title;
+    if (meta.terminal) {
+      title = isLinux ? "Terminal" : "PowerShell";
+    }
+
+    const win = document.createElement("div");
+    win.className = "window";
+    win.dataset.app = id;
+
+    const isMobile = window.matchMedia("(max-width: 760px)").matches;
+    const offset   = (cascade++ % 5) * 34;
+    win.style.left = (isMobile ? 0 : 90 + offset) + "px";
+    win.style.top  = (isMobile ? 0 : 64 + offset) + "px";
+    win.style.zIndex = ++zIndex;
+
+    win.innerHTML =
+      '<div class="window-header" data-drag>' +
+        '<div class="window-title"><i class="' + meta.icon + '" aria-hidden="true"></i>' +
+          '<span>' + title + '</span></div>' +
+        '<div class="window-controls">' +
+          '<button class="ctrl min" aria-label="Minimize"><i class="fas fa-minus"></i></button>' +
+          '<button class="ctrl max" aria-label="Maximize"><i class="fas fa-expand"></i></button>' +
+          '<button class="ctrl close" aria-label="Close"><i class="fas fa-xmark"></i></button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="window-body' + (meta.terminal ? " terminal" : "") + '"></div>';
+
+    const body = win.querySelector(".window-body");
+
+    if (meta.terminal) {
+      runTerminal(body, isLinux ? "linux" : "windows");
+    } else {
+      const src = source.querySelector('[data-app="' + id + '"]');
+      if (src) body.appendChild(src.cloneNode(true));
+    }
+
+    winHost.appendChild(win);
+    openApps.set(id, win);
+
+    win.querySelector(".close").addEventListener("click", function (e) {
+      e.stopPropagation();
+      closeApp(id);
+    });
+    win.querySelector(".min").addEventListener("click", function (e) {
+      e.stopPropagation();
+      win.classList.add("minimized");
+      setActiveTask(null);
+    });
+    win.querySelector(".max").addEventListener("click", function (e) {
+      e.stopPropagation();
+      win.classList.toggle("maximized");
+      const icon = win.querySelector(".max i");
+      icon.className = win.classList.contains("maximized")
+        ? "fas fa-compress" : "fas fa-expand";
+    });
+
+    win.addEventListener("mousedown", function () { focusApp(id); });
+
+    makeDraggable(win, win.querySelector("[data-drag]"));
+    addTaskItem(id, { title: title, icon: meta.icon });
+    focusApp(id);
+  }
+
+  function closeApp(id) {
+    const win = openApps.get(id);
+    if (!win) return;
+
+    win.classList.add("closing");
+    setTimeout(function () {
+      win.remove();
+      openApps.delete(id);
+      const task = document.querySelector('[data-task="' + id + '"]');
+      if (task) task.remove();
+      const remaining = Array.from(openApps.keys());
+      if (remaining.length) focusApp(remaining[remaining.length - 1]);
+    }, 220);
+  }
+
+  function focusApp(id) {
+    const win = openApps.get(id);
+    if (!win) return;
+    win.style.zIndex = ++zIndex;
+    setActiveTask(id);
+  }
+
+  function setActiveTask(id) {
+    document.querySelectorAll(".task-app").forEach(function (t) {
+      t.classList.toggle("active", t.dataset.task === id);
+    });
+  }
+
+  function addTaskItem(id, meta) {
+    const item = document.createElement("button");
+    item.className = "task-app";
+    item.dataset.task = id;
+    item.setAttribute("aria-label", meta.title);
+    item.innerHTML = '<i class="' + meta.icon + '" aria-hidden="true"></i>';
+    item.addEventListener("click", function () {
+      const win = openApps.get(id);
+      if (!win) return;
+      if (win.classList.contains("minimized")) {
+        win.classList.remove("minimized");
+        focusApp(id);
+      } else if (win.style.zIndex === String(zIndex)) {
+        win.classList.add("minimized");
+        setActiveTask(null);
+      } else {
+        focusApp(id);
+      }
+    });
+    taskbar.appendChild(item);
+  }
+
+  /* ================= Dragging ================= */
+  function makeDraggable(win, handle) {
+    let startX = 0, startY = 0, originX = 0, originY = 0, dragging = false;
+
+    handle.addEventListener("pointerdown", function (e) {
+      if (e.target.closest(".ctrl")) return;
+      if (win.classList.contains("maximized")) return;
+      if (window.matchMedia("(max-width: 760px)").matches) return;
+
+      dragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      originX = win.offsetLeft;
+      originY = win.offsetTop;
+      handle.setPointerCapture(e.pointerId);
+      document.body.style.userSelect = "none";
+    });
+
+    handle.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      const maxX = window.innerWidth - 120;
+      const maxY = window.innerHeight - 80;
+      win.style.left = Math.min(Math.max(-40, originX + e.clientX - startX), maxX) + "px";
+      win.style.top  = Math.min(Math.max(0,   originY + e.clientY - startY), maxY) + "px";
+    });
+
+    function stop(e) {
+      if (!dragging) return;
+      dragging = false;
+      document.body.style.userSelect = "";
+      try { handle.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+    handle.addEventListener("pointerup", stop);
+    handle.addEventListener("pointercancel", stop);
+  }
+
+  /* ================= Terminal (OS-aware) ================= */
+  function runTerminal(host, mode) {
+    const isLinux = mode === "linux";
+    const prompt = isLinux ? "sina@srxl:~$" : "PS C:\\Users\\Sina>";
+
+    const linuxScript = [
+      { type: "cmd", text: "whoami" },
+      { type: "out", text: "sina — red team operator, building a small C2" },
+      { type: "cmd", text: "cat ~/notes/learning.md" },
+      { type: "out", text: "lateral movement, philosophy, being a little better each day" },
+      { type: "cmd", text: "cat ~/notes/roadmap.md" },
+      { type: "out", text: "network+ → ccna → lpic-1 → html/css → python → web → protocols → databases → ceh/pwk" },
+      { type: "cmd", text: "uptime" },
+      { type: "out", text: "up 3 days, enjoying the quiet" },
+      { type: "cmd", text: "" }
+    ];
+
+    const windowsScript = [
+      { type: "cmd", text: "whoami" },
+      { type: "out", text: "desktop-7f2a\\sina" },
+      { type: "cmd", text: "Get-Content .\\about.txt" },
+      { type: "out", text: "red team operator — building a small C2, learning lateral movement" },
+      { type: "cmd", text: "Get-Content .\\today.txt" },
+      { type: "out", text: "learning useful things, one small step at a time" },
+      { type: "cmd", text: "Get-Date -Format 'HH:mm'" },
+      { type: "out", text: "23:47 — a good kind of late" },
+      { type: "cmd", text: "" }
+    ];
+
+    const script = isLinux ? linuxScript : windowsScript;
+    let i = 0;
+
+    (function next() {
+      if (i >= script.length) {
+        const caret = document.createElement("span");
+        caret.className = "caret";
+        host.appendChild(caret);
+        return;
+      }
+
+      const step = script[i++];
+      const line = document.createElement("div");
+
+      if (step.type === "cmd") {
+        const p = document.createElement("span");
+        p.className = "prompt";
+        p.textContent = prompt;
+        line.appendChild(p);
+        line.appendChild(document.createTextNode(" " + step.text));
+      } else {
+        line.className = "out soft";
+        line.textContent = step.text;
+      }
+
+      host.appendChild(line);
+      host.scrollTop = host.scrollHeight;
+      setTimeout(next, step.type === "cmd" ? 440 : 320);
+    })();
+  }
+
+  /* ================= Clock ================= */
+  function startClock() {
+    const el = document.getElementById("clock");
+    function tick() {
+      const now = new Date();
+      el.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+    tick();
+    setInterval(tick, 15000);
+  }
+
+  /* ================= LIGHTBOX ================= */
+  const lightbox   = document.getElementById("lightbox");
+  const lbImage    = document.getElementById("lb-image");
+  const lbCaption  = document.getElementById("lb-caption");
+  const lbCounter  = document.getElementById("lb-counter");
+  const lbPrev     = lightbox.querySelector(".lb-prev");
+  const lbNext     = lightbox.querySelector(".lb-next");
+  const lbClose    = lightbox.querySelector(".lb-close");
+
+  let lbList = [];
+  let lbIndex = 0;
+  let lastFocused = null;
+
+  function openLightboxFromList(list, index, origin) {
+    if (!list.length) return;
+    lbList = list;
+    lbIndex = Math.max(0, Math.min(index, list.length - 1));
+    lastFocused = origin || document.activeElement;
+
+    renderLb();
+    lightbox.hidden = false;
+    void lightbox.offsetWidth;
+    lightbox.classList.add("show");
+    document.body.style.overflow = "hidden";
+    lbClose.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("show");
+    lightbox.classList.add("closing");
+    setTimeout(function () {
+      lightbox.classList.remove("closing");
+      lightbox.hidden = true;
+      document.body.style.overflow = "";
+      if (lastFocused && typeof lastFocused.focus === "function") {
+        lastFocused.focus();
+      }
+    }, 320);
+  }
+
+  function renderLb() {
+    const item = lbList[lbIndex];
+    if (!item) return;
+    lbImage.src = item.src;
+    lbImage.alt = item.caption || "";
+    lbCaption.textContent = item.caption || "";
+    lbCounter.textContent = (lbIndex + 1) + " / " + lbList.length;
+
+    const many = lbList.length > 1;
+    lbPrev.style.display = many ? "" : "none";
+    lbNext.style.display = many ? "" : "none";
+  }
+
+  function nextLb() {
+    if (!lbList.length) return;
+    lbIndex = (lbIndex + 1) % lbList.length;
+    animateSwap();
+    renderLb();
+  }
+  function prevLb() {
+    if (!lbList.length) return;
+    lbIndex = (lbIndex - 1 + lbList.length) % lbList.length;
+    animateSwap();
+    renderLb();
+  }
+  function animateSwap() {
+    lbImage.style.transition = "opacity .18s";
+    lbImage.style.opacity = "0";
+    setTimeout(function () {
+      lbImage.style.opacity = "1";
+    }, 100);
+  }
+
+  document.addEventListener("click", function (e) {
+    const shot = e.target.closest(".shot[data-full]");
+    if (!shot) return;
+    e.preventDefault();
+
+    const gallery = shot.closest(".gallery");
+    const siblings = gallery
+      ? Array.from(gallery.querySelectorAll(".shot[data-full]"))
+      : [shot];
+
+    const list = siblings.map(function (el) {
+      return {
+        src: el.dataset.full,
+        caption: el.dataset.caption || ""
+      };
+    });
+
+    openLightboxFromList(list, siblings.indexOf(shot), shot);
+  });
+
+  lightbox.addEventListener("click", function (e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  lbClose.addEventListener("click", closeLightbox);
+  lbNext.addEventListener("click", function (e) { e.stopPropagation(); nextLb(); });
+  lbPrev.addEventListener("click", function (e) { e.stopPropagation(); prevLb(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (lightbox.hidden) return;
+    if (e.key === "Escape")     { e.preventDefault(); closeLightbox(); }
+    if (e.key === "ArrowRight") { e.preventDefault(); nextLb(); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); prevLb(); }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const shot = document.activeElement && document.activeElement.closest
+      ? document.activeElement.closest(".shot[data-full]")
+      : null;
+    if (!shot) return;
+    e.preventDefault();
+    shot.click();
+  });
+
+  /* ================= Wire up icons ================= */
+  document.querySelectorAll("[data-open]").forEach(function (btn) {
+    btn.addEventListener("click", function () { openApp(btn.dataset.open); });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openApp(btn.dataset.open);
+      }
+    });
+  });
+
+  const observer = new MutationObserver(function () {
+    if (desk.classList.contains("show")) {
+      observer.disconnect();
+      setTimeout(function () { openApp("about"); }, 750);
+    }
+  });
+  observer.observe(desk, { attributes: true, attributeFilter: ["class"] });
+
+})();
+</script>
+</body>
+</html>
