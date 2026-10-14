@@ -5,11 +5,11 @@
   /* Portrait wallpapers on phones */
   #desktop {
     background-image: url('../pic/linux_bag_mobile.jpg');
-    background-position: center 35%;
+    background-position: center 25%;
   }
   body.linux-mode #desktop {
     background-image: url('../pic/linux_bag_mobile.jpg');
-    background-position: center 35%;
+    background-position: center 25%;
   }
 
   /* Windows fill the screen */
