@@ -1,0 +1,81 @@
+/* ============================================================
+   TOKENS — variables + reset
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* Twilight base */
+  --bg: #0a0e14;
+  --bg-2: #121826;
+  --panel: rgba(20, 20, 24, .88);
+  --panel-solid: #141418;
+
+  /* Lines */
+  --stroke: rgba(255, 255, 255, .085);
+  --stroke-strong: rgba(255, 255, 255, .18);
+
+  /* Text */
+  --text: #f0f4f8;
+  --text-soft: #ccd5e0;
+  --muted: #8a98a8;
+  --dim: #5f6b78;
+
+  /* Palette — matched to the meadow wallpapers */
+  --accent: #4a7ec0;
+  --accent-hi: #7aa8dd;
+  --accent-2: #b08fd8;
+  --accent-3: #8bc47a;
+  --accent-warm: #f5c95c;
+  --accent-pink: #f0a8d0;
+
+  /* Effects */
+  --shadow-window:
+    0 40px 90px -30px rgba(0,0,0,.95),
+    0 12px 32px -12px rgba(0,0,0,.75),
+    0 0 0 1px rgba(255,255,255,.05);
+
+  /* Layout */
+  --bar-h: 52px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --ease: cubic-bezier(.22, .8, .25, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-feature-settings: "cv02","cv03","cv04","cv11","ss01";
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -.005em;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; }
+
+::selection { background: rgba(74, 126, 192, .35); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid rgba(74, 126, 192, .8);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Screen shell (boot + loading use this) */
+.screen {
+  position: fixed;
+  inset: 0;
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.screen.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+}

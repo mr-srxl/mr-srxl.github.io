@@ -1,0 +1,96 @@
+/* ============================================================
+   SYNTAX HIGHLIGHTING — highlight.js theme
+   Colors matched to the meadow palette
+   ============================================================ */
+.hljs {
+  color: #d6dee9;
+  background: transparent;
+}
+
+/* Comments — quiet, italic */
+.hljs-comment,
+.hljs-quote {
+  color: #64707f;
+  font-style: italic;
+}
+
+/* Keywords — gold */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type {
+  color: #f5c95c;
+  font-weight: 500;
+}
+
+/* Strings — meadow green */
+.hljs-string,
+.hljs-doctag,
+.hljs-regexp {
+  color: #9ed48d;
+}
+
+/* Numbers, symbols — soft petal pink */
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet {
+  color: #f0a8d0;
+}
+
+/* Function names — sky blue */
+.hljs-title,
+.hljs-title.function_,
+.hljs-function .hljs-title,
+.hljs-section {
+  color: #7aa8dd;
+}
+.hljs-section { font-weight: 600; }
+
+/* Built-ins — purple flower */
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #b08fd8;
+}
+
+/* Variables / attributes — light gray */
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable {
+  color: #d6dee9;
+}
+
+/* Operators and punctuation — soft */
+.hljs-operator,
+.hljs-punctuation { color: #aab4c2; }
+
+/* Parameters — slightly brighter */
+.hljs-params { color: #ccd5e0; }
+
+/* Meta */
+.hljs-meta { color: #8a98a8; }
+
+/* Diffs */
+.hljs-addition {
+  color: #9ed48d;
+  background: rgba(139,196,122,.08);
+}
+.hljs-deletion {
+  color: #f0a8d0;
+  background: rgba(240,168,208,.08);
+}
+
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }
+
+/* Keep our fonts inside highlighted blocks */
+.code pre code,
+.blog-post pre code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}

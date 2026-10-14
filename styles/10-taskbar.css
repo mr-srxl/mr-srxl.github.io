@@ -1,0 +1,177 @@
+/* ============================================================
+   TASKBAR
+   ============================================================ */
+#taskbar {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  background: linear-gradient(180deg, rgba(20,20,24,.72), rgba(14,14,18,.82));
+  backdrop-filter: blur(30px) saturate(170%);
+  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  border-top: 1px solid rgba(255,255,255,.08);
+  z-index: 500;
+  box-shadow: 0 -12px 40px -18px rgba(0,0,0,.9);
+}
+.taskbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.25) inset,
+    0 10px 30px -18px rgba(0,0,0,.9);
+}
+.start-btn {
+  width: 38px; height: 38px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #dbe3f0;
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .25s, color .25s, transform .3s var(--ease-out);
+}
+.start-btn:hover {
+  background: linear-gradient(180deg, rgba(74,126,192,.22), rgba(74,126,192,.08));
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.task-app {
+  min-width: 40px;
+  height: 38px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #c2cadb;
+  font-size: .9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  transition: background .25s, color .25s, transform .3s var(--ease-out);
+}
+.task-app:hover {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.task-app.active { color: #fff; }
+.task-app.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+  box-shadow:
+    0 0 12px rgba(74,126,192,.95),
+    0 0 24px rgba(245,201,92,.55);
+}
+
+.taskbar-right {
+  position: absolute;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: .82rem;
+  color: #c8cfdc;
+}
+.taskbar-right i {
+  font-size: .82rem;
+  opacity: .78;
+  transition: opacity .25s;
+}
+.taskbar-right:hover i { opacity: 1; }
+#clock {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  font-weight: 500;
+}
+.activities { display: none; }
+
+/* ============================================================
+   LINUX MODE overrides
+   ============================================================ */
+body.linux-mode #desktop {
+  background-image: url('../pic/linux_bag.jpg');
+}
+body.linux-mode #taskbar {
+  top: 0;
+  bottom: auto;
+  height: 38px;
+  justify-content: flex-start;
+  padding: 0 16px;
+  border-top: none;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(10,14,20,.9), rgba(10,14,20,.74));
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  box-shadow: 0 8px 30px -14px rgba(0,0,0,.9);
+}
+body.linux-mode .taskbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  padding: 0 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+}
+body.linux-mode .task-app { height: 30px; min-width: 32px; }
+body.linux-mode .start-btn { display: none; }
+body.linux-mode .activities {
+  display: block;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  color: #dfe5f0;
+}
+body.linux-mode .taskbar-right { right: 18px; font-size: .78rem; }
+body.linux-mode #desktop-icons { top: 58px; }
+
+/* ============================================================
+   LOAD ERROR — shown when fetch() fails (no local server)
+   ============================================================ */
+.load-error {
+  max-width: 460px;
+  margin: 40px auto;
+  padding: 24px 28px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(229,72,77,.1), rgba(229,72,77,.03));
+  border: 1px solid rgba(229,72,77,.35);
+  text-align: center;
+}
+.load-error h3 {
+  margin: 0 0 10px;
+  color: #f0a8d0;
+  font-size: 1.05rem;
+}
+.load-error p {
+  margin: 0 0 12px;
+  color: #d1d9e6;
+  font-size: .9rem;
+}
+.load-error code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  background: rgba(0,0,0,.35);
+  padding: 2px 7px;
+  border-radius: 5px;
+  color: var(--accent-hi);
+}
+.load-error .small { font-size: .78rem; color: var(--muted); }

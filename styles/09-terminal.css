@@ -1,0 +1,31 @@
+/* ============================================================
+   TERMINAL — prompt, output, blinking caret
+   ============================================================ */
+.terminal {
+  background: #06070b !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .84rem;
+  line-height: 2.05;
+  color: #cfd8e6;
+}
+.terminal .prompt {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(74,126,192,.6);
+}
+.terminal .out {
+  color: #eef2f8;
+  padding-left: 16px;
+}
+.terminal .soft { color: var(--accent-3); }
+
+.caret {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--accent-warm);
+  vertical-align: -2px;
+  margin-left: 3px;
+  box-shadow: 0 0 10px rgba(245,201,92,.85);
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0 } }

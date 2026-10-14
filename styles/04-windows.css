@@ -1,0 +1,118 @@
+/* ============================================================
+   WINDOWS — chrome, header, controls, scrolling
+   ============================================================ */
+.window {
+  position: absolute;
+  width: min(680px, 88vw);
+  height: min(480px, 74vh);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  backdrop-filter: blur(24px) saturate(110%);
+  -webkit-backdrop-filter: blur(24px) saturate(110%);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+  resize: both;
+  min-width: 300px;
+  min-height: 220px;
+  animation: winOpen .4s var(--ease-out);
+}
+.window::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,201,92,.75), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes winOpen {
+  from { opacity: 0; transform: scale(.94) translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+.window.closing { animation: winClose .24s ease forwards; }
+@keyframes winClose {
+  to { opacity: 0; transform: scale(.94) translateY(12px); filter: blur(3px); }
+}
+.window.minimized { display: none; }
+.window.maximized {
+  left: 8px !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(100vw - 16px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  padding-left: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  border-bottom: 1px solid var(--stroke);
+  cursor: grab;
+  user-select: none;
+  flex: none;
+  position: relative;
+}
+.window-header:active { cursor: grabbing; }
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: .84rem;
+  font-weight: 500;
+  color: #e2e7f2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.window-title i {
+  color: var(--accent);
+  font-size: .88rem;
+  filter: drop-shadow(0 0 8px rgba(74,126,192,.55));
+}
+
+.window-controls { display: flex; height: 100%; }
+.ctrl {
+  width: 48px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #c6cddb;
+  font-size: .78rem;
+  display: grid;
+  place-items: center;
+  transition: background .2s, color .2s;
+}
+.ctrl:hover { background: rgba(255, 255, 255, .09); color: #fff; }
+.ctrl.close:hover { background: #e5484d; color: #fff; }
+
+.window-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 34px 38px 42px;
+  font-size: .92rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.2) transparent;
+  position: relative;
+}
+.window-body::-webkit-scrollbar { width: 10px; }
+.window-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.18);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.window-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(74,126,192,.5);
+  background-clip: content-box;
+}

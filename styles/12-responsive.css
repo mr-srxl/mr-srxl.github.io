@@ -1,0 +1,86 @@
+/* ============================================================
+   RESPONSIVE — mobile / tablet adjustments
+   ============================================================ */
+@media (max-width: 760px) {
+  /* Portrait wallpapers on phones */
+  #desktop {
+    background-image: url('../pic/linux_bag_mobile.jpg');
+    background-position: center 35%;
+  }
+  body.linux-mode #desktop {
+    background-image: url('../pic/linux_bag_mobile.jpg');
+    background-position: center 35%;
+  }
+
+  /* Windows fill the screen */
+  .window {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100% - var(--bar-h)) !important;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    resize: none;
+  }
+  body.linux-mode .window {
+    top: 38px !important;
+    height: calc(100% - 38px) !important;
+  }
+  .window-body { padding: 24px 20px 36px; }
+
+  /* Icons wrap into rows */
+  #desktop-icons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    top: 14px;
+    left: 12px;
+    right: 12px;
+  }
+  .desk-icon { width: 76px; padding: 10px 4px 8px; }
+  .desk-icon i { font-size: 1.55rem; }
+  .desk-icon span { font-size: .65rem; }
+
+  /* Content tweaks */
+  .taskbar-right i { display: none; }
+  .os-card { width: 148px; padding: 26px 14px 22px; }
+  .os-card i { font-size: 2.9rem; }
+  .doc-head { padding-bottom: 22px; }
+  .avatar { width: 68px; height: 68px; font-size: 1.7rem; }
+  .doc td:first-child { width: 42%; }
+
+  /* Loading orb fits smaller screens */
+  .orb-loader { width: 108px; height: 108px; }
+  .orb-core { width: 48px; height: 48px; }
+
+  /* Code blocks shrink slightly */
+  .code { font-size: .76rem; }
+  .code pre { padding: 14px 16px; }
+  .python-doc .chapter .title { font-size: .98rem; }
+
+  /* Cheatsheet to single column */
+  .cheat { grid-template-columns: 1fr; }
+
+  /* Nav links stack */
+  .nav-links { flex-direction: column; }
+
+  /* Lightbox tighter */
+  #lightbox { padding: 20px; }
+  .lb-image { max-width: 96vw; max-height: 76vh; border-radius: 10px; }
+  .lb-close { top: 14px; right: 14px; width: 40px; height: 40px; }
+  .lb-nav { width: 42px; height: 42px; }
+  .lb-prev { left: 10px; }
+  .lb-next { right: 10px; }
+}
+
+/* ============================================================
+   MOTION PREFERENCES
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

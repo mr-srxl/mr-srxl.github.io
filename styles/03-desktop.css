@@ -1,0 +1,101 @@
+/* ============================================================
+   DESKTOP — wallpaper, overlay, grain
+   ============================================================ */
+#desktop {
+  display: none;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../pic/win_bag.jpg');
+  animation: deskIn 1.4s var(--ease-out) both;
+}
+#desktop.show { display: block; }
+
+#desktop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(140% 90% at 50% 0%, transparent 35%, rgba(8, 8, 12, .45) 100%),
+    linear-gradient(180deg, rgba(8, 8, 12, .30) 0%, rgba(8, 8, 12, .12) 45%, rgba(8, 8, 12, .5) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+#desktop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: .05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+@keyframes deskIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================
+   DESKTOP ICONS
+   ============================================================ */
+#desktop-icons {
+  position: absolute;
+  top: 24px;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 3;
+}
+
+.desk-icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100px;
+  padding: 14px 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition: background .3s, border-color .3s, transform .35s var(--ease-out), box-shadow .35s;
+}
+.desk-icon:hover,
+.desk-icon:focus-visible {
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  border-color: rgba(255, 255, 255, .2);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px -14px rgba(0,0,0,.9);
+  outline: none;
+}
+.desk-icon i {
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .75));
+  transition: transform .35s var(--ease-out);
+}
+.desk-icon:hover i { transform: scale(1.08); }
+
+/* Icon colors */
+.desk-icon .ic-about   { color: #6a9ad0; }
+.desk-icon .ic-learn   { color: #ffd067; }
+.desk-icon .ic-skills  { color: #bca3e6; }
+.desk-icon .ic-python  { color: #ffd067; }
+.desk-icon .ic-notes   { color: #f0a8d0; }
+.desk-icon .ic-gallery { color: #9ed48d; }
+.desk-icon .ic-term    { color: #f0f4f8; }
+
+.desk-icon span {
+  font-size: .74rem;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  line-height: 1.25;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .95);
+}
