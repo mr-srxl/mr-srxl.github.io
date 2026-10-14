@@ -1,0 +1,75 @@
+<section class="doc python-doc" aria-labelledby="c1">
+  <h1 id="c1">01 · Getting started</h1>
+
+  <p>Python is one of the kindest languages to learn. It reads almost like English, and the little things you write early still feel useful later. Before writing a single line, let's get it running — that's the only setup you'll ever need.</p>
+
+  <h2>Install &amp; run</h2>
+  <ul>
+    <li><strong>Windows / macOS:</strong> download the installer from <em>python.org</em> and run it. On Windows, tick <em>"Add Python to PATH"</em>.</li>
+    <li><strong>Linux:</strong> Python is almost always preinstalled. Check with <code>python3 --version</code>.</li>
+    <li>Open a terminal and type <code>python</code> (or <code>python3</code>). You'll see a <code>&gt;&gt;&gt;</code> prompt. That's the REPL — type Python, get answers immediately.</li>
+  </ul>
+
+  <h2>Your first program</h2>
+  <div class="code" data-lang="python">
+<pre># My first program
+print("Hello, meadow.")
+
+name = "Sina"
+print("Hello,", name)</pre>
+  </div>
+  <div class="output">Hello, meadow.
+Hello, Sina</div>
+
+  <p><code>print()</code> shows things. Lines starting with <code>#</code> are comments — the computer ignores them, but you'll read them later and be grateful.</p>
+
+  <h2>How to name a variable</h2>
+  <p>A variable is a name that points at a value. Python doesn't care much about <em>how</em> you name them, but other humans (including future-you) do. Here are the rules and the conventions.</p>
+
+  <h3>The hard rules</h3>
+  <ul>
+    <li>Must start with a <strong>letter</strong> or an <strong>underscore</strong> — never a digit.</li>
+    <li>Can contain letters, digits, and underscores only (no spaces, no dashes).</li>
+    <li>Case-sensitive: <code>age</code>, <code>Age</code>, and <code>AGE</code> are three different variables.</li>
+    <li>Can't be a <strong>reserved keyword</strong> like <code>if</code>, <code>for</code>, <code>class</code>, <code>return</code>, <code>True</code>, <code>None</code>, <code>import</code>.</li>
+  </ul>
+
+  <h3>The soft conventions (the ones that make code readable)</h3>
+  <ul>
+    <li><strong>snake_case</strong> for ordinary variables and functions: <code>user_name</code>, <code>total_price</code>, <code>is_ready</code>.</li>
+    <li><strong>ALL_CAPS</strong> for constants that never change: <code>MAX_RETRIES = 3</code>, <code>PI = 3.14159</code>.</li>
+    <li><strong>_single_underscore</strong> at the start means "internal, please don't touch": <code>_cache</code>, <code>_helper</code>.</li>
+    <li><strong>__dunder__</strong> (double underscores on both sides) is reserved for Python's own magic: <code>__init__</code>, <code>__name__</code>.</li>
+    <li>Be <strong>descriptive</strong>. <code>user_age</code> beats <code>ua</code>. <code>total_price</code> beats <code>tp</code>.</li>
+    <li>Don't shadow built-ins. Naming a variable <code>list</code> or <code>print</code> will hurt later.</li>
+  </ul>
+
+  <h3>Good and bad, side by side</h3>
+  <div class="code" data-lang="python">
+<pre># Bad — cryptic
+a = 30
+tp = 99.9
+x2 = True
+
+# Better — descriptive
+user_age = 30
+total_price = 99.9
+is_logged_in = True
+
+# Constants
+MAX_LOGIN_ATTEMPTS = 3
+
+# Private helper (used internally by a module)
+_cleanup = "internal helper"</pre>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> open the REPL, make five variables describing yourself — name, age, city, favourite_language, is_learning — and print each one. Then rename one of them to something clearer and see if it reads better.
+  </div>
+
+  <div class="nav-links">
+    <a class="disabled">← Previous</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/02-types.html" data-internal>Types →</a>
+  </div>
+</section>

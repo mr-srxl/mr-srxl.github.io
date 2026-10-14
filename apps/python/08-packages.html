@@ -1,0 +1,145 @@
+<section class="doc python-doc" aria-labelledby="c8">
+  <h1 id="c8">08 · Modules &amp; packages</h1>
+
+  <p>Python's real strength is the ecosystem. This chapter is about using other people's code — and about shipping your own cleanly.</p>
+
+  <h2>Importing modules</h2>
+  <div class="code" data-lang="python">
+<pre># Whole module
+import math
+print(math.sqrt(16))       # 4.0
+
+# Specific things from a module
+from math import sqrt, pi
+print(sqrt(16), pi)
+
+# Give it a shorter name
+import datetime as dt
+print(dt.date.today())</pre>
+  </div>
+
+  <h2>The standard library — a few favourites</h2>
+  <div class="cheat">
+    <div><b>math</b><code>sqrt, pi, floor, ceil</code></div>
+    <div><b>random</b><code>choice, randint, shuffle</code></div>
+    <div><b>datetime</b><code>date, time, timedelta</code></div>
+    <div><b>os / pathlib</b><code>paths, environment, files</code></div>
+    <div><b>sys</b><code>argv, exit, stdout</code></div>
+    <div><b>json</b><code>load, dump</code></div>
+    <div><b>collections</b><code>Counter, defaultdict</code></div>
+    <div><b>itertools</b><code>chain, product, combinations</code></div>
+  </div>
+
+  <h2>Writing your own module</h2>
+  <p>A module is just a <code>.py</code> file. Create <code>helpers.py</code> next to your script:</p>
+  <div class="code" data-lang="python">
+<pre># helpers.py
+def double(x):
+    return x * 2
+
+def shout(text):
+    return text.upper() + "!"</pre>
+  </div>
+  <p>Then import from it in another file:</p>
+  <div class="code" data-lang="python">
+<pre># main.py
+from helpers import double, shout
+
+print(double(5))         # 10
+print(shout("hello"))    # HELLO!</pre>
+  </div>
+
+  <h2>Installing packages — pip</h2>
+  <p>The standard library is huge, but the third-party world is <strong>enormous</strong>. Packages live on <em>PyPI</em> (pypi.org) and you install them with <code>pip</code>, which comes with Python.</p>
+
+  <div class="code" data-lang="bash">
+<pre># Install a package
+pip install requests
+
+# Install a specific version
+pip install requests==2.31.0
+
+# Upgrade
+pip install --upgrade requests
+
+# List what's installed
+pip list
+
+# Uninstall
+pip uninstall requests</pre>
+  </div>
+
+  <h3>A few packages worth knowing</h3>
+  <div class="cheat">
+    <div><b>requests</b>HTTP made simple</div>
+    <div><b>rich</b>beautiful terminal output</div>
+    <div><b>colorama</b>coloured text on Windows too</div>
+    <div><b>python-dotenv</b>load <code>.env</code> config files</div>
+    <div><b>beautifulsoup4</b>parse HTML</div>
+    <div><b>pyinstaller</b>turn a script into an .exe</div>
+  </div>
+
+  <h2>Virtual environments — one per project</h2>
+  <p>Different projects want different versions of the same package. A <strong>virtual environment</strong> gives each project its own isolated set of packages. Use one per project, always.</p>
+
+  <div class="code" data-lang="bash">
+<pre># Create a virtual environment inside the project folder
+python -m venv .venv
+
+# Activate it
+# Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+# Windows (cmd):
+.venv\Scripts\activate.bat
+# macOS / Linux:
+source .venv/bin/activate
+
+# Now pip installs go into .venv, not your system Python
+pip install requests
+
+# Leave when you're done
+deactivate</pre>
+  </div>
+
+  <div class="warn-note">
+    <strong>Heads up:</strong> add <code>.venv/</code> to your <code>.gitignore</code>. Never commit the virtual environment folder — it's huge and machine-specific.
+  </div>
+
+  <h2>requirements.txt — what it is and why it matters</h2>
+  <p>A <strong>requirements.txt</strong> is a plain text file listing every package your project needs, with the exact versions you tested with. Anyone (including future-you on a new laptop) can recreate the exact environment with one command.</p>
+
+  <h3>Creating one</h3>
+  <div class="code" data-lang="bash">
+<pre># After activating your venv and installing what you need:
+pip freeze &gt; requirements.txt</pre>
+  </div>
+
+  <h3>What it looks like</h3>
+  <div class="code" data-lang="text">
+<pre>requests==2.31.0
+rich==13.7.0
+python-dotenv==1.0.1</pre>
+  </div>
+
+  <h3>Using someone else's requirements</h3>
+  <div class="code" data-lang="bash">
+<pre># On a fresh machine:
+git clone https://github.com/someone/project.git
+cd project
+python -m venv .venv
+source .venv/bin/activate    # or Windows equivalent
+pip install -r requirements.txt</pre>
+  </div>
+
+  <p>That's it — you now have the exact same packages the author used.</p>
+
+  <div class="try">
+    <strong>Try this:</strong> make a new folder, create a virtual environment, activate it, install the <code>rich</code> package, then run <code>pip freeze &gt; requirements.txt</code>. Open the file — you should see <code>rich</code> listed with its version.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/07-input-files.html" data-internal>← Input &amp; files</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/09-errors.html" data-internal>Errors →</a>
+  </div>
+</section>

@@ -1,0 +1,141 @@
+<section class="doc python-doc" aria-labelledby="c10">
+  <h1 id="c10">10 · A small project</h1>
+
+  <p>Let's bring everything together. This is a small notes app — you can add a note, list all notes, search, and delete. It saves to a JSON file so your notes persist between runs.</p>
+
+  <div class="intro-note">
+    Save the following into a file named <code>notes.py</code>, then run it from the terminal with <code>python notes.py</code>. All the techniques come from earlier chapters: functions, dicts, lists, files, user input, and error handling.
+  </div>
+
+  <div class="code" data-lang="python">
+<pre>import json
+from pathlib import Path
+
+NOTES_FILE = Path("notes.json")
+
+
+def load_notes():
+    """Load notes from disk. Returns an empty list if the file is missing."""
+    if not NOTES_FILE.exists():
+        return []
+    try:
+        with NOTES_FILE.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        print("Warning: notes file was corrupted. Starting fresh.")
+        return []
+
+
+def save_notes(notes):
+    """Save the notes list back to disk."""
+    with NOTES_FILE.open("w", encoding="utf-8") as f:
+        json.dump(notes, f, indent=2, ensure_ascii=False)
+
+
+def add_note(notes):
+    text = input("Note: ").strip()
+    if not text:
+        print("Empty note — skipped.")
+        return
+    notes.append({"text": text})
+    save_notes(notes)
+    print("Saved.")
+
+
+def list_notes(notes):
+    if not notes:
+        print("No notes yet.")
+        return
+    for i, note in enumerate(notes, start=1):
+        print(f"{i}. {note['text']}")
+
+
+def search_notes(notes):
+    term = input("Search for: ").strip().lower()
+    matches = [n for n in notes if term in n["text"].lower()]
+    if not matches:
+        print("Nothing found.")
+        return
+    for note in matches:
+        print(f"- {note['text']}")
+
+
+def delete_note(notes):
+    list_notes(notes)
+    if not notes:
+        return
+    try:
+        index = int(input("Number to delete: ")) - 1
+        removed = notes.pop(index)
+        save_notes(notes)
+        print(f"Deleted: {removed['text']}")
+    except (ValueError, IndexError):
+        print("Invalid number.")
+
+
+def main():
+    notes = load_notes()
+    menu = {
+        "1": ("Add a note",    add_note),
+        "2": ("List notes",    list_notes),
+        "3": ("Search notes",  search_notes),
+        "4": ("Delete a note", delete_note),
+        "5": ("Quit",          None),
+    }
+
+    while True:
+        print()
+        for key, (label, _) in menu.items():
+            print(f"  {key}. {label}")
+        choice = input("Choose: ").strip()
+
+        if choice not in menu:
+            print("Unknown choice.")
+            continue
+
+        _, action = menu[choice]
+        if action is None:
+            print("Goodbye.")
+            break
+        action(notes)
+
+
+if __name__ == "__main__":
+    main()</pre>
+  </div>
+
+  <h2>What's going on here</h2>
+  <ul>
+    <li><strong>Functions</strong> keep each feature small and easy to read.</li>
+    <li><strong>Lists</strong> hold the notes; each note is a <strong>dict</strong> with a <code>text</code> field.</li>
+    <li><strong>enumerate</strong> gives us clean numbering.</li>
+    <li>A <strong>list comprehension</strong> filters for search results.</li>
+    <li><strong>JSON + pathlib</strong> save and load notes as real files.</li>
+    <li><strong>try / except</strong> handles bad input and a corrupted file gracefully.</li>
+    <li>The <code>menu</code> dict maps choices to functions — a neat pattern you'll see everywhere.</li>
+    <li><code>if __name__ == "__main__":</code> means "only run main() when this file is run directly" — not when it's imported as a module.</li>
+  </ul>
+
+  <h2>Where to go next</h2>
+  <ul>
+    <li><strong>Classes</strong> — group data and behaviour together (search "Python classes tutorial").</li>
+    <li><strong>Web</strong> — Flask for small sites, FastAPI for APIs.</li>
+    <li><strong>Automation</strong> — scripts that move files, scrape pages, or send emails.</li>
+    <li><strong>The official tutorial</strong> — <em>docs.python.org/3/tutorial</em>. Worth reading cover to cover.</li>
+  </ul>
+
+  <h2>Small reminder</h2>
+  <p>Learning a language is like tending a garden — small, daily effort beats one big weekend. Write something tiny every day. Let it break. Fix it. That's it. Nothing here is a hurry.</p>
+
+  <p style="text-align:center;margin-top:28px;">
+    <a class="btn" href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-python"></i> Read the official tutorial
+    </a>
+  </p>
+
+  <div class="nav-links">
+    <a href="apps/python/09-errors.html" data-internal>← Errors</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a class="disabled">End</a>
+  </div>
+</section>

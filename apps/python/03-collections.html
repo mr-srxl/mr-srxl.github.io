@@ -1,0 +1,99 @@
+<section class="doc python-doc" aria-labelledby="c3">
+  <h1 id="c3">03 · Lists, tuples, dicts, sets</h1>
+
+  <p>Four containers, each with its own personality. Choosing the right one makes code shorter and clearer.</p>
+
+  <h2>Lists — ordered and mutable</h2>
+  <p>Use lists when you have <strong>many of the same kind of thing</strong> and you'll add or remove items.</p>
+  <div class="code" data-lang="python">
+<pre>garden = ["rose", "tulip", "daisy"]
+
+garden.append("iris")         # add to end
+garden.insert(0, "sunflower") # insert at position 0
+garden.remove("tulip")        # remove by value
+last = garden.pop()           # remove & return last
+garden[0] = "lily"            # replace by index
+
+print(garden[0])              # 'lily'
+print(garden[-1])             # last item
+print(len(garden))            # how many
+print("rose" in garden)       # True/False</pre>
+  </div>
+
+  <h3>Sorting and reversing</h3>
+  <div class="code" data-lang="python">
+<pre>numbers = [3, 1, 4, 1, 5, 9, 2]
+numbers.sort()                # in place, ascending
+numbers.sort(reverse=True)    # descending
+sorted(numbers)               # returns a NEW list
+numbers.reverse()             # in place</pre>
+  </div>
+
+  <h2>Tuples — ordered but immutable</h2>
+  <p>Use tuples when the collection <strong>shouldn't change</strong> — a coordinate, a fixed pair, a record. They're faster than lists and safer as dict keys.</p>
+  <div class="code" data-lang="python">
+<pre>point = (3, 7)
+x, y = point                  # unpacking
+print(x, y)                   # 3 7
+
+# A one-element tuple needs a comma:
+single = (42,)
+not_a_tuple = (42)            # this is just the number 42</pre>
+  </div>
+
+  <h2>Dictionaries — key/value pairs</h2>
+  <p>Use dicts when you need to <strong>look things up by name</strong>, not by position.</p>
+  <div class="code" data-lang="python">
+<pre>user = {
+    "name": "Sina",
+    "age": 23,
+    "city": "Tehran",
+}
+
+user["email"] = "sina@example.com"   # add
+user["age"] = 24                     # update
+del user["city"]                     # remove
+
+user.get("phone")                    # None (no error)
+user.get("phone", "unknown")         # 'unknown' as default
+
+for key, value in user.items():
+    print(key, "->", value)</pre>
+  </div>
+
+  <h2>Sets — unique, unordered</h2>
+  <p>Use sets for <strong>uniqueness</strong> and fast membership checks.</p>
+  <div class="code" data-lang="python">
+<pre>tags = {"python", "linux", "red team"}
+tags.add("c2")
+tags.discard("linux")
+
+a = {1, 2, 3}
+b = {3, 4, 5}
+a | b     # union          {1,2,3,4,5}
+a &amp; b     # intersection   {3}
+a - b     # difference     {1,2}
+
+# Remove duplicates from a list:
+list_with_dupes = [1, 2, 2, 3, 3, 3]
+unique = list(set(list_with_dupes))   # [1, 2, 3]</pre>
+  </div>
+
+  <h2>Which one should I use?</h2>
+  <div class="cheat">
+    <div><b>List</b><code>[1, 2, 3]</code> — ordered, changeable, allows duplicates</div>
+    <div><b>Tuple</b><code>(1, 2, 3)</code> — ordered, fixed, safer as keys</div>
+    <div><b>Dict</b><code>{"k": "v"}</code> — lookup by name</div>
+    <div><b>Set</b><code>{1, 2, 3}</code> — unique items, fast <code>in</code></div>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> build a dictionary of three friends' names → ages. Print each name and age on its own line. Then convert the ages to a <em>set</em> to see if any friends share a birthday-year.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/02-types.html" data-internal>← Types</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/04-flow.html" data-internal>Control flow →</a>
+  </div>
+</section>

@@ -1,0 +1,100 @@
+<section class="doc python-doc" aria-labelledby="c4">
+  <h1 id="c4">04 · Control flow</h1>
+
+  <p>Programs become interesting when they can choose and repeat. That's what <code>if</code> and <code>for</code> are for.</p>
+
+  <h2>Deciding</h2>
+  <div class="code" data-lang="python">
+<pre>temperature = 18
+
+if temperature &gt; 25:
+    print("Warm outside.")
+elif temperature &gt; 15:
+    print("Mild. Nice for a walk.")
+else:
+    print("Cold. Bring a jacket.")</pre>
+  </div>
+  <div class="output">Mild. Nice for a walk.</div>
+
+  <p>The indentation (those four spaces) is part of the language — it tells Python what belongs inside the block. Use four spaces per level, always.</p>
+
+  <h3>Comparisons and logic</h3>
+  <div class="code" data-lang="python">
+<pre>x == y     # equal
+x != y     # not equal
+x &lt;  y     # less than
+x &gt;= y     # greater or equal
+
+# Combine conditions
+if age &gt;= 18 and has_id:
+    print("You may enter.")
+
+if day == "Saturday" or day == "Sunday":
+    print("Weekend.")
+
+if not is_raining:
+    print("Go outside.")</pre>
+  </div>
+
+  <h3>Truthy and falsy</h3>
+  <p>Every value in Python is "truthy" or "falsy". The empty/false ones are:</p>
+  <div class="cheat">
+    <div><b>Falsy</b><code>False, 0, 0.0, "", [], {}, set(), None</code></div>
+    <div><b>Truthy</b>everything else — including <code>"0"</code> and <code>[0]</code></div>
+  </div>
+  <p>This lets you write <code>if items:</code> instead of <code>if len(items) &gt; 0:</code>.</p>
+
+  <h2>Repeating</h2>
+  <h3>for loops</h3>
+  <div class="code" data-lang="python">
+<pre>for i in range(3):
+    print("step", i)
+
+for flower in ["daisy", "poppy", "iris"]:
+    print("-", flower)</pre>
+  </div>
+  <div class="output">step 0
+step 1
+step 2
+- daisy
+- poppy
+- iris</div>
+
+  <h3>range() — three forms</h3>
+  <div class="code" data-lang="python">
+<pre>range(5)          # 0 1 2 3 4
+range(2, 6)       # 2 3 4 5
+range(0, 10, 2)   # 0 2 4 6 8</pre>
+  </div>
+
+  <h3>while loops</h3>
+  <div class="code" data-lang="python">
+<pre>count = 0
+while count &lt; 3:
+    print("count is", count)
+    count += 1</pre>
+  </div>
+  <p>While loops run until their condition becomes false. They're the right tool when you don't know in advance how many iterations you need.</p>
+
+  <h3>break and continue</h3>
+  <div class="code" data-lang="python">
+<pre>for n in range(10):
+    if n == 5:
+        break      # exit the loop entirely
+    if n % 2 == 0:
+        continue   # skip to next iteration
+    print(n)
+
+# Prints: 1, 3</pre>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> print all numbers from 1 to 20 that are divisible by 3. Then do it again with a <code>while</code> loop.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/03-collections.html" data-internal>← Collections</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/05-useful.html" data-internal>enumerate / zip →</a>
+  </div>
+</section>

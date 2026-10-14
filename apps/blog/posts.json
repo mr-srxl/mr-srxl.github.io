@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "file-transfers",
+    "title": "File Transfers — a working reference",
+    "date": "14 Feb 2026",
+    "category": "Red Team",
+    "excerpt": "Every technique I keep coming back to when I need to move a file onto or off a box. Windows, Linux, code, LOLBins, and how to stay quiet.",
+    "tags": ["file-transfer", "windows", "linux", "reference"]
+  },
+  {
+    "slug": "why-python",
+    "title": "Why Python feels kind",
+    "date": "10 Feb 2026",
+    "category": "Python",
+    "excerpt": "A short reflection on what makes Python different, and why that matters when you're just starting out.",
+    "tags": ["python", "learning"]
+  },
+  {
+    "slug": "welcome",
+    "title": "Welcome",
+    "date": "14 Feb 2026",
+    "category": "Personal",
+    "excerpt": "A quiet first note — why this corner of the internet exists, and what it isn't trying to be.",
+    "tags": ["meta", "hello"]
+  }
+]

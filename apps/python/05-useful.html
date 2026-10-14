@@ -1,0 +1,84 @@
+<section class="doc python-doc" aria-labelledby="c5">
+  <h1 id="c5">05 · enumerate, zip, sorted</h1>
+
+  <p>Three built-ins that turn clumsy loops into elegant ones. Learn them once, use them forever.</p>
+
+  <h2>enumerate — index and value together</h2>
+  <p>When you loop over a list and you also want to know <em>where</em> you are, use <code>enumerate</code>. No more <code>i = 0; i += 1</code>.</p>
+  <div class="code" data-lang="python">
+<pre>flowers = ["daisy", "poppy", "iris"]
+
+for i, flower in enumerate(flowers):
+    print(i, flower)
+
+# Start counting from 1 instead of 0:
+for i, flower in enumerate(flowers, start=1):
+    print(f"{i}. {flower}")</pre>
+  </div>
+  <div class="output">0 daisy
+1 poppy
+2 iris
+1. daisy
+2. poppy
+3. iris</div>
+
+  <h2>zip — walk two (or more) lists together</h2>
+  <div class="code" data-lang="python">
+<pre>names = ["Sina", "Sara", "Reza"]
+ages  = [23, 27, 31]
+
+for name, age in zip(names, ages):
+    print(f"{name} is {age}")
+
+# Build a dict from two lists:
+people = dict(zip(names, ages))
+# {'Sina': 23, 'Sara': 27, 'Reza': 31}</pre>
+  </div>
+  <p><code>zip</code> stops at the shorter list — so unequal lengths won't error, they'll just truncate. Use <code>zip(..., strict=True)</code> in Python 3.10+ if you want it to complain instead.</p>
+
+  <h2>sorted — with a key</h2>
+  <div class="code" data-lang="python">
+<pre>words = ["banana", "apple", "cherry"]
+sorted(words)                                  # alphabetical
+sorted(words, key=len)                         # by length
+sorted(words, reverse=True)                    # descending
+
+# Sort a list of dicts by one field:
+users = [
+    {"name": "Sina", "age": 23},
+    {"name": "Sara", "age": 27},
+    {"name": "Reza", "age": 19},
+]
+sorted(users, key=lambda u: u["age"])
+# Reza, Sina, Sara</pre>
+  </div>
+  <p>The <code>key</code> is a small function applied to each item before comparing. <code>lambda u: u["age"]</code> means "for each user u, use u['age'] as the sort key".</p>
+
+  <h2>List comprehensions — building lists in one line</h2>
+  <div class="code" data-lang="python">
+<pre># Long form:
+squares = []
+for n in range(6):
+    squares.append(n * n)
+
+# Same thing, one line:
+squares = [n * n for n in range(6)]
+
+# With a filter:
+evens = [n for n in range(20) if n % 2 == 0]
+
+# Applied to a list of names:
+shouting = [name.upper() for name in ["Sina", "Sara"]]</pre>
+  </div>
+  <p>Comprehensions aren't just shorter — they're often clearer once your eye is used to them. If a comprehension takes more than one line to read, though, write the loop.</p>
+
+  <div class="try">
+    <strong>Try this:</strong> make two lists — one of countries, one of capitals. Use <code>zip</code> and <code>enumerate</code> to print a numbered list like <em>"1. France — Paris"</em>.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/04-flow.html" data-internal>← Control flow</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/06-functions.html" data-internal>Functions →</a>
+  </div>
+</section>
