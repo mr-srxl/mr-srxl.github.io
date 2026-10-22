@@ -1,0 +1,419 @@
+/* ============================================================
+   LEARNING UI — editable code, playground, callouts, feedback
+   Loaded after 13-settings.css, so rules here override.
+   ============================================================ */
+
+/* ========== Editable code block container ========== */
+.code-editable {
+  border-radius: 12px;
+  background: #0d0a14; /* slightly warmer than #06070b */
+  border: 1px solid rgba(255, 255, 255, .08);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.8;
+  position: relative;
+  transition: border-color .3s var(--ease), box-shadow .4s var(--ease);
+}
+.code-editable:hover {
+  border-color: rgba(91, 141, 217, .28);
+}
+.code-editable:focus-within {
+  border-color: rgba(91, 141, 217, .55);
+  box-shadow:
+    0 0 0 1px rgba(91, 141, 217, .18),
+    0 8px 30px -12px rgba(91, 141, 217, .28);
+}
+
+/* Success — brief green flash after run */
+.code-editable.has-success {
+  border-color: rgba(127, 192, 106, .55);
+  box-shadow:
+    0 0 0 1px rgba(127, 192, 106, .2),
+    0 8px 30px -12px rgba(127, 192, 106, .3);
+}
+/* Error */
+.code-editable.has-error {
+  border-color: rgba(232, 96, 96, .55);
+  box-shadow:
+    0 0 0 1px rgba(232, 96, 96, .2),
+    0 8px 30px -12px rgba(232, 96, 96, .3);
+}
+
+/* ========== Header bar ========== */
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 6px 16px;
+  background: rgba(255, 255, 255, .025);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  min-height: 38px;
+}
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .66rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.code-lang::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 8px rgba(127, 192, 106, .7);
+}
+
+.code-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.code-btn {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.code-btn i { font-size: .65rem; }
+.code-btn:hover {
+  background: rgba(255, 255, 255, .06);
+  color: var(--text);
+}
+.code-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.code-btn.code-copy.copied {
+  background: rgba(127, 192, 106, .12);
+  border-color: rgba(127, 192, 106, .3);
+  color: var(--accent-3);
+}
+
+.code-btn.code-run {
+  background: linear-gradient(180deg, rgba(127, 192, 106, .18), rgba(127, 192, 106, .06));
+  border-color: rgba(127, 192, 106, .35);
+  color: var(--accent-3-hi);
+}
+.code-btn.code-run:hover {
+  background: linear-gradient(180deg, rgba(127, 192, 106, .3), rgba(127, 192, 106, .1));
+  border-color: rgba(127, 192, 106, .65);
+  color: #c7e8b4;
+}
+.code-btn.code-run.loading {
+  background: linear-gradient(180deg, rgba(240, 193, 75, .18), rgba(240, 193, 75, .06));
+  border-color: rgba(240, 193, 75, .4);
+  color: var(--accent-warm-hi);
+}
+.code-btn.code-run.loading i {
+  animation: spin 1s linear infinite;
+}
+.code-btn.code-run.success {
+  background: rgba(127, 192, 106, .28);
+  border-color: rgba(127, 192, 106, .7);
+  color: #fff;
+}
+.code-btn.code-run.error {
+  background: rgba(232, 96, 96, .25);
+  border-color: rgba(232, 96, 96, .6);
+  color: #ffd0d0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ========== Editor body — overlay stack ========== */
+.code-body {
+  position: relative;
+}
+
+.code-input-wrap {
+  position: relative;
+}
+
+/* Both textarea and pre MUST have identical metrics */
+.code-input,
+.code-highlight {
+  margin: 0;
+  padding: 16px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.8;
+  font-weight: 400;
+  letter-spacing: 0;
+  tab-size: 4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border: none;
+  box-sizing: border-box;
+}
+
+.code-input {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  height: 48px;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--accent-warm);
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  z-index: 2;
+  cursor: text;
+}
+
+.code-highlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  color: #d6dee9;
+  background: transparent;
+}
+.code-highlight code {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  display: block;
+}
+
+/* When textarea is empty, show placeholder */
+.code-input:placeholder-shown + .code-highlight::after {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  color: var(--dim);
+  pointer-events: none;
+  font-style: italic;
+}
+
+/* ========== Output panel ========== */
+.learn-output {
+  margin: 0;
+  border-top: 1px solid rgba(127, 192, 106, .2);
+  background: rgba(6, 7, 11, .7);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.7;
+  color: #d4e0cf;
+}
+.learn-output[hidden] { display: none; }
+
+.learn-output-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 6px;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(127, 192, 106, .8);
+  font-weight: 500;
+}
+.learn-output-header i {
+  font-size: .68rem;
+}
+
+.learn-output-body {
+  padding: 0 18px 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, .15) transparent;
+}
+
+.learn-output.is-error {
+  border-top-color: rgba(232, 96, 96, .35);
+  background: rgba(30, 10, 12, .55);
+  color: #f0c8c8;
+}
+.learn-output.is-error .learn-output-header {
+  color: rgba(232, 96, 96, .85);
+}
+.learn-output.is-error .learn-output-header i::before {
+  content: "\f057"; /* fa-circle-xmark */
+}
+.learn-output.is-loading .learn-output-body {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ========== Playground ========== */
+.playground {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid var(--stroke);
+}
+.playground-header {
+  margin-bottom: 16px;
+}
+.playground-title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.playground-title i {
+  color: var(--accent-warm);
+  font-size: .95rem;
+  filter: drop-shadow(0 0 10px rgba(240, 193, 75, .55));
+}
+.playground-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.7;
+}
+
+/* ========== Learning callouts ========== */
+.learn-tip,
+.learn-challenge,
+.learn-warning,
+.learn-deep-dive {
+  position: relative;
+  margin: 18px 0 22px;
+  padding: 16px 20px 16px 52px;
+  border-radius: 12px;
+  font-size: .9rem;
+  line-height: 1.75;
+}
+.learn-tip::before,
+.learn-challenge::before,
+.learn-warning::before,
+.learn-deep-dive::before {
+  position: absolute;
+  left: 18px;
+  top: 15px;
+  font-size: 1.05rem;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+/* Hint — cool blue */
+.learn-tip {
+  background: linear-gradient(180deg, rgba(91, 141, 217, .08), rgba(91, 141, 217, .02));
+  border: 1px solid rgba(91, 141, 217, .3);
+  color: #c8d9f0;
+}
+.learn-tip::before {
+  content: "\f0eb"; /* lightbulb */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--accent-hi);
+}
+.learn-tip strong { color: var(--accent-hi); }
+
+/* Challenge — bold gold */
+.learn-challenge {
+  background: linear-gradient(180deg, rgba(240, 193, 75, .1), rgba(240, 193, 75, .03));
+  border: 1px solid rgba(240, 193, 75, .38);
+  color: #f0e0b8;
+}
+.learn-challenge::before {
+  content: "\f091"; /* trophy */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--accent-warm);
+}
+.learn-challenge strong { color: var(--accent-warm-hi); }
+
+/* Warning — warm amber */
+.learn-warning {
+  background: linear-gradient(180deg, rgba(240, 140, 75, .09), rgba(240, 140, 75, .02));
+  border: 1px solid rgba(240, 140, 75, .32);
+  color: #f0d0b8;
+}
+.learn-warning::before {
+  content: "\f071"; /* triangle exclamation */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #e88b4b;
+}
+.learn-warning strong { color: #f0a770; }
+
+/* Deep dive — violet */
+.learn-deep-dive {
+  background: linear-gradient(180deg, rgba(168, 136, 221, .09), rgba(168, 136, 221, .02));
+  border: 1px solid rgba(168, 136, 221, .32);
+  color: #ddd0f0;
+}
+.learn-deep-dive::before {
+  content: "\f518"; /* pencil / book */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--accent-2-hi);
+}
+.learn-deep-dive strong { color: var(--accent-2-hi); }
+
+/* Enhanced "Try this" — bigger, warmer */
+.try {
+  padding: 16px 20px 16px 52px;
+  font-size: .92rem;
+  border-width: 1.5px;
+  background: linear-gradient(180deg, rgba(240, 193, 75, .11), rgba(240, 193, 75, .03));
+}
+.try::before {
+  font-size: 1.15rem;
+  left: 18px;
+  top: 14px;
+}
+
+/* ========== Chapter headers with progress feel ========== */
+.python-doc h1 {
+  position: relative;
+}
+.python-doc h1::after {
+  content: "";
+  display: block;
+  margin-top: 14px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(240, 193, 75, .65) 0%,
+    rgba(168, 136, 221, .4) 50%,
+    transparent 100%);
+}
+
+/* ========== Mobile ========== */
+@media (max-width: 760px) {
+  .code-header {
+    padding-left: 12px;
+  }
+  .code-input,
+  .code-highlight {
+    padding: 14px 14px;
+    font-size: .78rem;
+  }
+  .code-btn {
+    padding: 0 8px;
+    font-size: .68rem;
+  }
+  .code-btn .btn-label { display: none; }
+  .code-btn.code-run .btn-label { display: inline; }
+}

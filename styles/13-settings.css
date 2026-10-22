@@ -1,0 +1,241 @@
+/* ============================================================
+   SETTINGS APP
+   ============================================================ */
+.settings-doc h2 {
+  /* override .doc h2 so settings section headings look like normal subheads */
+  margin: 28px 0 12px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.settings-doc h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(91, 141, 217, .4), transparent);
+}
+
+.settings-section {
+  margin-bottom: 26px;
+}
+
+/* Theme swatches */
+.theme-swatches {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.theme-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+  transition: transform .25s var(--ease-out),
+              border-color .25s,
+              box-shadow .25s;
+  padding: 0;
+}
+.theme-swatch::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 8px;
+  background: currentColor;
+  opacity: .9;
+}
+.theme-swatch:hover {
+  transform: translateY(-2px) scale(1.04);
+}
+.theme-swatch.active {
+  border-color: #fff;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, .1),
+    0 8px 22px -8px rgba(0, 0, 0, .7);
+}
+.theme-swatch.active::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: .8rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+  z-index: 2;
+}
+
+.theme-swatch[data-value="default"]  { color: #6a90d6; }
+.theme-swatch[data-value="meadow"]   { color: #8fb66a; }
+.theme-swatch[data-value="honey"]    { color: #e8b44a; }
+.theme-swatch[data-value="lavender"] { color: #a888cc; }
+.theme-swatch[data-value="rose"]     { color: #e39cb5; }
+
+/* Segmented control */
+.settings-control {
+  display: inline-flex;
+  gap: 0;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--stroke);
+}
+.settings-control button {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.settings-control button:hover {
+  color: var(--text);
+}
+.settings-control button.active {
+  background: linear-gradient(180deg,
+    rgba(91, 141, 217, .24),
+    rgba(91, 141, 217, .1));
+  color: #fff;
+  box-shadow: 0 2px 8px -2px rgba(91, 141, 217, .4);
+}
+
+.settings-note {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--stroke);
+  font-size: .78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ============================================================
+   PYODIDE — Run button + output
+   ============================================================ */
+.code-run {
+  position: absolute;
+  top: 6px;
+  right: 44px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 192, 106, .3);
+  background: rgba(127, 192, 106, .1);
+  color: var(--accent-3);
+  font-size: .7rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 3;
+  transition: background .2s, border-color .2s, color .2s, opacity .2s;
+}
+.code-run i { font-size: .65rem; }
+.code-run:hover {
+  background: rgba(127, 192, 106, .2);
+  border-color: rgba(127, 192, 106, .6);
+  color: var(--accent-3-hi);
+}
+.code-run:disabled,
+.code-run.loading {
+  opacity: .7;
+  cursor: wait;
+}
+.code-run.loading i {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Output panel */
+.pyodide-output {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border-radius: 0 0 12px 12px;
+  background: rgba(6, 7, 11, .85);
+  border: 1px solid rgba(127, 192, 106, .25);
+  border-top: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.7;
+  color: #d4e0cf;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.pyodide-output::before {
+  content: "output";
+  display: block;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(127, 192, 106, .75);
+  margin-bottom: 6px;
+}
+.pyodide-output.is-error {
+  border-color: rgba(232, 96, 96, .35);
+  background: rgba(30, 10, 12, .6);
+  color: #f0c8c8;
+}
+.pyodide-output.is-error::before { color: rgba(232, 96, 96, .8); }
+.pyodide-output.is-loading { color: var(--muted); font-style: italic; }
+
+/* ============================================================
+   PWA INSTALL PROMPT
+   ============================================================ */
+.install-prompt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin: 12px 0 0;
+  border-radius: 11px;
+  background: linear-gradient(180deg, rgba(91, 141, 217, .12), rgba(91, 141, 217, .04));
+  border: 1px solid rgba(91, 141, 217, .3);
+  color: var(--text-soft);
+  font-size: .85rem;
+}
+.install-prompt .ip-text { flex: 1; }
+.install-prompt .ip-title {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.install-prompt .ip-sub {
+  color: var(--muted);
+  font-size: .78rem;
+}
+.install-prompt button {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(91, 141, 217, .5);
+  background: rgba(91, 141, 217, .2);
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.install-prompt button:hover {
+  background: rgba(91, 141, 217, .3);
+  border-color: rgba(91, 141, 217, .8);
+}
+.install-prompt .ip-dismiss {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 4px 8px;
+}
+.install-prompt .ip-dismiss:hover { color: var(--text); background: transparent; }

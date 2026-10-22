@@ -1,0 +1,89 @@
+/* ============================================================
+   COLORFUL HEADERS + COLORFUL GALLERY
+   Loaded after 15-reading.css. Uses !important throughout to
+   guarantee application — the safest way to make sure the
+   colored headers actually reach the browser.
+   ============================================================ */
+
+/* ============ H1 — gradient text (matches boot screen) ============ */
+.window--reading .window-body .doc h1,
+.window--reading .window-body .blog-post h1 {
+  background: linear-gradient(
+    120deg,
+    #f7f2e8 0%,
+    #93b2e6 45%,
+    #c4a8e8 75%,
+    #f7cc68 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ============ Doc H2 — indigo section labels ============ */
+.window--reading .window-body .doc h2 {
+  color: #93b2e6 !important;
+}
+.window--reading .window-body .doc h2::after {
+  background: linear-gradient(90deg, rgba(147, 178, 230, .6) 0%, transparent 100%) !important;
+}
+
+/* ============ Blog H2 — violet section breaks ============ */
+.window--reading .window-body .blog-post h2 {
+  color: #c4a8e8 !important;
+}
+
+/* ============ Doc H3 — warm gold subheads ============ */
+.window--reading .window-body .doc h3 {
+  color: #f7cc68 !important;
+}
+
+/* ============ Blog H3 — meadow green subsections ============ */
+.window--reading .window-body .blog-post h3 {
+  color: #afd18c !important;
+}
+
+/* ============ H4 — dusty rose ============ */
+.window--reading .window-body .doc h4,
+.window--reading .window-body .blog-post h4 {
+  color: #f2b8ca !important;
+}
+
+/* ============ Gallery — each tile gets its own accent ============ */
+.window--reading .window-body .gallery .shot:nth-child(5n+1) { --tile-accent: #93b2e6; } /* indigo */
+.window--reading .window-body .gallery .shot:nth-child(5n+2) { --tile-accent: #c4a8e8; } /* violet */
+.window--reading .window-body .gallery .shot:nth-child(5n+3) { --tile-accent: #afd18c; } /* green */
+.window--reading .window-body .gallery .shot:nth-child(5n+4) { --tile-accent: #f7cc68; } /* gold */
+.window--reading .window-body .gallery .shot:nth-child(5n+5) { --tile-accent: #f2b8ca; } /* rose */
+
+.window--reading .window-body .gallery .shot:hover {
+  border-color: var(--tile-accent, #93b2e6) !important;
+  box-shadow:
+    0 22px 44px -20px rgba(0, 0, 0, .95),
+    0 0 0 1px var(--tile-accent, rgba(147, 178, 230, .3)),
+    0 0 32px -8px var(--tile-accent, rgba(147, 178, 230, .3)) !important;
+}
+
+.window--reading .window-body .gallery .shot figcaption {
+  color: var(--tile-accent, #f7f2e8) !important;
+  font-weight: 500;
+}
+
+.window--reading .window-body .gallery .shot .zoom-hint {
+  color: var(--tile-accent, #f7f2e8) !important;
+}
+
+/* Gallery subtitle — warm gold, not muted */
+.window--reading .window-body .doc[aria-labelledby="gallery-title"] .doc-sub {
+  color: #f7cc68 !important;
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+
+/* Small mobile refinement */
+@media (max-width: 760px) {
+  .window--reading .window-body .gallery .shot figcaption {
+    font-size: .7rem;
+  }
+}

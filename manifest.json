@@ -1,0 +1,25 @@
+{
+  "name": "SRXL OS — Sina Rezaei",
+  "short_name": "SRXL",
+  "description": "The quiet portfolio of Sina Rezaei — red team operator and malware developer. A desktop-in-the-browser.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0b12",
+  "theme_color": "#0a0e14",
+  "categories": ["portfolio", "productivity", "education"],
+  "icons": [
+    {
+      "src": "/pic/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/pic/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
