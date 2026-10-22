@@ -18,16 +18,32 @@
   min-width: 300px;
   min-height: 220px;
   animation: winOpen .4s var(--ease-out);
+  transition: box-shadow .3s var(--ease), border-color .3s var(--ease);
 }
+
+.window:focus-within {
+  border-color: rgba(91, 141, 217, .25);
+  box-shadow: var(--shadow-window-focus);
+}
+
 .window::before {
   content: "";
   position: absolute;
   top: 0; left: 15%; right: 15%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245,201,92,.75), transparent);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240, 193, 75, .55) 30%,
+    rgba(240, 193, 75, .85) 50%,
+    rgba(240, 193, 75, .55) 70%,
+    transparent 100%);
   z-index: 2;
   pointer-events: none;
+  opacity: .85;
+  transition: opacity .3s var(--ease);
 }
+.window:focus-within::before { opacity: 1; }
+
 @keyframes winOpen {
   from { opacity: 0; transform: scale(.94) translateY(14px); filter: blur(4px); }
   to   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
@@ -51,8 +67,10 @@
   justify-content: space-between;
   height: 46px;
   padding-left: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
-  border-bottom: 1px solid var(--stroke);
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, .065) 0%,
+    rgba(255, 255, 255, .025) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
   cursor: grab;
   user-select: none;
   flex: none;
@@ -66,7 +84,7 @@
   gap: 11px;
   font-size: .84rem;
   font-weight: 500;
-  color: #e2e7f2;
+  color: #e6ebf4;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -74,7 +92,11 @@
 .window-title i {
   color: var(--accent);
   font-size: .88rem;
-  filter: drop-shadow(0 0 8px rgba(74,126,192,.55));
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+  transition: filter .3s var(--ease);
+}
+.window:focus-within .window-title i {
+  filter: drop-shadow(0 0 12px var(--accent-glow));
 }
 
 .window-controls { display: flex; height: 100%; }
@@ -90,8 +112,17 @@
   place-items: center;
   transition: background .2s, color .2s;
 }
-.ctrl:hover { background: rgba(255, 255, 255, .09); color: #fff; }
-.ctrl.close:hover { background: #e5484d; color: #fff; }
+.ctrl:hover {
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+}
+.ctrl.close:hover {
+  background: linear-gradient(180deg, #ec6c6c, #d04040);
+  color: #fff;
+}
+.ctrl.close:active {
+  background: linear-gradient(180deg, #d04040, #b53030);
+}
 
 .window-body {
   flex: 1;
@@ -113,6 +144,54 @@
   background-clip: content-box;
 }
 .window-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(74,126,192,.5);
+  background: rgba(91, 141, 217, .55);
   background-clip: content-box;
+}
+
+/* ============================================================
+   WINDOW SNAPPING
+   ============================================================ */
+.snap-preview {
+  position: fixed;
+  z-index: 490;
+  background: rgba(91, 141, 217, .12);
+  border: 2px solid rgba(91, 141, 217, .55);
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s var(--ease-out),
+              left .15s var(--ease-out),
+              top .15s var(--ease-out),
+              width .15s var(--ease-out),
+              height .15s var(--ease-out);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow:
+    0 0 30px -8px rgba(91, 141, 217, .4) inset,
+    0 0 40px -12px rgba(91, 141, 217, .3);
+}
+.snap-preview.show { opacity: 1; }
+
+.window.snap-left {
+  left: 8px !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(50vw - 12px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+.window.snap-right {
+  left: calc(50vw + 4px) !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(50vw - 12px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+body.linux-mode .window.snap-left,
+body.linux-mode .window.snap-right {
+  top: calc(38px + 8px) !important;
+  height: calc(100vh - 38px - 16px) !important;
+}
+body.linux-mode .window.maximized {
+  top: calc(38px + 8px) !important;
+  height: calc(100vh - 38px - 16px) !important;
 }

@@ -8,24 +8,42 @@
 <meta name="description" content="The quiet portfolio of Sina Rezaei (SRXL) — red team operator and malware developer. A desktop-in-the-browser: About, Path, Skills, a Python course, Notes, Gallery, Terminal.">
 <link rel="canonical" href="https://mr-srxl.github.io/">
 
+<!-- Apply saved settings before any CSS loads (prevents theme flash) -->
+<script>
+(function () {
+  try {
+    var s = JSON.parse(localStorage.getItem("srxl-settings") || "{}");
+    var h = document.documentElement;
+    if (s.accent && s.accent !== "default")   h.dataset.accent    = s.accent;
+    if (s.motion === "reduced")               h.dataset.motion    = "reduced";
+    if (s.wallpaper && s.wallpaper !== "auto") h.dataset.wallpaper = s.wallpaper;
+    if (s.termSize && s.termSize !== "medium") h.dataset.termSize  = s.termSize;
+  } catch (e) { /* ignore */ }
+})();
+</script>
+
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sina Rezaei — Red Team Operator &amp; Malware Developer">
 <meta property="og:description" content="A quiet corner of the internet. A desktop-in-the-browser by SRXL.">
 <meta property="og:url" content="https://mr-srxl.github.io/">
-<meta property="og:image" content="https://mr-srxl.github.io/pic/og-preview.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image" content="https://mr-srxl.github.io/pic/apple-touch-icon.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sina Rezaei — Red Team Operator &amp; Malware Developer">
 <meta name="twitter:description" content="A quiet corner of the internet.">
-<meta name="twitter:image" content="https://mr-srxl.github.io/pic/og-preview.png">
+<meta name="twitter:image" content="https://mr-srxl.github.io/pic/apple-touch-icon.png">
 
 <!-- Favicon -->
 <link rel="icon" href="pic/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="pic/apple-touch-icon.png">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SRXL OS">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,8 +51,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- Preload wallpaper (largest LCP element) -->
-<link rel="preload" as="image" href="pic/win_bag.jpg" type="image/jpeg">
+<!-- Preload wallpaper (WebP, largest LCP element) -->
+<link rel="preload" as="image" href="pic/win_bag.webp" type="image/webp">
 
 <!-- Styles -->
 <link rel="stylesheet" href="styles/01-tokens.css">
@@ -49,11 +67,15 @@
 <link rel="stylesheet" href="styles/10-taskbar.css">
 <link rel="stylesheet" href="styles/11-syntax.css">
 <link rel="stylesheet" href="styles/12-responsive.css">
+<link rel="stylesheet" href="styles/13-settings.css">
+<link rel="stylesheet" href="styles/14-learn.css">
+<link rel="stylesheet" href="styles/15-reading.css">
+<link rel="stylesheet" href="styles/16-headers.css">
 <link rel="stylesheet" href="styles/99-custom.css">
 
 <!-- Markdown parser -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
-<!-- HTML sanitizer (XSS protection for markdown) -->
+<!-- HTML sanitizer -->
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
 <!-- Syntax highlighting -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
@@ -67,23 +89,19 @@
   "alternateName": "SRXL",
   "jobTitle": "Red Team Operator & Malware Developer",
   "url": "https://mr-srxl.github.io/",
-  "image": "https://mr-srxl.github.io/pic/1.png",
+  "image": "https://mr-srxl.github.io/pic/1.webp",
   "sameAs": ["https://www.linkedin.com/in/sina-rezaei-srxl"]
 }
 </script>
 </head>
 <body>
 
-<!-- Skip link -->
 <a href="#desktop" class="skip-link">Skip to desktop</a>
 
-<!-- No-JS fallback -->
 <noscript>
   <div style="padding:48px 24px;max-width:640px;margin:0 auto;text-align:center;font-family:system-ui,-apple-system,sans-serif;color:#f0f4f8;background:#0a0e14;min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
     <h1 style="font-weight:300;font-size:2.2rem;letter-spacing:-.02em;margin:0 0 16px;">Sina Rezaei — SRXL</h1>
-    <p style="color:#8a98a8;line-height:1.7;margin:0 0 24px;">
-      Red Team Operator &amp; Malware Developer.
-    </p>
+    <p style="color:#8a98a8;line-height:1.7;margin:0 0 24px;">Red Team Operator &amp; Malware Developer.</p>
     <p style="color:#8a98a8;line-height:1.7;margin:0;">
       This site is an interactive desktop experience and needs JavaScript.
       You can still reach me on
@@ -137,9 +155,11 @@
     <button class="desk-icon" data-open="blog"><i class="fas fa-feather ic-notes"></i><span>Notes</span></button>
     <button class="desk-icon" data-open="gallery"><i class="fas fa-images ic-gallery"></i><span>Gallery</span></button>
     <button class="desk-icon" data-open="terminal"><i class="fas fa-terminal ic-term"></i><span>Terminal</span></button>
+    <button class="desk-icon" data-open="settings"><i class="fas fa-gear ic-settings"></i><span>Settings</span></button>
   </nav>
 
   <div id="windows-container"></div>
+  <div id="snap-preview" class="snap-preview" aria-hidden="true"></div>
 
   <div id="taskbar">
     <div class="taskbar-left"><span class="activities" role="button" tabindex="0">Activities</span></div>
@@ -167,6 +187,25 @@
     <div class="lb-caption" id="lb-caption"></div>
   </div>
 </div>
+
+<!-- Command palette -->
+<div id="cmd-palette" class="cmd-palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+  <div class="cmd-backdrop"></div>
+  <div class="cmd-panel">
+    <div class="cmd-input-wrap">
+      <i class="fas fa-magnifying-glass cmd-icon" aria-hidden="true"></i>
+      <input type="text" id="cmd-input" class="cmd-input"
+             placeholder="Search apps, notes, chapters…"
+             autocomplete="off" spellcheck="false"
+             role="combobox" aria-autocomplete="list" aria-controls="cmd-results" aria-expanded="true">
+      <kbd class="cmd-kbd">Esc</kbd>
+    </div>
+    <div class="cmd-results" id="cmd-results" role="listbox" aria-label="Results"></div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="false"></div>
 
 <script src="app.js" defer></script>
 </body>

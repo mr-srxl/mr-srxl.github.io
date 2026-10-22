@@ -4,11 +4,11 @@
 @media (max-width: 760px) {
   /* Portrait wallpapers on phones */
   #desktop {
-    background-image: url('../pic/linux_bag_mobile.jpg');
+    background-image: url('../pic/linux_bag_mobile.webp');
     background-position: center 25%;
   }
   body.linux-mode #desktop {
-    background-image: url('../pic/linux_bag_mobile.jpg');
+    background-image: url('../pic/linux_bag_mobile.webp');
     background-position: center 25%;
   }
 

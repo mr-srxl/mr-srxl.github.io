@@ -7,7 +7,7 @@
   position: relative;
   background-size: cover;
   background-position: center;
-  background-image: url('../pic/win_bag.jpg');
+  background-image: url('../pic/win_bag.webp');
   animation: deskIn 1.4s var(--ease-out) both;
 }
 #desktop.show { display: block; }
@@ -17,8 +17,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(140% 90% at 50% 0%, transparent 35%, rgba(8, 8, 12, .45) 100%),
-    linear-gradient(180deg, rgba(8, 8, 12, .30) 0%, rgba(8, 8, 12, .12) 45%, rgba(8, 8, 12, .5) 100%);
+    radial-gradient(140% 90% at 50% 0%, transparent 30%, rgba(6, 7, 12, .5) 100%),
+    radial-gradient(80% 60% at 50% 100%, transparent 40%, rgba(6, 7, 12, .35) 100%),
+    linear-gradient(180deg, rgba(6, 7, 12, .32) 0%, rgba(6, 7, 12, .08) 45%, rgba(6, 7, 12, .55) 100%);
   pointer-events: none;
   z-index: 1;
 }

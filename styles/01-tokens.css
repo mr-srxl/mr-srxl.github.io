@@ -1,45 +1,153 @@
 /* ============================================================
-   TOKENS — variables + reset
+   TOKENS — foundation: reset, colors, elevation, motion
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-  /* Twilight base */
-  --bg: #0a0e14;
-  --bg-2: #121826;
-  --panel: rgba(20, 20, 24, .88);
-  --panel-solid: #141418;
+  /* ========== Backgrounds — warm charcoal ========== */
+  --bg-deep:    #08070a;
+  --bg:         #0c0b0f;
+  --bg-2:       #110f14;
 
-  /* Lines */
-  --stroke: rgba(255, 255, 255, .085);
-  --stroke-strong: rgba(255, 255, 255, .18);
+  /* ========== Surfaces / elevation ========== */
+  --panel:        rgba(18, 16, 21, .9);
+  --panel-solid:  #131015;
+  --surface-2:    rgba(23, 20, 27, .92);
+  --surface-3:    rgba(29, 25, 33, .94);
 
-  /* Text */
-  --text: #f0f4f8;
-  --text-soft: #ccd5e0;
-  --muted: #8a98a8;
-  --dim: #5f6b78;
+  /* ========== Strokes ========== */
+  --stroke:        rgba(255, 255, 255, .07);
+  --stroke-strong: rgba(255, 255, 255, .14);
 
-  /* Palette — matched to the meadow wallpapers */
-  --accent: #4a7ec0;
-  --accent-hi: #7aa8dd;
-  --accent-2: #b08fd8;
-  --accent-3: #8bc47a;
-  --accent-warm: #f5c95c;
-  --accent-pink: #f0a8d0;
+  /* ========== Text / ink hierarchy — warm cream ========== */
+  --text:      #f6f1e9;
+  --text-soft: #ccc3b8;
+  --muted:     #96918a;
+  --dim:       #605c58;
 
-  /* Effects */
+  /* ========== Accents — Ember Dusk palette ========== */
+  --accent:        #6a90d6;
+  --accent-hi:     #93b2e6;
+  --accent-lo:     #4868a8;
+  --accent-glow:   rgba(106, 144, 214, .45);
+  --accent-ink:    #d0e0f5;
+
+  --accent-2:      #a888cc;
+  --accent-2-hi:   #c4a8e8;
+  --accent-2-glow: rgba(168, 136, 204, .45);
+
+  --accent-3:      #8fb66a;
+  --accent-3-hi:   #afd18c;
+  --accent-3-glow: rgba(143, 182, 106, .42);
+
+  --accent-warm:      #e8b44a;
+  --accent-warm-hi:   #f7cc68;
+  --accent-warm-glow: rgba(232, 180, 74, .48);
+
+  --accent-pink:      #e39cb5;
+  --accent-pink-hi:   #f2b8ca;
+  --accent-pink-glow: rgba(227, 156, 181, .42);
+
+  /* Semantic */
+  --success: #8fb66a;
+  --warning: #e8b44a;
+  --error:   #e26c6c;
+  --info:    #6a90d6;
+
+  /* ========== Reading surface — warm paper ==========
+     Applied by .window--reading (all apps except terminal).
+     Warmer and slightly lighter than --bg, so windows read as
+     "pages" on the ember-dusk desk. */
+  --bg-reading:              #1a1612;
+  --text-reading:            #e8e1d5;
+  --text-reading-strong:     #f7f2e8;
+  --text-reading-muted:      #a8a294;
+  --text-reading-dim:        #756f63;
+  --stroke-reading:          rgba(255, 240, 220, .08);
+  --stroke-reading-strong:   rgba(255, 240, 220, .14);
+  --code-bg-reading:         #13100c;
+  --code-text-reading:       #ddd4c6;
+  --code-border-reading:     rgba(255, 240, 220, .08);
+  --inline-code-bg:          rgba(106, 144, 214, .12);
+  --inline-code-text:        #a4bfe6;
+  --inline-code-border:      rgba(106, 144, 214, .24);
+
+  /* ========== Shadows ========== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-sm: 0 2px 6px -1px rgba(0, 0, 0, .4),
+               0 1px 2px rgba(0, 0, 0, .3);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, .55),
+               0 2px 6px -2px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, .75),
+               0 8px 20px -8px rgba(0, 0, 0, .5);
+  --shadow-xl: 0 40px 100px -30px rgba(0, 0, 0, .9),
+               0 12px 32px -12px rgba(0, 0, 0, .6);
+
   --shadow-window:
-    0 40px 90px -30px rgba(0,0,0,.95),
-    0 12px 32px -12px rgba(0,0,0,.75),
-    0 0 0 1px rgba(255,255,255,.05);
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 1px 0 rgba(255, 255, 255, .06) inset,
+    0 40px 100px -30px rgba(0, 0, 0, .9),
+    0 12px 32px -12px rgba(0, 0, 0, .6),
+    0 0 0 1px rgba(0, 0, 0, .55);
 
-  /* Layout */
-  --bar-h: 52px;
-  --radius: 16px;
+  --shadow-window-focus:
+    0 0 0 1px rgba(106, 144, 214, .18) inset,
+    0 1px 0 rgba(255, 255, 255, .08) inset,
+    0 40px 100px -30px rgba(0, 0, 0, .95),
+    0 12px 32px -12px rgba(0, 0, 0, .65),
+    0 0 0 1px rgba(106, 144, 214, .22),
+    0 0 60px -12px rgba(106, 144, 214, .28);
+
+  /* ========== Reusable gradients ========== */
+  --grad-panel:     linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,.01) 100%);
+  --grad-button:    linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 100%);
+  --grad-accent:    linear-gradient(180deg, rgba(106,144,214,.20) 0%, rgba(106,144,214,.06) 100%);
+  --grad-accent-hi: linear-gradient(180deg, rgba(106,144,214,.30) 0%, rgba(106,144,214,.12) 100%);
+  --grad-warm:      linear-gradient(180deg, rgba(232,180,74,.18) 0%, rgba(232,180,74,.04) 100%);
+  --grad-highlight: linear-gradient(90deg, transparent, rgba(232,180,74,.7), transparent);
+  --grad-text:      linear-gradient(120deg,
+                      #f6f1e9 0%,
+                      #93b2e6 35%,
+                      #c4a8e8 65%,
+                      #f7cc68 100%);
+
+  /* ========== Radii ========== */
+  --radius-xs: 6px;
   --radius-sm: 10px;
-  --ease: cubic-bezier(.22, .8, .25, 1);
-  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --radius: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ========== Spacing ========== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* ========== Type scale ========== */
+  --text-xs:   .68rem;
+  --text-sm:   .78rem;
+  --text-base: .88rem;
+  --text-md:   .98rem;
+  --text-lg:   1.1rem;
+  --text-xl:   1.4rem;
+  --text-2xl:  1.9rem;
+  --text-3xl:  2.4rem;
+
+  /* ========== Motion ========== */
+  --ease:        cubic-bezier(.22, .8, .25, 1);
+  --ease-out:    cubic-bezier(.16, 1, .3, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-fast:    .15s;
+  --dur:         .25s;
+  --dur-slow:    .45s;
+
+  /* ========== Layout ========== */
+  --bar-h: 52px;
 }
 
 html, body { height: 100%; }
@@ -60,15 +168,14 @@ body {
 img { max-width: 100%; display: block; }
 button { font: inherit; color: inherit; }
 
-::selection { background: rgba(74, 126, 192, .35); color: #fff; }
+::selection { background: rgba(106, 144, 214, .40); color: #fff; }
 
 :focus-visible {
-  outline: 2px solid rgba(74, 126, 192, .8);
+  outline: 2px solid var(--accent-hi);
   outline-offset: 3px;
-  border-radius: 8px;
+  box-shadow: 0 0 0 6px rgba(106, 144, 214, .15);
 }
 
-/* Screen shell (boot + loading use this) */
 .screen {
   position: fixed;
   inset: 0;
@@ -80,7 +187,6 @@ button { font: inherit; color: inherit; }
   transform: scale(1.02);
 }
 
-/* Skip link — visible only when focused */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -99,4 +205,68 @@ button { font: inherit; color: inherit; }
   left: 8px;
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(106, 144, 214, .18);
 }
+
+/* ============================================================
+   THEME VARIANTS
+   ============================================================ */
+[data-accent="meadow"] {
+  --accent:        #8fb66a;
+  --accent-hi:     #afd18c;
+  --accent-lo:     #6a9444;
+  --accent-glow:   rgba(143, 182, 106, .45);
+  --accent-ink:    #d8efc4;
+}
+[data-accent="honey"] {
+  --accent:        #e8b44a;
+  --accent-hi:     #f7cc68;
+  --accent-lo:     #b8872a;
+  --accent-glow:   rgba(232, 180, 74, .45);
+  --accent-ink:    #fbe5b8;
+}
+[data-accent="lavender"] {
+  --accent:        #a888cc;
+  --accent-hi:     #c4a8e8;
+  --accent-lo:     #8266a5;
+  --accent-glow:   rgba(168, 136, 204, .45);
+  --accent-ink:    #e8dcf5;
+}
+[data-accent="rose"] {
+  --accent:        #e39cb5;
+  --accent-hi:     #f2b8ca;
+  --accent-lo:     #b97090;
+  --accent-glow:   rgba(227, 156, 181, .45);
+  --accent-ink:    #fbe2eb;
+}
+
+/* ============================================================
+   MOTION OVERRIDE
+   ============================================================ */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+}
+
+/* ============================================================
+   WALLPAPER OVERRIDE
+   ============================================================ */
+[data-wallpaper="win"] #desktop {
+  background-image: url('../pic/win_bag.webp') !important;
+}
+[data-wallpaper="linux"] #desktop {
+  background-image: url('../pic/linux_bag.webp') !important;
+}
+[data-wallpaper="none"] #desktop {
+  background-image: none !important;
+  background-color: var(--bg-deep);
+}
+
+/* ============================================================
+   TERMINAL FONT SIZE
+   ============================================================ */
+[data-term-size="small"]  .terminal { font-size: .78rem; }
+[data-term-size="large"]  .terminal { font-size: .92rem; }

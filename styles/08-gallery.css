@@ -66,10 +66,11 @@
 }
 .shot:hover {
   transform: translateY(-5px) scale(1.015);
-  border-color: rgba(74,126,192,.6);
+  border-color: rgba(91, 141, 217, .65);
   box-shadow:
-    0 22px 44px -20px rgba(0,0,0,.95),
-    0 0 0 1px rgba(74,126,192,.18);
+    0 22px 44px -20px rgba(0, 0, 0, .95),
+    0 0 0 1px rgba(91, 141, 217, .22),
+    0 0 32px -8px rgba(91, 141, 217, .28);
 }
 .shot:hover::after { opacity: 1; }
 .shot:hover .zoom-hint { opacity: 1; transform: scale(1) translateY(0); }

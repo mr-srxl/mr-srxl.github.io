@@ -183,7 +183,7 @@
    LINUX MODE overrides
    ============================================================ */
 body.linux-mode #desktop {
-  background-image: url('../pic/linux_bag.jpg');
+  background-image: url('../pic/linux_bag.webp');
 }
 body.linux-mode #taskbar {
   top: 0;
