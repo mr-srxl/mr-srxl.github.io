@@ -43,8 +43,6 @@
   });
 
   function startLoading(os) {
-    try { sessionStorage.setItem("srxl-os", os); } catch (e) { /* storage may be blocked */ }
-
     bootScreen.classList.add("hide");
     setTimeout(function () {
       loadingScreen.classList.add("show");
@@ -127,7 +125,6 @@
     winHost.appendChild(win);
     openApps.set(id, win);
 
-    // Update URL hash for deep linking
     if (location.hash !== "#app/" + id) {
       history.replaceState(null, "", "#app/" + id);
     }
@@ -153,8 +150,6 @@
     makeDraggable(win, win.querySelector("[data-drag]"));
     addTaskItem(id, { title: title, icon: meta.icon });
     focusApp(id);
-
-    // Move keyboard focus into the window
     win.focus();
   }
 
@@ -433,7 +428,6 @@
     }
   }
 
-  /* Markdown render with DOMPurify sanitization (XSS-safe) */
   function renderMarkdown(md) {
     if (window.marked && typeof window.marked.parse === "function") {
       try {
@@ -475,7 +469,6 @@
 
       const remaining = Array.from(openApps.keys());
       if (remaining.length) {
-        // Pick the window with the highest z-index
         const topId = remaining.reduce(function (a, b) {
           const az = parseInt(openApps.get(a).style.zIndex, 10) || 0;
           const bz = parseInt(openApps.get(b).style.zIndex, 10) || 0;
@@ -599,28 +592,21 @@
       }
     };
 
-    function buildInputLine() {
-      const line = document.createElement("div");
-      line.className = "terminal-line";
-      const p = document.createElement("span");
-      p.className = "prompt";
-      p.textContent = prompt;
-      const input = document.createElement("input");
-      input.className = "terminal-input";
-      input.type = "text";
-      input.setAttribute("aria-label", "Terminal input");
-      input.spellcheck = false;
-      input.autocomplete = "off";
-      input.autocapitalize = "off";
-      line.appendChild(p);
-      line.appendChild(document.createTextNode(" "));
-      line.appendChild(input);
-      return { line: line, input: input };
-    }
-
-    const io = buildInputLine();
-    const inputLine = io.line;
-    const input = io.input;
+    const inputLine = document.createElement("div");
+    inputLine.className = "terminal-line";
+    const promptSpan = document.createElement("span");
+    promptSpan.className = "prompt";
+    promptSpan.textContent = prompt;
+    const input = document.createElement("input");
+    input.className = "terminal-input";
+    input.type = "text";
+    input.setAttribute("aria-label", "Terminal input");
+    input.spellcheck = false;
+    input.autocomplete = "off";
+    input.autocapitalize = "off";
+    inputLine.appendChild(promptSpan);
+    inputLine.appendChild(document.createTextNode(" "));
+    inputLine.appendChild(input);
     host.appendChild(inputLine);
     host.setAttribute("role", "log");
     host.setAttribute("aria-live", "polite");
@@ -674,7 +660,6 @@
       scrollBottom();
     });
 
-    // Focus after the window animation settles
     setTimeout(function () { input.focus(); }, 120);
   }
 
@@ -785,7 +770,6 @@
     if (e.key === "ArrowLeft") { e.preventDefault(); prevLb(); }
   });
 
-  // Focus trap inside lightbox
   lightbox.addEventListener("keydown", function (e) {
     if (e.key !== "Tab") return;
     const focusables = lightbox.querySelectorAll(
@@ -801,7 +785,6 @@
     }
   });
 
-  // Enter/Space opens focused gallery shots
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Enter" && e.key !== " ") return;
     const shot = document.activeElement && document.activeElement.closest
@@ -812,14 +795,12 @@
     shot.click();
   });
 
-  // Escape / Ctrl+W closes the topmost window (when lightbox is not open)
   document.addEventListener("keydown", function (e) {
     if (!lightbox.hidden) return;
     if (!activeAppId) return;
     const isEscape = e.key === "Escape";
     const isCtrlW  = e.ctrlKey && (e.key === "w" || e.key === "W");
     if (isEscape || isCtrlW) {
-      // Don't hijack Escape inside inputs inside the terminal
       const inTerminalInput = document.activeElement &&
         document.activeElement.classList &&
         document.activeElement.classList.contains("terminal-input");
@@ -886,7 +867,6 @@
     switchBtn.innerHTML = '<i class="fas fa-rotate"></i><span>Switch OS</span>';
     switchBtn.addEventListener("click", function (ev) {
       ev.stopPropagation();
-      try { sessionStorage.removeItem("srxl-os"); } catch (err) { /* ignore */ }
       location.reload();
     });
     startMenuEl.appendChild(switchBtn);
@@ -953,14 +933,4 @@
     }
   });
   observer.observe(desk, { attributes: true, attributeFilter: ["class"] });
-
-  /* ============================================================
-     SAVED-OS SKIP
-     ============================================================ */
-  let savedOS = null;
-  try { savedOS = sessionStorage.getItem("srxl-os"); } catch (e) { /* ignore */ }
-  if (savedOS === "windows" || savedOS === "linux") {
-    bootScreen.style.display = "none";
-    startLoading(savedOS);
-  }
 })();
