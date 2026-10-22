@@ -18,6 +18,11 @@
     if (s.motion === "reduced")               h.dataset.motion    = "reduced";
     if (s.wallpaper && s.wallpaper !== "auto") h.dataset.wallpaper = s.wallpaper;
     if (s.termSize && s.termSize !== "medium") h.dataset.termSize  = s.termSize;
+    var themeVal = s.theme || "auto";
+    var resolvedTheme = (themeVal === "light" || themeVal === "dark")
+      ? themeVal
+      : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    if (resolvedTheme === "light") h.dataset.theme = "light";
   } catch (e) { /* ignore */ }
 })();
 </script>
@@ -71,6 +76,7 @@
 <link rel="stylesheet" href="styles/14-learn.css">
 <link rel="stylesheet" href="styles/15-reading.css">
 <link rel="stylesheet" href="styles/16-headers.css">
+<link rel="stylesheet" href="styles/17-light-theme.css">
 <link rel="stylesheet" href="styles/99-custom.css">
 
 <!-- Markdown parser -->

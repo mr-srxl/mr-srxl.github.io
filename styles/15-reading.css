@@ -1,4 +1,6 @@
-
+/* ============================================================
+   READING MODE — warm paper, centered column, book sidebar
+   ============================================================ */
 
 /* ---- Base surface ---- */
 .window--reading .window-body {
@@ -8,52 +10,7 @@
   line-height: 1.85;
 }
 
-/* ============================================================
-   HEADINGS — restored visual hierarchy on warm paper
-   Each level keeps its original identity from 05-doc.css,
-   translated to colors that read on the warm reading surface.
-   ============================================================ */
-
-/* H1 — title weight via size + brightest tone */
-.window--reading .window-body .doc h1,
-.window--reading .window-body .blog-post h1 {
-  color: var(--text-reading-strong);
-}
-
-/* Doc H2 — small uppercase section labels, ACCENT-COLORED (restored).
-   These are the .doc h2 rules from 05-doc.css, rebuilt for warmth. */
-.window--reading .window-body .doc h2 {
-  color: var(--accent-hi);
-}
-.window--reading .window-body .doc h2::after {
-  background: linear-gradient(
-    90deg,
-    rgba(147, 178, 230, .5) 0%,
-    transparent 100%
-  );
-}
-
-/* Doc H3 — sub-headings, bright warm cream */
-.window--reading .window-body .doc h3 {
-  color: var(--text-reading-strong);
-}
-
-/* Blog H2 — big numbered section breaks, bright warm cream */
-.window--reading .window-body .blog-post h2 {
-  color: var(--text-reading-strong);
-}
-
-/* Blog H3 — subsections, bright warm cream (smaller size carries hierarchy) */
-.window--reading .window-body .blog-post h3 {
-  color: var(--text-reading-strong);
-}
-
-/* Any residual headings get the strong tone by default */
-.window--reading .window-body h4 {
-  color: var(--text-reading-strong);
-}
-
-/* ---- Body text and emphasis ---- */
+/* ---- Body text ---- */
 .window--reading .window-body strong {
   color: var(--text-reading-strong);
 }
@@ -67,7 +24,7 @@
   color: var(--text-reading-muted);
 }
 
-/* ---- Subheads, meta, muted text ---- */
+/* ---- Subheads / meta ---- */
 .window--reading .window-body .doc-sub,
 .window--reading .window-body .blog-card-meta,
 .window--reading .window-body .post-header .post-date,
@@ -75,7 +32,7 @@
   color: var(--text-reading-muted);
 }
 
-/* ---- Hairlines / borders ---- */
+/* ---- Hairlines ---- */
 .window--reading .window-body .doc-head {
   border-bottom-color: var(--stroke-reading);
 }
@@ -93,67 +50,53 @@
   border-top-color: var(--stroke-reading);
 }
 
-/* ---- Blog paragraph breathing room ---- */
-.window--reading .window-body .blog-post p {
-  margin: 0 0 20px;
-}
-
-/* ============================================================
-   INLINE CODE — paragraphs, lists, tables
-   Broad rule; will be overridden for block code below.
-   ============================================================ */
+/* ---- Inline code ---- */
 .window--reading .window-body .doc code,
 .window--reading .window-body .blog-post code {
   background: var(--inline-code-bg);
-  border-color: var(--inline-code-border);
+  border: 1px solid var(--inline-code-border);
   color: var(--inline-code-text);
   padding: 1px 6px;
   border-radius: 5px;
   font-size: .86em;
 }
 
-/* ============================================================
-   BLOCK CODE — restore the reset from 11-syntax.css
-   Higher specificity so it beats the inline rule above.
-   ============================================================ */
+/* ---- Block code reset (overrides inline) ---- */
 .window--reading .window-body .code pre code,
 .window--reading .window-body .blog-post pre code {
-  background: none;
-  border: none;
-  padding: 0;
-  border-radius: 0;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
   color: inherit;
   font-size: inherit;
 }
 
-/* ---- Code block containers — warm not cool ---- */
+/* ---- Block code containers — high contrast ---- */
 .window--reading .window-body .code {
-  background: var(--code-bg-reading);
-  border-color: var(--code-border-reading);
+  background: #0d0b08 !important;
+  border: 1px solid rgba(255, 240, 220, .12) !important;
+  border-radius: 10px;
+  margin: 1.5em 0;
 }
 .window--reading .window-body .code::before {
   background: rgba(255, 240, 220, .03);
-  border-bottom-color: var(--code-border-reading);
+  border-bottom: 1px solid rgba(255, 240, 220, .1);
   color: var(--text-reading-muted);
 }
 .window--reading .window-body .code pre {
+  padding: 1.2em 1.5em;
   color: var(--code-text-reading);
 }
 .window--reading .window-body .blog-post pre {
-  background: var(--code-bg-reading);
-  border-color: var(--code-border-reading);
+  background: #0d0b08;
+  border: 1px solid rgba(255, 240, 220, .12);
+  border-radius: 10px;
+  padding: 1.2em 1.5em;
   color: var(--code-text-reading);
 }
-.window--reading .window-body .blog-post pre code {
-  background: none;
-  border: none;
-  color: inherit;
-  font-size: inherit;
-}
 
-/* Base text color inside highlight.js blocks — the syntax
-   token colors still apply via .hljs-* selectors in 11-syntax.css.
-   This only sets the fallback for unstyled tokens and whitespace. */
+/* ---- hljs base text ---- */
 .window--reading .hljs {
   color: var(--code-text-reading);
   background: transparent;
@@ -161,7 +104,7 @@
 
 /* ---- Editable code (Python course) ---- */
 .window--reading .code-editable {
-  background: #12100c;
+  background: #12100c !important;
   border-color: var(--code-border-reading);
 }
 .window--reading .code-editable:hover {
@@ -170,14 +113,9 @@
 .window--reading .code-editable:focus-within {
   border-color: rgba(106, 144, 214, .55);
 }
-
-/* The highlighted <pre> MUST keep its original padding (16px 20px)
-   so its text lands exactly where the textarea's text lands.
-   Only the inner <code> gets a padding reset. */
 .window--reading .code-editable .code-highlight {
   color: var(--code-text-reading);
   background: transparent;
-  /* do NOT touch padding here */
 }
 .window--reading .code-editable .code-highlight code {
   color: var(--code-text-reading);
@@ -190,7 +128,7 @@
   border-bottom-color: var(--code-border-reading);
 }
 
-/* ---- Blockquotes ---- */
+/* ---- Blockquote ---- */
 .window--reading .window-body .blog-post blockquote {
   background: rgba(232, 180, 74, .06);
   border-left-color: var(--accent-warm);
@@ -226,14 +164,14 @@
   border-color: rgba(106, 144, 214, .4);
 }
 
-/* ---- Roadmap node shadow — warm seat ---- */
+/* ---- Roadmap node shadow ---- */
 .window--reading .window-body .roadmap > li::before {
   box-shadow:
     0 0 0 6px rgba(26, 22, 18, .96),
     0 0 18px -4px rgba(106, 144, 214, .5);
 }
 
-/* ---- Settings sections ---- */
+/* ---- Settings ---- */
 .window--reading .window-body .settings-control {
   background: rgba(255, 240, 220, .04);
   border-color: var(--stroke-reading);
@@ -246,7 +184,7 @@
   color: #f0e0b8;
 }
 
-/* ---- Pyodide output panel ---- */
+/* ---- Pyodide output ---- */
 .window--reading .window-body .learn-output {
   background: rgba(14, 11, 8, .9);
   border-top-color: rgba(143, 182, 106, .3);
@@ -258,7 +196,151 @@
   color: #f0c8c8;
 }
 
-/* ---- Small-screen refinement ---- */
+/* ============================================================
+   CENTERED READING COLUMN — the "book" measure
+   ============================================================ */
+.window--reading .window-body .blog-post,
+.window--reading .window-body .python-doc {
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   TYPOGRAPHIC RHYTHM — space between sections
+   ============================================================ */
+.window--reading .window-body .blog-post h2,
+.window--reading .window-body .python-doc h2 {
+  margin-top: 2.2em;
+  margin-bottom: .7em;
+}
+.window--reading .window-body .blog-post h3,
+.window--reading .window-body .python-doc h3 {
+  margin-top: 1.8em;
+  margin-bottom: .5em;
+}
+.window--reading .window-body .blog-post p,
+.window--reading .window-body .python-doc p {
+  margin-bottom: 1.15em;
+}
+
+/* ============================================================
+   BOOK LAYOUT — auto-generated sidebar (via app.js)
+   ============================================================ */
+.window--reading .window-body .doc-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.window--reading .window-body .doc-content {
+  min-width: 0;
+}
+.window--reading .window-body .doc-content > .blog-post,
+.window--reading .window-body .doc-content > .python-doc {
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Sidebar */
+.window--reading .window-body .doc-sidebar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 4px 0;
+  font-size: .82rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 240, 220, .15) transparent;
+}
+.window--reading .window-body .doc-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.window--reading .window-body .doc-sidebar-title {
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-reading-muted);
+}
+.window--reading .window-body .doc-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--stroke-reading);
+}
+.window--reading .window-body .doc-sidebar-link {
+  display: block;
+  padding: 6px 0 6px 14px;
+  margin-left: -2px;
+  font-size: .82rem;
+  line-height: 1.4;
+  color: var(--text-reading-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+  cursor: pointer;
+}
+.window--reading .window-body .doc-sidebar-link:hover {
+  color: var(--text-reading-strong);
+  border-left-color: rgba(147, 178, 230, .45);
+}
+.window--reading .window-body .doc-sidebar-link.active {
+  color: #93b2e6;
+  border-left-color: #93b2e6;
+  font-weight: 500;
+}
+.window--reading .window-body .doc-sidebar-link.is-h3 {
+  padding-left: 26px;
+  font-size: .78rem;
+  opacity: .85;
+}
+.window--reading .window-body .doc-sidebar-link.is-h3.active {
+  opacity: 1;
+}
+
+/* Back link relocated to sidebar */
+.window--reading .window-body .doc-sidebar .blog-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 0 0 16px;
+  padding: 6px 10px;
+  font-size: .78rem;
+  border-radius: 6px;
+  background: rgba(255, 240, 220, .04);
+  border: 1px solid var(--stroke-reading);
+  color: var(--text-reading-muted);
+  text-decoration: none;
+}
+.window--reading .window-body .doc-sidebar .blog-back:hover {
+  color: var(--text-reading-strong);
+  border-color: rgba(147, 178, 230, .4);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .window--reading .window-body .doc-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .window--reading .window-body .doc-sidebar {
+    display: none;
+  }
+  .window--reading .window-body .blog-post,
+  .window--reading .window-body .python-doc {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 760px) {
   .window--reading .window-body {
     font-size: .92rem;

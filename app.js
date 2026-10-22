@@ -25,8 +25,14 @@
      SETTINGS
      ============================================================ */
   const SETTINGS_DEFAULTS = {
-    accent: "default", motion: "full", wallpaper: "auto", termSize: "medium"
+    accent: "default", motion: "full", wallpaper: "auto", termSize: "medium",
+    theme: "auto"
   };
+
+  function resolveTheme(value) {
+    if (value === "light" || value === "dark") return value;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
 
   function loadSettings() {
     try {
@@ -54,6 +60,9 @@
     } else if (key === "termSize") {
       if (value === "medium") delete html.dataset.termSize;
       else html.dataset.termSize = value;
+    } else if (key === "theme") {
+      if (resolveTheme(value) === "light") html.dataset.theme = "light";
+      else delete html.dataset.theme;
     }
   }
 
@@ -135,11 +144,8 @@
     const win = document.createElement("div");
     win.className = "window";
     win.dataset.app = id;
-
-    // Reading surface for all apps except the terminal
     if (id !== "terminal") win.classList.add("window--reading");
 
-    win.setAttribute("tabindex", "-1");
     win.setAttribute("tabindex", "-1");
     win.setAttribute("role", "dialog");
     win.setAttribute("aria-label", title);
@@ -227,6 +233,7 @@
     initBlog(root);
     initSettings(root);
     initPyodide(root, url);
+    initBookLayout(root);
   }
 
   function wireInternalLinks(root, url) {
@@ -266,11 +273,10 @@
   }
 
   /* ============================================================
-     COPY BUTTONS (read-only blocks only)
+     COPY BUTTONS
      ============================================================ */
   function injectCopyButtons(root) {
     root.querySelectorAll(".code").forEach(function (block) {
-      // Python blocks are handled by the editable code editor
       if (block.dataset.lang === "python") return;
       if (block.querySelector(".code-copy")) return;
 
@@ -458,6 +464,7 @@
       body.insertBefore(back, body.firstChild);
       highlightAllCode(body);
       injectCopyButtons(body);
+      initBookLayout(body);
     } catch (err) {
       body.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">Could not load note: ' + err.message + '</p>';
     }
@@ -485,6 +492,122 @@
     return String(s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
+  }
+
+  function slugify(text) {
+    return String(text)
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'section';
+  }
+
+  /* ============================================================
+     BOOK LAYOUT — auto-generated sidebar from headings
+     ============================================================ */
+  function initBookLayout(root) {
+    const contentEl = root.querySelector(".blog-post, .python-doc");
+    if (!contentEl) return;
+    if (contentEl.dataset.bookLayout === "done") return;
+
+    const headings = contentEl.querySelectorAll("h2, h3");
+    if (headings.length < 3) return;
+
+    contentEl.dataset.bookLayout = "done";
+
+    // Assign IDs to every heading
+    const usedIds = new Set();
+    const items = [];
+    headings.forEach(function (h) {
+      let id = h.id;
+      if (!id) {
+        const base = "sec-" + slugify(h.textContent);
+        id = base;
+        let counter = 1;
+        while (usedIds.has(id) || document.getElementById(id)) {
+          id = base + "-" + (++counter);
+        }
+        h.id = id;
+      }
+      usedIds.add(id);
+      items.push({
+        id: id,
+        text: h.textContent,
+        level: h.tagName === "H2" ? 2 : 3
+      });
+    });
+
+    // Build sidebar
+    const sidebar = document.createElement("aside");
+    sidebar.className = "doc-sidebar";
+    sidebar.setAttribute("aria-label", "Table of contents");
+    sidebar.innerHTML =
+      '<div class="doc-sidebar-inner">' +
+        '<h4 class="doc-sidebar-title">On this page</h4>' +
+        '<nav class="doc-sidebar-nav">' +
+          items.map(function (item) {
+            return '<a href="#' + item.id + '" class="doc-sidebar-link' +
+              (item.level === 3 ? " is-h3" : "") +
+              '" data-target="' + item.id + '">' +
+              escapeHtml(item.text) +
+            '</a>';
+          }).join("") +
+        '</nav>' +
+      '</div>';
+
+    // Wrap content in layout
+    const parent = contentEl.parentNode;
+    const layout = document.createElement("div");
+    layout.className = "doc-layout";
+    parent.insertBefore(layout, contentEl);
+    layout.appendChild(sidebar);
+
+    const contentWrap = document.createElement("div");
+    contentWrap.className = "doc-content";
+    layout.appendChild(contentWrap);
+    contentWrap.appendChild(contentEl);
+
+    // If there's a back link as direct child of body, move it into sidebar
+    const backLink = root.querySelector(":scope > .blog-back");
+    if (backLink) {
+      const inner = sidebar.querySelector(".doc-sidebar-inner");
+      if (inner) inner.insertBefore(backLink, inner.firstChild);
+    }
+
+    // Sidebar click → smooth scroll
+    sidebar.addEventListener("click", function (e) {
+      const link = e.target.closest(".doc-sidebar-link");
+      if (!link) return;
+      e.preventDefault();
+      const target = document.getElementById(link.dataset.target);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", "#" + link.dataset.target);
+      }
+    });
+
+    // Scroll spy
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          sidebar.querySelectorAll(".doc-sidebar-link").forEach(function (link) {
+            link.classList.toggle("active", link.dataset.target === id);
+          });
+        }
+      });
+    }, {
+      root: root,
+      rootMargin: "-60px 0px -60% 0px",
+      threshold: 0
+    });
+
+    headings.forEach(function (h) { observer.observe(h); });
+
+    const firstLink = sidebar.querySelector(".doc-sidebar-link");
+    if (firstLink) firstLink.classList.add("active");
   }
 
   /* ============================================================
@@ -607,7 +730,6 @@
     }
   }
 
-  /* Turn a .code[data-lang=python] block into an editable editor. */
   function makeEditable(block, initialCode, opts) {
     opts = opts || {};
     if (block.dataset.editorDone === "1") return;
@@ -620,7 +742,6 @@
 
     block.innerHTML = "";
 
-    // Header
     const header = document.createElement("div");
     header.className = "code-header";
     header.innerHTML =
@@ -638,7 +759,6 @@
       '</div>';
     block.appendChild(header);
 
-    // Body — overlay stack
     const bodyEl = document.createElement("div");
     bodyEl.className = "code-body";
     bodyEl.innerHTML =
@@ -652,7 +772,6 @@
     const textarea = bodyEl.querySelector(".code-input");
     const codeEl   = bodyEl.querySelector(".code-highlight code");
 
-    // Output panel
     const output = document.createElement("div");
     output.className = "learn-output";
     output.hidden = true;
@@ -665,8 +784,6 @@
     const copyBtn  = header.querySelector(".code-copy");
     const resetBtn = header.querySelector(".code-reset");
 
-    // Highlight routine — uses the low-level API so re-highlighting
-    // works after every keystroke (highlightElement caches).
     function highlight() {
       const text = textarea.value;
       if (window.hljs) {
@@ -677,29 +794,25 @@
           });
           codeEl.innerHTML = result.value;
           return;
-        } catch (e) { /* fall through to plain text */ }
+        } catch (e) {}
       }
       codeEl.textContent = text;
     }
 
-    // Auto-resize routine
     function autosize() {
       textarea.style.height = "0px";
       textarea.style.height = textarea.scrollHeight + "px";
     }
 
-    // Save state
     function save() {
       if (!storageKey) return;
       try { sessionStorage.setItem(storageKey, textarea.value); } catch (e) {}
     }
 
-    // Init
     textarea.value = code;
     highlight();
     autosize();
 
-    // Input — rehighlight + resize + save
     textarea.addEventListener("input", function () {
       highlight();
       autosize();
@@ -707,7 +820,6 @@
       block.classList.remove("has-success", "has-error");
     });
 
-    // Tab inserts 4 spaces
     textarea.addEventListener("keydown", function (e) {
       if (e.key === "Tab") {
         e.preventDefault();
@@ -718,7 +830,6 @@
         textarea.dispatchEvent(new Event("input"));
         return;
       }
-      // Auto-indent on Enter (after ":" add 4 spaces)
       if (e.key === "Enter") {
         const s = textarea.selectionStart;
         const before = textarea.value.substring(0, s);
@@ -737,14 +848,12 @@
       }
     });
 
-    // Run
     runBtn.addEventListener("click", async function (e) {
       e.stopPropagation();
       runBtn.disabled = true;
       runBtn.classList.add("loading");
       runBtn.classList.remove("success", "error");
       runBtn.innerHTML = '<i class="fas fa-circle-notch"></i> <span class="btn-label">Loading</span>';
-
       block.classList.remove("has-success", "has-error");
 
       const result = await runPython(textarea.value, output, runBtn);
@@ -771,7 +880,6 @@
       runBtn.disabled = false;
     });
 
-    // Copy — copies current textarea value
     copyBtn.addEventListener("click", async function (e) {
       e.stopPropagation();
       const ok = await copyToClipboard(textarea.value);
@@ -785,7 +893,6 @@
       }
     });
 
-    // Reset — restores original, updates highlight + size
     resetBtn.addEventListener("click", function (e) {
       e.stopPropagation();
       textarea.value = initialCode;
@@ -797,7 +904,6 @@
     });
   }
 
-  /* Inject a Playground at the bottom of every Python course page. */
   function injectPlayground(root, url) {
     const doc = root.querySelector(".python-doc");
     if (!doc) return;
@@ -832,9 +938,7 @@
     const hasPyCourse = root.querySelector(".python-doc");
     if (!hasPyCourse) return;
 
-    // Turn each Python code block into an editor
     root.querySelectorAll('.code[data-lang="python"]:not([data-editor-done])').forEach(function (block, index) {
-      // Skip if it's the playground block (handled separately)
       if (block.closest(".playground")) return;
       const pre = block.querySelector("pre");
       if (!pre) return;
@@ -843,7 +947,6 @@
       makeEditable(block, initial, { storageKey: storageKey });
     });
 
-    // Then add the playground at the bottom of the doc
     injectPlayground(root, url);
   }
 
@@ -1241,7 +1344,6 @@
     const isEscape = e.key === "Escape";
     const isCtrlW  = e.ctrlKey && (e.key === "w" || e.key === "W");
     if (isEscape || isCtrlW) {
-      // Don't close the window if focus is inside any editable element
       const el = document.activeElement;
       const inEditable = el && (
         el.tagName === "INPUT" ||

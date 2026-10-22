@@ -54,10 +54,7 @@
   --error:   #e26c6c;
   --info:    #6a90d6;
 
-  /* ========== Reading surface — warm paper ==========
-     Applied by .window--reading (all apps except terminal).
-     Warmer and slightly lighter than --bg, so windows read as
-     "pages" on the ember-dusk desk. */
+  /* ========== Reading surface — warm paper ========== */
   --bg-reading:              #1a1612;
   --text-reading:            #e8e1d5;
   --text-reading-strong:     #f7f2e8;
@@ -270,3 +267,81 @@ button { font: inherit; color: inherit; }
    ============================================================ */
 [data-term-size="small"]  .terminal { font-size: .78rem; }
 [data-term-size="large"]  .terminal { font-size: .92rem; }
+
+/* ============================================================
+   LIGHT THEME — warm paper light
+   Redefines surfaces, ink, strokes, shadows, and reading tokens.
+   Accent hues stay the same; the -hi variants darken for text
+   contrast on light backgrounds.
+   ============================================================ */
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-deep:    #e8e2d5;
+  --bg:         #f5f0e6;
+  --bg-2:       #ece7db;
+
+  /* Surfaces */
+  --panel:        rgba(245, 240, 230, .88);
+  --panel-solid:  #faf6ee;
+  --surface-2:    rgba(250, 246, 238, .92);
+  --surface-3:    rgba(255, 252, 245, .94);
+
+  /* Strokes */
+  --stroke:        rgba(60, 45, 25, .08);
+  --stroke-strong: rgba(60, 45, 25, .16);
+
+  /* Text */
+  --text:      #1f1a14;
+  --text-soft: #3f382e;
+  --muted:     #6b6255;
+  --dim:       #998f80;
+
+  /* Reading surface */
+  --bg-reading:              #faf6ee;
+  --text-reading:            #2a241d;
+  --text-reading-strong:     #15110c;
+  --text-reading-muted:      #6b6357;
+  --text-reading-dim:        #938879;
+  --stroke-reading:          rgba(60, 45, 25, .1);
+  --stroke-reading-strong:   rgba(60, 45, 25, .18);
+  --code-bg-reading:         #f0ebde;
+  --code-text-reading:       #2a241d;
+  --code-border-reading:     rgba(60, 45, 25, .12);
+  --inline-code-bg:          rgba(106, 144, 214, .12);
+  --inline-code-text:        #3a5da8;
+  --inline-code-border:      rgba(106, 144, 214, .3);
+
+  /* Accent -hi variants darken for contrast */
+  --accent-hi:      #5276b8;
+  --accent-2-hi:    #8266a5;
+  --accent-3-hi:    #5a9444;
+  --accent-warm-hi: #b8872a;
+  --accent-pink-hi: #b97090;
+
+  /* Shadows — warmer, softer */
+  --shadow-window:
+    0 0 0 1px rgba(60, 45, 25, .06) inset,
+    0 1px 0 rgba(255, 255, 255, .6) inset,
+    0 40px 100px -30px rgba(80, 60, 30, .25),
+    0 12px 32px -12px rgba(80, 60, 30, .2),
+    0 0 0 1px rgba(60, 45, 25, .08);
+
+  --shadow-window-focus:
+    0 0 0 1px rgba(82, 118, 184, .2) inset,
+    0 1px 0 rgba(255, 255, 255, .6) inset,
+    0 40px 100px -30px rgba(80, 60, 30, .3),
+    0 12px 32px -12px rgba(80, 60, 30, .25),
+    0 0 0 1px rgba(82, 118, 184, .3),
+    0 0 60px -12px rgba(82, 118, 184, .18);
+
+  /* Gradients */
+  --grad-accent:    linear-gradient(180deg, rgba(106,144,214,.18) 0%, rgba(106,144,214,.06) 100%);
+  --grad-accent-hi: linear-gradient(180deg, rgba(106,144,214,.28) 0%, rgba(106,144,214,.12) 100%);
+  --grad-text:      linear-gradient(120deg, #15110c 0%, #5276b8 35%, #8266a5 65%, #b8872a 100%);
+}
+
+/* Light-theme accent combos — each accent gets its own light-appropriate -hi */
+[data-theme="light"][data-accent="meadow"]   { --accent-hi: #5a9444; }
+[data-theme="light"][data-accent="honey"]    { --accent-hi: #b8872a; }
+[data-theme="light"][data-accent="lavender"] { --accent-hi: #8266a5; }
+[data-theme="light"][data-accent="rose"]     { --accent-hi: #b97090; }
