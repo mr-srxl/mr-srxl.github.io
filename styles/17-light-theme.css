@@ -1,0 +1,396 @@
+
+/* ========== 1. Desktop backdrop — soften the vignette ========== */
+[data-theme="light"] #desktop::before {
+  background:
+    radial-gradient(140% 90% at 50% 0%, transparent 30%, rgba(255, 250, 240, .3) 100%),
+    radial-gradient(80% 60% at 50% 100%, transparent 40%, rgba(255, 250, 240, .2) 100%),
+    linear-gradient(180deg, rgba(255, 250, 240, .15) 0%, rgba(255, 250, 240, .05) 45%, rgba(255, 250, 240, .25) 100%);
+}
+
+/* ========== 2. Boot screen ========== */
+[data-theme="light"] #boot-screen {
+  background:
+    radial-gradient(1200px 700px at 15% -15%, rgba(106,144,214,.18), transparent 60%),
+    radial-gradient(1000px 600px at 90% 115%, rgba(168,136,204,.14), transparent 60%),
+    radial-gradient(700px 500px at 50% 50%, rgba(232,180,74,.1), transparent 70%),
+    var(--bg-deep);
+}
+[data-theme="light"] #boot-screen::before {
+  background:
+    radial-gradient(420px 420px at 25% 30%, rgba(106,144,214,.2), transparent 65%),
+    radial-gradient(360px 360px at 78% 68%, rgba(168,136,204,.16), transparent 65%),
+    radial-gradient(300px 300px at 55% 18%, rgba(232,180,74,.15), transparent 70%);
+}
+/* Hide twinkling stars on light — they'd be invisible white dots */
+[data-theme="light"] #boot-screen::after { display: none; }
+
+/* Boot title gradient text — dark base color */
+[data-theme="light"] .boot-title {
+  background-image: linear-gradient(120deg,
+    #15110c 0%,
+    #5276b8 20%,
+    #8266a5 40%,
+    #b8872a 60%,
+    #8266a5 80%,
+    #5276b8 100%);
+}
+
+/* OS cards — light frosted glass */
+[data-theme="light"] .os-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.3)),
+    rgba(250, 246, 238, .7);
+  border-color: rgba(60, 45, 25, .12);
+}
+[data-theme="light"] .os-card:hover,
+[data-theme="light"] .os-card:focus-visible {
+  background:
+    linear-gradient(180deg, rgba(82, 118, 184, .15), rgba(82, 118, 184, .04)),
+    rgba(250, 246, 238, .92);
+  border-color: rgba(82, 118, 184, .55);
+  box-shadow:
+    0 30px 70px -28px rgba(82, 118, 184, .4),
+    0 0 42px -8px rgba(82, 118, 184, .18),
+    0 0 0 1px rgba(82, 118, 184, .15) inset;
+}
+[data-theme="light"] .os-card span { color: #2a241d; }
+[data-theme="light"] .os-card .fa-linux { color: #2a241d; }
+
+/* ========== 3. Loading screen ========== */
+[data-theme="light"] #loading-screen {
+  background:
+    radial-gradient(900px 600px at 50% 40%, rgba(106,144,214,.1), transparent 60%),
+    radial-gradient(700px 500px at 50% 60%, rgba(232,180,74,.07), transparent 65%),
+    var(--bg-deep);
+}
+[data-theme="light"] #loading-screen::before {
+  background:
+    radial-gradient(360px 360px at 30% 30%, rgba(106,144,214,.15), transparent 65%),
+    radial-gradient(320px 320px at 72% 68%, rgba(168,136,204,.12), transparent 65%),
+    radial-gradient(280px 280px at 50% 78%, rgba(232,180,74,.12), transparent 70%);
+}
+[data-theme="light"] .linux-loader { color: var(--text-soft); }
+
+/* ========== 4. Taskbar ========== */
+[data-theme="light"] #taskbar {
+  background: linear-gradient(180deg, rgba(250, 246, 238, .85), rgba(240, 235, 225, .92));
+  border-top-color: rgba(60, 45, 25, .12);
+  box-shadow: 0 -12px 40px -18px rgba(80, 60, 30, .15);
+}
+[data-theme="light"] .taskbar-center {
+  background: linear-gradient(180deg, rgba(0, 0, 0, .04), rgba(0, 0, 0, .01));
+  border-color: rgba(60, 45, 25, .1);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .02) inset,
+    0 10px 30px -18px rgba(80, 60, 30, .2);
+}
+[data-theme="light"] .start-btn { color: #3f382e; }
+[data-theme="light"] .start-btn:hover {
+  background: linear-gradient(180deg, rgba(82, 118, 184, .14), rgba(82, 118, 184, .06));
+  color: #15110c;
+}
+[data-theme="light"] .task-app { color: #4a4238; }
+[data-theme="light"] .task-app:hover {
+  background: rgba(60, 45, 25, .06);
+  color: #15110c;
+}
+[data-theme="light"] .task-app.active { color: #15110c; }
+[data-theme="light"] .taskbar-right { color: #4a4238; }
+
+/* Linux mode (top bar) overrides */
+[data-theme="light"] body.linux-mode #taskbar {
+  background: linear-gradient(180deg, rgba(250, 246, 238, .95), rgba(240, 235, 225, .88));
+  border-bottom-color: rgba(60, 45, 25, .12);
+  box-shadow: 0 8px 30px -14px rgba(80, 60, 30, .15);
+}
+[data-theme="light"] body.linux-mode .taskbar-center {
+  background: linear-gradient(180deg, rgba(0, 0, 0, .04), rgba(0, 0, 0, .01));
+}
+[data-theme="light"] body.linux-mode .activities {
+  color: #2a241d;
+}
+[data-theme="light"] body.linux-mode .activities:hover {
+  background: rgba(60, 45, 25, .06);
+}
+
+/* ========== 5. Window chrome ========== */
+[data-theme="light"] .window-header {
+  background: linear-gradient(180deg, rgba(0, 0, 0, .035) 0%, rgba(0, 0, 0, .01) 100%);
+  border-bottom-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .window-title { color: var(--text); }
+[data-theme="light"] .ctrl { color: rgba(60, 45, 25, .5); }
+[data-theme="light"] .ctrl:hover {
+  background: rgba(60, 45, 25, .08);
+  color: var(--text);
+}
+[data-theme="light"] .ctrl.close:hover {
+  background: linear-gradient(180deg, #ec6c6c, #d04040);
+  color: #fff;
+}
+
+/* ========== 6. Doc headings that were hardcoded #fff ========== */
+[data-theme="light"] .window--reading .window-body .doc strong,
+[data-theme="light"] .window--reading .window-body .doc td:first-child {
+  color: var(--text-reading-strong);
+}
+[data-theme="light"] .window--reading .window-body .doc tr:hover td {
+  background: rgba(60, 45, 25, .03);
+}
+
+/* ========== 7. Tags ========== */
+[data-theme="light"] .window--reading .window-body .tag {
+  background: linear-gradient(180deg, rgba(60, 45, 25, .04), rgba(60, 45, 25, .01));
+  border-color: rgba(60, 45, 25, .12);
+  color: #3f382e;
+}
+[data-theme="light"] .window--reading .window-body .tag:hover {
+  background: linear-gradient(180deg, rgba(82, 118, 184, .14), rgba(82, 118, 184, .05));
+  border-color: rgba(82, 118, 184, .5);
+  color: #15110c;
+}
+
+/* ========== 8. Roadmap nodes ========== */
+[data-theme="light"] .window--reading .window-body .roadmap > li::before {
+  background: linear-gradient(180deg, rgba(82, 118, 184, .14), rgba(82, 118, 184, .04));
+  border-color: rgba(82, 118, 184, .5);
+  color: #2a241d;
+  box-shadow:
+    0 0 0 6px rgba(250, 246, 238, .96),
+    0 0 18px -4px rgba(82, 118, 184, .35);
+}
+[data-theme="light"] .window--reading .window-body .roadmap > li:hover::before {
+  background: linear-gradient(180deg, rgba(82, 118, 184, .25), rgba(82, 118, 184, .1));
+  box-shadow:
+    0 0 0 6px rgba(250, 246, 238, .96),
+    0 0 22px -2px rgba(82, 118, 184, .5);
+}
+
+/* ========== 9. Code blocks — light version ========== */
+[data-theme="light"] .window--reading .window-body .code,
+[data-theme="light"] .window--reading .window-body .blog-post pre {
+  background: #f0ebde !important;
+  border-color: rgba(60, 45, 25, .14) !important;
+}
+[data-theme="light"] .window--reading .window-body .code::before {
+  background: rgba(60, 45, 25, .04);
+  border-bottom-color: rgba(60, 45, 25, .1);
+  color: var(--text-reading-muted);
+}
+[data-theme="light"] .window--reading .window-body .code pre,
+[data-theme="light"] .window--reading .window-body .blog-post pre {
+  color: var(--code-text-reading);
+}
+
+/* Non-reading code blocks (rare, but safety) */
+[data-theme="light"] .code {
+  background: #f0ebde;
+  border-color: rgba(60, 45, 25, .14);
+}
+[data-theme="light"] .code::before {
+  background: rgba(60, 45, 25, .04);
+  border-bottom-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .code pre { color: #2a241d; }
+
+/* hljs base text */
+[data-theme="light"] .hljs { color: #2a241d; }
+
+/* ========== 10. Editable code (Python course) ========== */
+[data-theme="light"] .window--reading .code-editable {
+  background: #f5f0e2 !important;
+  border-color: rgba(60, 45, 25, .14);
+}
+[data-theme="light"] .window--reading .code-editable .code-highlight,
+[data-theme="light"] .window--reading .code-editable .code-highlight code {
+  color: #2a241d;
+}
+[data-theme="light"] .window--reading .code-editable .code-header {
+  background: rgba(60, 45, 25, .05);
+  border-bottom-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .window--reading .code-editable .code-input {
+  caret-color: #b8872a;
+}
+
+/* ========== 11. Learn output ========== */
+[data-theme="light"] .window--reading .window-body .learn-output {
+  background: #ebe5d5;
+  border-top-color: rgba(90, 148, 68, .35);
+  color: #2a3a24;
+}
+[data-theme="light"] .window--reading .window-body .learn-output.is-error {
+  background: #f0e5e5;
+  border-top-color: rgba(180, 60, 60, .4);
+  color: #7a2a2a;
+}
+
+/* ========== 12. Blog blockquote ========== */
+[data-theme="light"] .window--reading .window-body .blog-post blockquote {
+  background: rgba(232, 180, 74, .1);
+  color: #5a4a1a;
+  border-left-color: #b8872a;
+}
+
+/* ========== 13. Blog cards ========== */
+[data-theme="light"] .window--reading .window-body .blog-card {
+  background: rgba(60, 45, 25, .03);
+  border-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .window--reading .window-body .blog-card:hover {
+  background: rgba(60, 45, 25, .05);
+  border-color: rgba(82, 118, 184, .4);
+}
+[data-theme="light"] .window--reading .window-body .blog-card-excerpt {
+  color: #4a4238;
+}
+
+/* ========== 14. Try-this callout ========== */
+[data-theme="light"] .window--reading .window-body .try {
+  background: linear-gradient(180deg, rgba(232, 180, 74, .14), rgba(232, 180, 74, .05));
+  border-color: rgba(184, 135, 42, .4);
+  color: #5a4a1a;
+}
+
+/* ========== 15. Sidebar ========== */
+[data-theme="light"] .window--reading .window-body .doc-sidebar-link:hover {
+  border-left-color: rgba(82, 118, 184, .45);
+}
+[data-theme="light"] .window--reading .window-body .doc-sidebar-link.active {
+  color: #5276b8 !important;
+  border-left-color: #5276b8 !important;
+}
+[data-theme="light"] .window--reading .window-body .doc-sidebar .blog-back {
+  background: rgba(60, 45, 25, .04);
+  border-color: rgba(60, 45, 25, .12);
+}
+[data-theme="light"] .window--reading .window-body .doc-sidebar .blog-back:hover {
+  border-color: rgba(82, 118, 184, .5);
+}
+
+/* ========== 16. Headers from 16-headers.css ========== */
+[data-theme="light"] .window--reading .window-body .doc h1,
+[data-theme="light"] .window--reading .window-body .blog-post h1 {
+  background-image: linear-gradient(120deg,
+    #15110c 0%,
+    #5276b8 45%,
+    #8266a5 75%,
+    #b8872a 100%) !important;
+}
+[data-theme="light"] .window--reading .window-body .doc h2 {
+  color: #5276b8 !important;
+}
+[data-theme="light"] .window--reading .window-body .doc h2::after {
+  background: linear-gradient(90deg, rgba(82, 118, 184, .55) 0%, transparent 100%) !important;
+}
+[data-theme="light"] .window--reading .window-body .blog-post h2 {
+  color: #8266a5 !important;
+}
+[data-theme="light"] .window--reading .window-body .doc h3 {
+  color: #b8872a !important;
+}
+[data-theme="light"] .window--reading .window-body .blog-post h3 {
+  color: #5a9444 !important;
+}
+[data-theme="light"] .window--reading .window-body .doc h4,
+[data-theme="light"] .window--reading .window-body .blog-post h4 {
+  color: #b97090 !important;
+}
+
+/* Gallery subtitle */
+[data-theme="light"] .window--reading .window-body .doc[aria-labelledby="gallery-title"] .doc-sub {
+  color: #b8872a !important;
+}
+
+/* Gallery tiles — placeholder background while loading */
+[data-theme="light"] .window--reading .window-body .gallery .shot {
+  background-color: #e8e2d5;
+}
+[data-theme="light"] .window--reading .window-body .lb-image {
+  background: #e8e2d5;
+}
+
+/* ========== 17. Settings app ========== */
+[data-theme="light"] .window--reading .window-body .settings-control {
+  background: rgba(60, 45, 25, .04);
+  border-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .window--reading .window-body .settings-control button {
+  color: var(--text-reading-muted);
+}
+[data-theme="light"] .window--reading .window-body .settings-control button:hover {
+  color: var(--text-reading);
+}
+[data-theme="light"] .window--reading .window-body .settings-control button.active {
+  background: linear-gradient(180deg, rgba(82, 118, 184, .22), rgba(82, 118, 184, .08));
+  color: #15110c;
+}
+
+/* ========== 18. Command palette ========== */
+[data-theme="light"] .cmd-kbd {
+  background: rgba(60, 45, 25, .05);
+  border-color: rgba(60, 45, 25, .15);
+  color: var(--text-reading-muted);
+}
+[data-theme="light"] .cmd-item:hover,
+[data-theme="light"] .cmd-item.active {
+  background: rgba(82, 118, 184, .12);
+  color: #15110c;
+}
+[data-theme="light"] .cmd-input-wrap {
+  background: rgba(60, 45, 25, .02);
+}
+
+/* ========== 19. Intro-note / warn-note / cheat ========== */
+[data-theme="light"] .window--reading .window-body .intro-note {
+  color: var(--text-reading);
+  border-color: var(--stroke-reading-strong);
+}
+[data-theme="light"] .window--reading .window-body .warn-note {
+  color: #7a3548;
+  border-color: rgba(185, 112, 144, .35);
+  background: linear-gradient(180deg, rgba(185, 112, 144, .12), rgba(185, 112, 144, .04));
+}
+[data-theme="light"] .window--reading .window-body .cheat div {
+  background: rgba(60, 45, 25, .03);
+  border-color: rgba(60, 45, 25, .1);
+  color: #3f382e;
+}
+
+/* ========== 20. TOC links ========== */
+[data-theme="light"] .window--reading .window-body .toc a {
+  background: rgba(60, 45, 25, .03);
+  border-color: rgba(60, 45, 25, .1);
+}
+[data-theme="light"] .window--reading .window-body .toc a:hover {
+  background: rgba(82, 118, 184, .08);
+  border-color: rgba(82, 118, 184, .4);
+}
+[data-theme="light"] .window--reading .window-body .toc .toc-title {
+  color: var(--text-reading-strong);
+}
+
+/* ========== 21. Learn callouts (14-learn.css hardcoded colors) ========== */
+[data-theme="light"] .window--reading .window-body .learn-tip { color: #2a3a52; }
+[data-theme="light"] .window--reading .window-body .learn-tip strong { color: #5276b8; }
+[data-theme="light"] .window--reading .window-body .learn-challenge { color: #5a4a1a; }
+[data-theme="light"] .window--reading .window-body .learn-challenge strong { color: #b8872a; }
+[data-theme="light"] .window--reading .window-body .learn-warning { color: #6a4022; }
+[data-theme="light"] .window--reading .window-body .learn-warning strong { color: #b86525; }
+[data-theme="light"] .window--reading .window-body .learn-deep-dive { color: #4a3a6a; }
+[data-theme="light"] .window--reading .window-body .learn-deep-dive strong { color: #8266a5; }
+
+/* ========== 22. Load error ========== */
+[data-theme="light"] .load-error {
+  background: linear-gradient(180deg, rgba(180, 60, 60, .08), rgba(180, 60, 60, .02));
+  border-color: rgba(180, 60, 60, .3);
+}
+[data-theme="light"] .load-error h3 { color: #7a2a2a; }
+[data-theme="light"] .load-error p { color: var(--text-reading); }
+[data-theme="light"] .load-error code {
+  background: rgba(60, 45, 25, .08);
+  color: #5276b8;
+}
+
+/* ========== 23. Terminal stays dark — intentional ========== */
+/* No overrides. Terminals are dark in every light UI. */
