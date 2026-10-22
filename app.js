@@ -1,7 +1,9 @@
 (function () {
   "use strict";
 
-  /* App registry */
+  /* ============================================================
+     APP REGISTRY
+     ============================================================ */
   const APPS = {
     about:    { title: "About",    icon: "fas fa-user-secret", url: "apps/about.html" },
     learning: { title: "Path",     icon: "fas fa-folder-open", url: "apps/learning.html" },
@@ -16,9 +18,11 @@
   const taskbar = document.getElementById("taskbar-items");
   const winHost = document.getElementById("windows-container");
   const openApps = new Map();
-  let zIndex = 100, cascade = 0;
+  let zIndex = 100, cascade = 0, activeAppId = null;
 
-  /* ---------- Boot ---------- */
+  /* ============================================================
+     BOOT
+     ============================================================ */
   const bootScreen    = document.getElementById("boot-screen");
   const loadingScreen = document.getElementById("loading-screen");
   const winLoader     = document.getElementById("win-loader");
@@ -33,26 +37,36 @@
     "Reached target Multi-User System.",
     "Welcome to SRXL Linux v1.0"
   ];
+
   document.querySelectorAll(".os-card").forEach(function (card) {
     card.addEventListener("click", function () { startLoading(card.dataset.os); });
   });
+
   function startLoading(os) {
+    try { sessionStorage.setItem("srxl-os", os); } catch (e) { /* storage may be blocked */ }
+
     bootScreen.classList.add("hide");
     setTimeout(function () {
       loadingScreen.classList.add("show");
-      if (os === "windows") { winLoader.classList.add("show"); setTimeout(finish, 2600); }
-      else { linuxLoader.classList.add("show"); renderLinuxBoot(function () { setTimeout(finish, 600); }); }
+      if (os === "windows") {
+        winLoader.classList.add("show");
+        setTimeout(finish, 2600);
+      } else {
+        linuxLoader.classList.add("show");
+        renderLinuxBoot(function () { setTimeout(finish, 600); });
+      }
       function finish() {
-        loadingScreen.classList.remove("show");
+        if (os === "linux") document.body.classList.add("linux-mode");
+        desk.classList.add("show");
+        startClock();
+        loadingScreen.classList.add("hide");
         setTimeout(function () {
-          loadingScreen.classList.add("hide");
-          if (os === "linux") document.body.classList.add("linux-mode");
-          desk.classList.add("show");
-          startClock();
-        }, 440);
+          loadingScreen.classList.remove("show", "hide");
+        }, 750);
       }
     }, 440);
   }
+
   function renderLinuxBoot(done) {
     let i = 0; linuxLoader.innerHTML = "";
     (function next() {
@@ -60,19 +74,24 @@
       const last = i === LINUX_LINES.length - 1;
       const line = document.createElement("div");
       line.className = "line" + (last ? " welcome" : "");
-      line.innerHTML = last ? LINUX_LINES[i] : "[ <span class='ok'>  OK  </span> ] " + LINUX_LINES[i];
+      line.innerHTML = last
+        ? LINUX_LINES[i]
+        : "[ <span class='ok'>  OK  </span> ] " + LINUX_LINES[i];
       linuxLoader.appendChild(line); i++;
       setTimeout(next, last ? 420 : 175);
     })();
   }
 
-  /* ---------- Window management ---------- */
-  async function openApp(id) {
+  /* ============================================================
+     WINDOW MANAGEMENT
+     ============================================================ */
+  async function openApp(id, triggerEl) {
     if (!APPS[id]) return;
     if (openApps.has(id)) {
       const existing = openApps.get(id);
       existing.classList.remove("minimized");
-      focusApp(id); return;
+      focusApp(id);
+      return;
     }
     const meta = APPS[id];
     const isLinux = document.body.classList.contains("linux-mode");
@@ -82,6 +101,11 @@
     const win = document.createElement("div");
     win.className = "window";
     win.dataset.app = id;
+    win.setAttribute("tabindex", "-1");
+    win.setAttribute("role", "dialog");
+    win.setAttribute("aria-label", title);
+    win._trigger = triggerEl || document.activeElement;
+
     const isMobile = window.matchMedia("(max-width: 760px)").matches;
     const offset = (cascade++ % 5) * 34;
     win.style.left = (isMobile ? 0 : 90 + offset) + "px";
@@ -103,10 +127,20 @@
     winHost.appendChild(win);
     openApps.set(id, win);
 
-    if (meta.terminal) runTerminal(body, isLinux ? "linux" : "windows");
-    else await loadIntoWindow(body, meta.url);
+    // Update URL hash for deep linking
+    if (location.hash !== "#app/" + id) {
+      history.replaceState(null, "", "#app/" + id);
+    }
 
-    win.querySelector(".close").addEventListener("click", function (e) { e.stopPropagation(); closeApp(id); });
+    if (meta.terminal) {
+      runTerminal(body, isLinux ? "linux" : "windows");
+    } else {
+      await loadIntoWindow(body, meta.url);
+    }
+
+    win.querySelector(".close").addEventListener("click", function (e) {
+      e.stopPropagation(); closeApp(id);
+    });
     win.querySelector(".min").addEventListener("click", function (e) {
       e.stopPropagation(); win.classList.add("minimized"); setActiveTask(null);
     });
@@ -119,9 +153,14 @@
     makeDraggable(win, win.querySelector("[data-drag]"));
     addTaskItem(id, { title: title, icon: meta.icon });
     focusApp(id);
+
+    // Move keyboard focus into the window
+    win.focus();
   }
 
-  /* ---------- Load app content ---------- */
+  /* ============================================================
+     APP CONTENT LOADING
+     ============================================================ */
   async function loadIntoWindow(body, url) {
     try {
       const res = await fetch(url, { cache: "no-cache" });
@@ -156,7 +195,9 @@
     });
   }
 
-  /* ---------- Syntax highlighting ---------- */
+  /* ============================================================
+     SYNTAX HIGHLIGHTING
+     ============================================================ */
   function highlightAllCode(root) {
     const hasHljs = typeof window.hljs !== "undefined";
 
@@ -181,7 +222,9 @@
     });
   }
 
-  /* ---------- Copy button ---------- */
+  /* ============================================================
+     COPY BUTTONS
+     ============================================================ */
   function injectCopyButtons(root) {
     root.querySelectorAll(".code").forEach(function (block) {
       if (block.querySelector(".code-copy")) return;
@@ -257,7 +300,9 @@
     } catch (err) { return false; }
   }
 
-  /* ---------- Blog / Notes ---------- */
+  /* ============================================================
+     BLOG / NOTES
+     ============================================================ */
   function initBlog(root) {
     const list = root.querySelector("[data-blog-index]");
     if (list) loadBlogIndex(list, root);
@@ -277,7 +322,6 @@
         return;
       }
 
-      // Build category list: "All" + unique categories
       const categories = ["All"];
       posts.forEach(function (p) {
         const c = p.category || "Other";
@@ -389,13 +433,18 @@
     }
   }
 
+  /* Markdown render with DOMPurify sanitization (XSS-safe) */
   function renderMarkdown(md) {
     if (window.marked && typeof window.marked.parse === "function") {
       try {
         if (typeof window.marked.setOptions === "function") {
           window.marked.setOptions({ gfm: true, breaks: false });
         }
-        return '<article class="blog-post">' + window.marked.parse(md) + '</article>';
+        const raw = window.marked.parse(md);
+        const clean = window.DOMPurify
+          ? window.DOMPurify.sanitize(raw, { USE_PROFILES: { html: true } })
+          : raw;
+        return '<article class="blog-post">' + clean + '</article>';
       } catch (err) { /* fall through */ }
     }
     const escaped = md.replace(/[<>&]/g, function (c) {
@@ -410,43 +459,86 @@
     });
   }
 
-  /* ---------- Window helpers ---------- */
+  /* ============================================================
+     WINDOW HELPERS
+     ============================================================ */
   function closeApp(id) {
     const win = openApps.get(id);
     if (!win) return;
+    const trigger = win._trigger;
     win.classList.add("closing");
     setTimeout(function () {
-      win.remove(); openApps.delete(id);
+      win.remove();
+      openApps.delete(id);
       const task = document.querySelector('[data-task="' + id + '"]');
       if (task) task.remove();
+
       const remaining = Array.from(openApps.keys());
-      if (remaining.length) focusApp(remaining[remaining.length - 1]);
-    }, 220);
+      if (remaining.length) {
+        // Pick the window with the highest z-index
+        const topId = remaining.reduce(function (a, b) {
+          const az = parseInt(openApps.get(a).style.zIndex, 10) || 0;
+          const bz = parseInt(openApps.get(b).style.zIndex, 10) || 0;
+          return az >= bz ? a : b;
+        });
+        focusApp(topId);
+        if (location.hash.startsWith("#app/")) {
+          history.replaceState(null, "", "#app/" + topId);
+        }
+      } else {
+        activeAppId = null;
+        setActiveTask(null);
+        if (location.hash.startsWith("#app/")) {
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+        if (trigger && typeof trigger.focus === "function") trigger.focus();
+      }
+    }, 250);
   }
+
   function focusApp(id) {
-    const win = openApps.get(id); if (!win) return;
-    win.style.zIndex = ++zIndex; setActiveTask(id);
+    const win = openApps.get(id);
+    if (!win) return;
+    win.style.zIndex = ++zIndex;
+    activeAppId = id;
+    setActiveTask(id);
   }
+
   function setActiveTask(id) {
     document.querySelectorAll(".task-app").forEach(function (t) {
-      t.classList.toggle("active", t.dataset.task === id);
+      const isActive = t.dataset.task === id;
+      t.classList.toggle("active", isActive);
+      t.setAttribute("aria-pressed", String(isActive));
     });
   }
+
   function addTaskItem(id, meta) {
     const item = document.createElement("button");
-    item.className = "task-app"; item.dataset.task = id;
+    item.className = "task-app";
+    item.dataset.task = id;
     item.setAttribute("aria-label", meta.title);
+    item.setAttribute("aria-pressed", "false");
     item.innerHTML = '<i class="' + meta.icon + '"></i>';
     item.addEventListener("click", function () {
-      const win = openApps.get(id); if (!win) return;
-      if (win.classList.contains("minimized")) { win.classList.remove("minimized"); focusApp(id); }
-      else if (win.style.zIndex === String(zIndex)) { win.classList.add("minimized"); setActiveTask(null); }
-      else { focusApp(id); }
+      const win = openApps.get(id);
+      if (!win) return;
+      if (win.classList.contains("minimized")) {
+        win.classList.remove("minimized");
+        focusApp(id);
+      } else if (activeAppId === id) {
+        win.classList.add("minimized");
+        activeAppId = null;
+        setActiveTask(null);
+      } else {
+        focusApp(id);
+      }
     });
     taskbar.appendChild(item);
   }
 
-  /* ---------- Dragging ---------- */
+  /* ============================================================
+     DRAGGING
+     ============================================================ */
   function makeDraggable(win, handle) {
     let startX = 0, startY = 0, originX = 0, originY = 0, dragging = false;
     handle.addEventListener("pointerdown", function (e) {
@@ -467,62 +559,140 @@
     function stop(e) {
       if (!dragging) return; dragging = false;
       document.body.style.userSelect = "";
-      try { handle.releasePointerCapture(e.pointerId); } catch (err) {}
+      try { handle.releasePointerCapture(e.pointerId); } catch (err) { /* ignore */ }
     }
     handle.addEventListener("pointerup", stop);
     handle.addEventListener("pointercancel", stop);
   }
 
-  /* ---------- Terminal ---------- */
+  /* ============================================================
+     INTERACTIVE TERMINAL
+     ============================================================ */
   function runTerminal(host, mode) {
     const isLinux = mode === "linux";
     const prompt = isLinux ? "sina@srxl:~$" : "PS C:\\Users\\Sina>";
-    const linuxScript = [
-      { type: "cmd", text: "whoami" },
-      { type: "out", text: "sina — red team operator, building a small C2" },
-      { type: "cmd", text: "cat ~/notes/learning.md" },
-      { type: "out", text: "lateral movement, philosophy, being a little better each day" },
-      { type: "cmd", text: "uptime" },
-      { type: "out", text: "up 3 days, enjoying the quiet" },
-      { type: "cmd", text: "" }
-    ];
-    const windowsScript = [
-      { type: "cmd", text: "whoami" },
-      { type: "out", text: "desktop-7f2a\\sina" },
-      { type: "cmd", text: "Get-Content .\\about.txt" },
-      { type: "out", text: "red team operator — building a small C2, learning lateral movement" },
-      { type: "cmd", text: "" }
-    ];
-    const script = isLinux ? linuxScript : windowsScript;
-    let i = 0;
-    (function next() {
-      if (i >= script.length) {
-        const caret = document.createElement("span");
-        caret.className = "caret"; host.appendChild(caret); return;
+
+    const banner = document.createElement("div");
+    banner.className = "term-banner";
+    banner.textContent = isLinux
+      ? "SRXL Linux v1.0 — type 'help' for available commands"
+      : "SRXL PowerShell — type 'help' for available commands";
+    host.appendChild(banner);
+
+    const commands = {
+      help: function () {
+        return isLinux
+          ? "Available: whoami, date, uname, echo <text>, clear, help"
+          : "Available: whoami, date, echo <text>, cls, help";
+      },
+      whoami: function () {
+        return isLinux ? "sina" : "desktop-7f2a\\sina";
+      },
+      date: function () {
+        return new Date().toLocaleString();
+      },
+      uname: function () {
+        return "SRXL Linux v1.0 (x86_64, built with care)";
+      },
+      echo: function (args) {
+        return args.join(" ");
       }
-      const step = script[i++];
+    };
+
+    function buildInputLine() {
       const line = document.createElement("div");
-      if (step.type === "cmd") {
-        const p = document.createElement("span");
-        p.className = "prompt"; p.textContent = prompt;
-        line.appendChild(p);
-        line.appendChild(document.createTextNode(" " + step.text));
-      } else {
-        line.className = "out soft"; line.textContent = step.text;
+      line.className = "terminal-line";
+      const p = document.createElement("span");
+      p.className = "prompt";
+      p.textContent = prompt;
+      const input = document.createElement("input");
+      input.className = "terminal-input";
+      input.type = "text";
+      input.setAttribute("aria-label", "Terminal input");
+      input.spellcheck = false;
+      input.autocomplete = "off";
+      input.autocapitalize = "off";
+      line.appendChild(p);
+      line.appendChild(document.createTextNode(" "));
+      line.appendChild(input);
+      return { line: line, input: input };
+    }
+
+    const io = buildInputLine();
+    const inputLine = io.line;
+    const input = io.input;
+    host.appendChild(inputLine);
+    host.setAttribute("role", "log");
+    host.setAttribute("aria-live", "polite");
+
+    function scrollBottom() { host.scrollTop = host.scrollHeight; }
+
+    function printCommand(cmdText) {
+      const line = document.createElement("div");
+      line.className = "term-cmd";
+      const p = document.createElement("span");
+      p.className = "prompt";
+      p.textContent = prompt;
+      line.appendChild(p);
+      line.appendChild(document.createTextNode(" " + cmdText));
+      host.insertBefore(line, inputLine);
+    }
+
+    function printOutput(text) {
+      const line = document.createElement("div");
+      line.className = "term-out";
+      line.textContent = text;
+      host.insertBefore(line, inputLine);
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      const raw = input.value;
+      input.value = "";
+      printCommand(raw);
+
+      const trimmed = raw.trim();
+      if (!trimmed) { scrollBottom(); return; }
+
+      const parts = trimmed.split(/\s+/);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+
+      if (cmd === "clear" || cmd === "cls") {
+        host.querySelectorAll(".term-cmd, .term-out, .term-banner").forEach(function (n) {
+          n.remove();
+        });
+        scrollBottom();
+        return;
       }
-      host.appendChild(line); host.scrollTop = host.scrollHeight;
-      setTimeout(next, step.type === "cmd" ? 440 : 320);
-    })();
+
+      const fn = commands[cmd];
+      const result = fn
+        ? String(fn(args))
+        : cmd + ": command not found. Type 'help'.";
+      printOutput(result);
+      scrollBottom();
+    });
+
+    // Focus after the window animation settles
+    setTimeout(function () { input.focus(); }, 120);
   }
 
-  /* ---------- Clock ---------- */
+  /* ============================================================
+     CLOCK
+     ============================================================ */
   function startClock() {
     const el = document.getElementById("clock");
-    function tick() { el.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); }
-    tick(); setInterval(tick, 15000);
+    function tick() {
+      el.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+    tick();
+    setInterval(tick, 15000);
   }
 
-  /* ---------- Lightbox ---------- */
+  /* ============================================================
+     LIGHTBOX
+     ============================================================ */
   const lightbox  = document.getElementById("lightbox");
   const lbImage   = document.getElementById("lb-image");
   const lbCaption = document.getElementById("lb-caption");
@@ -534,14 +704,17 @@
 
   function openLightbox(list, index, origin) {
     if (!list.length) return;
-    lbList = list; lbIndex = Math.max(0, Math.min(index, list.length - 1));
+    lbList = list;
+    lbIndex = Math.max(0, Math.min(index, list.length - 1));
     lastFocused = origin || document.activeElement;
-    renderLb(); lightbox.hidden = false;
+    renderLb();
+    lightbox.hidden = false;
     void lightbox.offsetWidth;
     lightbox.classList.add("show");
     document.body.style.overflow = "hidden";
     lbClose.focus();
   }
+
   function closeLightbox() {
     lightbox.classList.remove("show");
     lightbox.classList.add("closing");
@@ -552,61 +725,242 @@
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }, 320);
   }
+
   function renderLb() {
-    const item = lbList[lbIndex]; if (!item) return;
-    lbImage.src = item.src; lbImage.alt = item.caption || "";
+    const item = lbList[lbIndex];
+    if (!item) return;
+    lbImage.src = item.src;
+    lbImage.alt = item.caption || "";
     lbCaption.textContent = item.caption || "";
     lbCounter.textContent = (lbIndex + 1) + " / " + lbList.length;
     const many = lbList.length > 1;
     lbPrev.style.display = many ? "" : "none";
     lbNext.style.display = many ? "" : "none";
   }
-  function nextLb() { if (!lbList.length) return; lbIndex = (lbIndex + 1) % lbList.length; animateSwap(); renderLb(); }
-  function prevLb() { if (!lbList.length) return; lbIndex = (lbIndex - 1 + lbList.length) % lbList.length; animateSwap(); renderLb(); }
+
+  function nextLb() {
+    if (!lbList.length) return;
+    lbIndex = (lbIndex + 1) % lbList.length;
+    animateSwap(); renderLb();
+  }
+  function prevLb() {
+    if (!lbList.length) return;
+    lbIndex = (lbIndex - 1 + lbList.length) % lbList.length;
+    animateSwap(); renderLb();
+  }
   function animateSwap() {
-    lbImage.style.transition = "opacity .18s"; lbImage.style.opacity = "0";
+    lbImage.style.transition = "opacity .18s";
+    lbImage.style.opacity = "0";
     setTimeout(function () { lbImage.style.opacity = "1"; }, 100);
   }
+
   document.addEventListener("click", function (e) {
-    const shot = e.target.closest(".shot[data-full]"); if (!shot) return;
+    const shot = e.target.closest(".shot[data-full]");
+    if (!shot) return;
     e.preventDefault();
     const gallery = shot.closest(".gallery");
-    const siblings = gallery ? Array.from(gallery.querySelectorAll(".shot[data-full]")) : [shot];
+    const siblings = gallery
+      ? Array.from(gallery.querySelectorAll(".shot[data-full]"))
+      : [shot];
     openLightbox(
-      siblings.map(function (el) { return { src: el.dataset.full, caption: el.dataset.caption || "" }; }),
-      siblings.indexOf(shot), shot
+      siblings.map(function (el) {
+        return { src: el.dataset.full, caption: el.dataset.caption || "" };
+      }),
+      siblings.indexOf(shot),
+      shot
     );
   });
-  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+
+  lightbox.addEventListener("click", function (e) {
+    if (e.target === lightbox) closeLightbox();
+  });
   lbClose.addEventListener("click", closeLightbox);
   lbNext.addEventListener("click", function (e) { e.stopPropagation(); nextLb(); });
   lbPrev.addEventListener("click", function (e) { e.stopPropagation(); prevLb(); });
+
   document.addEventListener("keydown", function (e) {
     if (lightbox.hidden) return;
     if (e.key === "Escape") { e.preventDefault(); closeLightbox(); }
     if (e.key === "ArrowRight") { e.preventDefault(); nextLb(); }
     if (e.key === "ArrowLeft") { e.preventDefault(); prevLb(); }
   });
+
+  // Focus trap inside lightbox
+  lightbox.addEventListener("keydown", function (e) {
+    if (e.key !== "Tab") return;
+    const focusables = lightbox.querySelectorAll(
+      'button, [href], input, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  // Enter/Space opens focused gallery shots
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Enter" && e.key !== " ") return;
     const shot = document.activeElement && document.activeElement.closest
-      ? document.activeElement.closest(".shot[data-full]") : null;
-    if (!shot) return; e.preventDefault(); shot.click();
+      ? document.activeElement.closest(".shot[data-full]")
+      : null;
+    if (!shot) return;
+    e.preventDefault();
+    shot.click();
   });
 
-  /* ---------- Wire up icons ---------- */
+  // Escape / Ctrl+W closes the topmost window (when lightbox is not open)
+  document.addEventListener("keydown", function (e) {
+    if (!lightbox.hidden) return;
+    if (!activeAppId) return;
+    const isEscape = e.key === "Escape";
+    const isCtrlW  = e.ctrlKey && (e.key === "w" || e.key === "W");
+    if (isEscape || isCtrlW) {
+      // Don't hijack Escape inside inputs inside the terminal
+      const inTerminalInput = document.activeElement &&
+        document.activeElement.classList &&
+        document.activeElement.classList.contains("terminal-input");
+      if (inTerminalInput && isEscape) return;
+      e.preventDefault();
+      closeApp(activeAppId);
+    }
+  });
+
+  /* ============================================================
+     DESKTOP ICONS + START MENU
+     ============================================================ */
   document.querySelectorAll("[data-open]").forEach(function (btn) {
-    btn.addEventListener("click", function () { openApp(btn.dataset.open); });
-    btn.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openApp(btn.dataset.open); }
+    btn.addEventListener("click", function () {
+      openApp(btn.dataset.open, btn);
     });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openApp(btn.dataset.open, btn);
+      }
+    });
+  });
+
+  let startMenuEl = null;
+  const startBtn = document.querySelector(".start-btn");
+  const activitiesEl = document.querySelector(".activities");
+
+  function toggleStartMenu(e) {
+    if (e) e.stopPropagation();
+    if (startMenuEl) { closeStartMenu(); return; }
+
+    startMenuEl = document.createElement("div");
+    startMenuEl.className = "start-menu";
+    startMenuEl.setAttribute("role", "menu");
+    startMenuEl.setAttribute("aria-label", "Applications");
+
+    const header = document.createElement("div");
+    header.className = "start-menu-header";
+    header.textContent = "SRXL OS";
+    startMenuEl.appendChild(header);
+
+    Object.keys(APPS).forEach(function (id) {
+      const meta = APPS[id];
+      const btn = document.createElement("button");
+      btn.className = "start-menu-item";
+      btn.setAttribute("role", "menuitem");
+      btn.innerHTML = '<i class="' + meta.icon + '"></i><span>' + meta.title + '</span>';
+      btn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        openApp(id, btn);
+        closeStartMenu();
+      });
+      startMenuEl.appendChild(btn);
+    });
+
+    const divider = document.createElement("div");
+    divider.className = "start-menu-divider";
+    startMenuEl.appendChild(divider);
+
+    const switchBtn = document.createElement("button");
+    switchBtn.className = "start-menu-item start-menu-switch";
+    switchBtn.setAttribute("role", "menuitem");
+    switchBtn.innerHTML = '<i class="fas fa-rotate"></i><span>Switch OS</span>';
+    switchBtn.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      try { sessionStorage.removeItem("srxl-os"); } catch (err) { /* ignore */ }
+      location.reload();
+    });
+    startMenuEl.appendChild(switchBtn);
+
+    document.getElementById("taskbar").appendChild(startMenuEl);
+
+    setTimeout(function () {
+      document.addEventListener("click", outsideStartMenu);
+      document.addEventListener("keydown", escapeStartMenu);
+    }, 0);
+  }
+
+  function closeStartMenu() {
+    if (!startMenuEl) return;
+    startMenuEl.remove();
+    startMenuEl = null;
+    document.removeEventListener("click", outsideStartMenu);
+    document.removeEventListener("keydown", escapeStartMenu);
+  }
+
+  function outsideStartMenu(e) {
+    if (!startMenuEl) return;
+    if (startMenuEl.contains(e.target)) return;
+    if (e.target.closest && e.target.closest(".start-btn")) return;
+    if (e.target.closest && e.target.closest(".activities")) return;
+    closeStartMenu();
+  }
+
+  function escapeStartMenu(e) {
+    if (e.key === "Escape") closeStartMenu();
+  }
+
+  if (startBtn) startBtn.addEventListener("click", toggleStartMenu);
+  if (activitiesEl) {
+    activitiesEl.style.cursor = "pointer";
+    activitiesEl.addEventListener("click", toggleStartMenu);
+  }
+
+  /* ============================================================
+     HASH ROUTING + DEFAULT OPEN
+     ============================================================ */
+  function restoreFromHash() {
+    const match = location.hash.match(/^#app\/([a-z]+)$/i);
+    if (match && APPS[match[1]]) {
+      openApp(match[1]);
+      return true;
+    }
+    return false;
+  }
+
+  window.addEventListener("hashchange", function () {
+    const match = location.hash.match(/^#app\/([a-z]+)$/i);
+    if (match && APPS[match[1]] && !openApps.has(match[1])) {
+      openApp(match[1]);
+    }
   });
 
   const observer = new MutationObserver(function () {
     if (desk.classList.contains("show")) {
       observer.disconnect();
-      setTimeout(function () { openApp("about"); }, 750);
+      setTimeout(function () {
+        if (!restoreFromHash()) openApp("about");
+      }, 750);
     }
   });
   observer.observe(desk, { attributes: true, attributeFilter: ["class"] });
+
+  /* ============================================================
+     SAVED-OS SKIP
+     ============================================================ */
+  let savedOS = null;
+  try { savedOS = sessionStorage.getItem("srxl-os"); } catch (e) { /* ignore */ }
+  if (savedOS === "windows" || savedOS === "linux") {
+    bootScreen.style.display = "none";
+    startLoading(savedOS);
+  }
 })();

@@ -1,5 +1,5 @@
 /* ============================================================
-   TERMINAL — prompt, output, blinking caret
+   TERMINAL — prompt, output, interactive input
    ============================================================ */
 .terminal {
   background: #06070b !important;
@@ -18,6 +18,60 @@
 }
 .terminal .soft { color: var(--accent-3); }
 
+/* Welcome banner */
+.terminal .term-banner {
+  color: var(--accent-warm);
+  opacity: .85;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(245,201,92,.15);
+  font-size: .8rem;
+  letter-spacing: .02em;
+}
+
+/* Permanent output lines */
+.terminal .term-cmd {
+  color: #eef2f8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.terminal .term-cmd .prompt {
+  color: var(--accent);
+}
+.terminal .term-out {
+  color: var(--accent-3);
+  padding-left: 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Interactive input line */
+.terminal .terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.terminal .terminal-input {
+  flex: 1;
+  min-width: 120px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #eef2f8;
+  font: inherit;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  caret-color: var(--accent-warm);
+}
+.terminal .terminal-input::selection {
+  background: rgba(74,126,192,.35);
+  color: #fff;
+}
+
+/* Blinking caret used outside input (kept for compatibility) */
 .caret {
   display: inline-block;
   width: 8px;

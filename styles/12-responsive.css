@@ -29,6 +29,22 @@
   }
   .window-body { padding: 24px 20px 36px; }
 
+  /* Disable expensive backdrop-filters on mobile.
+     Use solid backgrounds instead. */
+  .window,
+  #taskbar,
+  .os-card,
+  #lightbox,
+  .lb-close,
+  .lb-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .window { background: var(--panel-solid); }
+  #taskbar { background: rgba(14, 14, 18, .96); }
+  #lightbox { background: rgba(4, 6, 12, .97); }
+  .os-card { background: rgba(20, 20, 24, .82); }
+
   /* Icons wrap into rows */
   #desktop-icons {
     flex-direction: row;
@@ -83,4 +99,20 @@
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* ============================================================
+   TRANSPARENCY PREFERENCES (Chrome/Firefox)
+   ============================================================ */
+@media (prefers-reduced-transparency: reduce) {
+  .window,
+  #taskbar,
+  .os-card,
+  #lightbox,
+  .lb-close,
+  .lb-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .window { background: var(--panel-solid); }
 }

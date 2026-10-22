@@ -46,6 +46,13 @@
   transform: scale(1.05);
 }
 
+/* Task items container (was inline in HTML) */
+#taskbar-items {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
 .task-app {
   min-width: 40px;
   height: 38px;
@@ -106,6 +113,73 @@
 .activities { display: none; }
 
 /* ============================================================
+   START MENU
+   ============================================================ */
+.start-menu {
+  position: absolute;
+  bottom: calc(var(--bar-h) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 240px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--panel-solid);
+  border: 1px solid var(--stroke-strong);
+  box-shadow: var(--shadow-window);
+  z-index: 600;
+  animation: startMenuIn .2s var(--ease-out);
+}
+@keyframes startMenuIn {
+  from { opacity: 0; transform: translate(-50%, 10px) scale(.96); }
+  to   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.start-menu-header {
+  padding: 10px 14px 12px;
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--stroke);
+  margin-bottom: 6px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: .88rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.start-menu-item:hover,
+.start-menu-item:focus-visible {
+  background: rgba(74,126,192,.15);
+  color: #fff;
+  outline: none;
+}
+.start-menu-item i {
+  width: 18px;
+  text-align: center;
+  color: var(--accent);
+  font-size: .9rem;
+}
+.start-menu-divider {
+  height: 1px;
+  background: var(--stroke);
+  margin: 6px 4px;
+}
+.start-menu-switch i { color: var(--accent-warm); }
+
+/* ============================================================
    LINUX MODE overrides
    ============================================================ */
 body.linux-mode #desktop {
@@ -140,9 +214,26 @@ body.linux-mode .activities {
   font-weight: 600;
   letter-spacing: .05em;
   color: #dfe5f0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: background .2s;
+}
+body.linux-mode .activities:hover {
+  background: rgba(255,255,255,.06);
 }
 body.linux-mode .taskbar-right { right: 18px; font-size: .78rem; }
 body.linux-mode #desktop-icons { top: 58px; }
+
+/* Start menu flips below the top-anchored taskbar in Linux mode */
+body.linux-mode .start-menu {
+  top: 46px;
+  bottom: auto;
+  animation: startMenuInLinux .2s var(--ease-out);
+}
+@keyframes startMenuInLinux {
+  from { opacity: 0; transform: translate(-50%, -10px) scale(.96); }
+  to   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
 
 /* ============================================================
    LOAD ERROR — shown when fetch() fails (no local server)
