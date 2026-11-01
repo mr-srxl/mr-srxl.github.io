@@ -1,0 +1,98 @@
+<section class="doc python-doc" aria-labelledby="c2">
+  <h1 id="c2">02 · Types &amp; strings</h1>
+
+  <p>Python has a small handful of basic types. Learn them, and everything else clicks into place.</p>
+
+  <h2>The five you'll meet first</h2>
+  <div class="code" data-lang="python">
+<pre>name    = "Sina"      # str   — text
+age     = 23          # int   — whole number
+height  = 1.78        # float — decimal
+is_ok   = True        # bool  — True or False
+nothing = None        # None  — the absence of a value
+
+print(type(name), type(age), type(height))</pre>
+  </div>
+  <div class="output">&lt;class 'str'&gt; &lt;class 'int'&gt; &lt;class 'float'&gt;</div>
+
+  <h2>Converting between types</h2>
+  <div class="code" data-lang="python">
+<pre>number_as_text = "42"
+number        = int(number_as_text)   # 42
+text          = str(3.14)             # "3.14"
+decimal       = float("1.5")          # 1.5
+
+print(number + 1)         # 43
+print(number_as_text + "!")  # "42!"</pre>
+  </div>
+
+  <h2>Strings in depth</h2>
+  <p>Strings are your most-used type. Here are the tools you'll reach for daily.</p>
+
+  <div class="code" data-lang="python">
+<pre>greeting = "Hello, meadow"
+
+# Length
+len(greeting)                  # 13
+
+# Indexing (starts at 0) and slicing
+greeting[0]                    # 'H'
+greeting[-1]                   # 'w'
+greeting[0:5]                  # 'Hello'
+greeting[7:]                   # 'meadow'
+
+# Methods — they return a new string, they don't mutate
+greeting.upper()               # 'HELLO, MEADOW'
+greeting.lower()               # 'hello, meadow'
+greeting.replace("meadow", "world")   # 'Hello, world'
+"  hello  ".strip()            # 'hello'
+"a,b,c".split(",")             # ['a', 'b', 'c']
+"-".join(["a", "b", "c"])      # 'a-b-c'
+"meadow".startswith("me")      # True
+"meadow".endswith("ow")        # True
+"me" in "meadow"               # True</pre>
+  </div>
+
+  <h2>f-strings — the cleanest way to build text</h2>
+  <div class="code" data-lang="python">
+<pre>name = "Sina"
+age  = 23
+
+print(f"{name} is {age} years old.")
+print(f"Next year: {age + 1}")
+print(f"Pi is roughly {3.14159:.2f}")   # two decimal places
+print(f"{name:&gt;10}")                    # right-align in width 10
+print(f"{name:&lt;10}|")                   # left-align in width 10</pre>
+  </div>
+  <div class="output">Sina is 23 years old.
+Next year: 24
+Pi is roughly 3.14
+      Sina
+Sina      |</div>
+
+  <h2>Numbers</h2>
+  <div class="code" data-lang="python">
+<pre>7 + 3       # 10   addition
+7 - 3       # 4    subtraction
+7 * 3       # 21   multiplication
+7 / 3       # 2.333… float division
+7 // 3      # 2    integer division (floor)
+7 % 3       # 1    remainder (modulo)
+7 ** 3      # 343  exponent
+
+round(3.14159, 2)   # 3.14
+abs(-7)             # 7
+max(1, 5, 3)        # 5
+min(1, 5, 3)        # 1</pre>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> write a small program that stores your name and birth year, then prints a sentence like <em>"Sina was born in 2002 and is about 23 years old."</em> Compute the age with subtraction.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/01-getting-started.html" data-internal>← Getting started</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/03-collections.html" data-internal>Collections →</a>
+  </div>
+</section>

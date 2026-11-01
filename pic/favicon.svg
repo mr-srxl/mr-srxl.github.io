@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SRXL OS">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#141730"/>
+      <stop offset="0.55" stop-color="#1f1d3a"/>
+      <stop offset="1"    stop-color="#2a2448"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"    stop-color="#fff5cc"/>
+      <stop offset="0.45" stop-color="#ffd86b"/>
+      <stop offset="1"    stop-color="#d99a2e"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"   stop-color="#f0c14b" stop-opacity="0.5"/>
+      <stop offset="0.5" stop-color="#f0c14b" stop-opacity="0.12"/>
+      <stop offset="1"   stop-color="#f0c14b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#221f3d"/>
+      <stop offset="1" stop-color="#15132a"/>
+    </linearGradient>
+    <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d0b1c"/>
+      <stop offset="1" stop-color="#05040d"/>
+    </linearGradient>
+    <clipPath id="rounded">
+      <rect width="64" height="64" rx="14"/>
+    </clipPath>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#sky)"/>
+
+  <g clip-path="url(#rounded)">
+    <!-- Stars — quiet, few -->
+    <circle cx="10" cy="13" r="0.8" fill="#ffffff" opacity="0.85"/>
+    <circle cx="52" cy="10" r="1"   fill="#ffffff" opacity="0.9"/>
+    <circle cx="54" cy="20" r="0.6" fill="#c4a8ee" opacity="0.7"/>
+    <circle cx="8"  cy="25" r="0.5" fill="#ffffff" opacity="0.55"/>
+    <circle cx="40" cy="15" r="0.6" fill="#c4a8ee" opacity="0.6"/>
+    <circle cx="20" cy="7"  r="0.7" fill="#ffffff" opacity="0.7"/>
+
+    <!-- Sun halo -->
+    <circle cx="32" cy="34" r="22" fill="url(#halo)"/>
+
+    <!-- Sun — the focal point, dipping behind the hills -->
+    <circle cx="32" cy="34" r="9" fill="url(#sun)"/>
+
+    <!-- Back hill — soft meadow swell -->
+    <path d="M-2 46 Q 14 40 28 43 Q 44 46 56 42 Q 62 40 66 42 L 66 66 L -2 66 Z"
+          fill="url(#hillBack)"/>
+
+    <!-- Front hill — darker, layered in front -->
+    <path d="M-2 53 Q 12 47 26 50 Q 40 53 54 49 Q 60 47 66 49 L 66 66 L -2 66 Z"
+          fill="url(#hillFront)"/>
+  </g>
+
+  <!-- Subtle inner rim to lift the icon off the tab bar -->
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5"
+        fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+</svg>

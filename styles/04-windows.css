@@ -1,0 +1,198 @@
+/* ============================================================
+   WINDOWS — chrome, header, controls, scrolling
+   ============================================================ */
+.window {
+  position: absolute;
+  width: min(680px, 88vw);
+  height: min(480px, 74vh);
+  display: flex;
+  flex-direction: column;
+  /* F-15: backdrop-filter removed from windows to meet R-10 dose cap
+     (blur is kept on taskbar + lightbox only). Solid panel background
+     is already used on mobile; this aligns desktop with mobile. */
+  background: var(--panel-solid);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+  resize: both;
+  min-width: 300px;
+  min-height: 220px;
+  animation: winOpen .4s var(--ease-out);
+  transition: box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+
+.window:focus-within {
+  border-color: rgba(91, 141, 217, .25);
+  box-shadow: var(--shadow-window-focus);
+}
+
+.window::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240, 193, 75, .55) 30%,
+    rgba(240, 193, 75, .85) 50%,
+    rgba(240, 193, 75, .55) 70%,
+    transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+  opacity: .85;
+  transition: opacity .3s var(--ease);
+}
+.window:focus-within::before { opacity: 1; }
+
+@keyframes winOpen {
+  from { opacity: 0; transform: scale(.94) translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+.window.closing { animation: winClose .24s ease forwards; }
+@keyframes winClose {
+  to { opacity: 0; transform: scale(.94) translateY(12px); filter: blur(3px); }
+}
+.window.minimized { display: none; }
+.window.maximized {
+  left: 8px !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(100vw - 16px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  padding-left: 20px;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, .065) 0%,
+    rgba(255, 255, 255, .025) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  cursor: grab;
+  user-select: none;
+  flex: none;
+  position: relative;
+}
+.window-header:active { cursor: grabbing; }
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: .84rem;
+  font-weight: 500;
+  color: #e6ebf4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.window-title i {
+  color: var(--accent);
+  font-size: .88rem;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+  transition: filter .3s var(--ease);
+}
+.window:focus-within .window-title i {
+  filter: drop-shadow(0 0 12px var(--accent-glow));
+}
+
+.window-controls { display: flex; height: 100%; }
+.ctrl {
+  width: 48px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #c6cddb;
+  font-size: .78rem;
+  display: grid;
+  place-items: center;
+  transition: background .2s, color .2s;
+}
+.ctrl:hover {
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+}
+.ctrl.close:hover {
+  background: linear-gradient(180deg, #ec6c6c, #d04040);
+  color: #fff;
+}
+.ctrl.close:active {
+  background: linear-gradient(180deg, #d04040, #b53030);
+}
+
+.window-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 34px 38px 42px;
+  font-size: .92rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.2) transparent;
+  position: relative;
+}
+.window-body::-webkit-scrollbar { width: 10px; }
+.window-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.18);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.window-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 141, 217, .55);
+  background-clip: content-box;
+}
+
+/* ============================================================
+   WINDOW SNAPPING
+   ============================================================ */
+.snap-preview {
+  position: fixed;
+  z-index: 490;
+  background: rgba(91, 141, 217, .12);
+  border: 2px solid rgba(91, 141, 217, .55);
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s var(--ease-out),
+              left .15s var(--ease-out),
+              top .15s var(--ease-out),
+              width .15s var(--ease-out),
+              height .15s var(--ease-out);
+  /* F-15: backdrop-filter removed (R-10 dose cap). Translucent fill
+     is enough for a brief preview rectangle. */
+  box-shadow:
+    0 0 30px -8px rgba(91, 141, 217, .4) inset,
+    0 0 40px -12px rgba(91, 141, 217, .3);
+}
+.snap-preview.show { opacity: 1; }
+
+.window.snap-left {
+  left: 8px !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(50vw - 12px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+.window.snap-right {
+  left: calc(50vw + 4px) !important;
+  top: calc(var(--bar-h) + 8px) !important;
+  width: calc(50vw - 12px) !important;
+  height: calc(100vh - var(--bar-h) - 16px) !important;
+  border-radius: 14px;
+}
+body.linux-mode .window.snap-left,
+body.linux-mode .window.snap-right {
+  top: calc(38px + 8px) !important;
+  height: calc(100vh - 38px - 16px) !important;
+}
+body.linux-mode .window.maximized {
+  top: calc(38px + 8px) !important;
+  height: calc(100vh - 38px - 16px) !important;
+}

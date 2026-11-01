@@ -1,0 +1,108 @@
+<section class="doc python-doc" aria-labelledby="c7">
+  <h1 id="c7">07 · User input &amp; files</h1>
+
+  <p>Two of the most useful skills: talking to the person running your program, and reading/writing files on disk.</p>
+
+  <h2>Asking for input</h2>
+  <div class="code" data-lang="python">
+<pre>name = input("What's your name? ")
+print(f"Hello, {name}.")
+
+# input() always returns a string — convert when you need a number:
+age_text = input("How old are you? ")
+age = int(age_text)
+print(f"Next year you'll be {age + 1}.")</pre>
+  </div>
+
+  <h3>Validating input in a loop</h3>
+  <p>People type strange things. A <code>while True</code> loop with a <code>try/except</code> is the standard way to ask again politely:</p>
+  <div class="code" data-lang="python">
+<pre>while True:
+    text = input("Enter a number: ")
+    try:
+        number = int(text)
+        break               # success — leave the loop
+    except ValueError:
+        print("That's not a number. Try again.")
+
+print(f"You entered {number}.")</pre>
+  </div>
+
+  <h2>Reading a file</h2>
+  <p>The <code>with</code> block opens a file and closes it automatically when done — even if something goes wrong. Use it always.</p>
+  <div class="code" data-lang="python">
+<pre># Read the whole file at once
+with open("notes.txt", "r", encoding="utf-8") as f:
+    content = f.read()
+    print(content)
+
+# Read line by line
+with open("notes.txt", "r", encoding="utf-8") as f:
+    for line in f:
+        print(line.strip())</pre>
+  </div>
+
+  <h2>Writing a file</h2>
+  <div class="code" data-lang="python">
+<pre># "w" overwrites the file
+with open("notes.txt", "w", encoding="utf-8") as f:
+    f.write("First line\n")
+    f.write("Second line\n")
+
+# "a" appends instead
+with open("notes.txt", "a", encoding="utf-8") as f:
+    f.write("One more line\n")</pre>
+  </div>
+
+  <h3>Modes at a glance</h3>
+  <div class="cheat">
+    <div><b>"r"</b>read (default) — errors if file doesn't exist</div>
+    <div><b>"w"</b>write — creates or overwrites</div>
+    <div><b>"a"</b>append — creates or adds to end</div>
+    <div><b>"r+"</b>read and write, file must exist</div>
+    <div><b>"rb" / "wb"</b>binary mode (images, etc.)</div>
+  </div>
+
+  <h2>Working with paths</h2>
+  <p>Absolute paths are safer than relative ones if your script might run from anywhere:</p>
+  <div class="code" data-lang="python">
+<pre>from pathlib import Path
+
+home = Path.home()
+notes = home / "notes.txt"     # joins safely
+print(notes.exists())
+
+with notes.open("a", encoding="utf-8") as f:
+    f.write("Another line\n")
+
+# List files in a folder
+for file in Path(".").glob("*.txt"):
+    print(file)</pre>
+  </div>
+
+  <h2>JSON — structured data in files</h2>
+  <p>Python ships with JSON support. It's the easiest way to save structured data.</p>
+  <div class="code" data-lang="python">
+<pre>import json
+
+# Write
+data = {"name": "Sina", "languages": ["Python", "C"]}
+with open("profile.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, indent=2)
+
+# Read
+with open("profile.json", "r", encoding="utf-8") as f:
+    loaded = json.load(f)
+    print(loaded["name"])   # 'Sina'</pre>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> write a small program that asks the user for three lines of text, then saves them to <code>my_notes.txt</code>. Run it again with a different three lines but change <code>"w"</code> to <code>"a"</code> — the file should grow.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/06-functions.html" data-internal>← Functions</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/08-packages.html" data-internal>Packages →</a>
+  </div>
+</section>

@@ -1,0 +1,296 @@
+/* ============================================================
+   CODE BLOCKS + COPY BUTTON + PYTHON COURSE
+   ============================================================ */
+
+/* --- Base code block --- */
+.code {
+  position: relative;
+  margin: 16px 0 0;
+  border-radius: 12px;
+  background: #06070b;
+  border: 1px solid var(--stroke);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  line-height: 1.8;
+}
+.code::before {
+  content: attr(data-lang);
+  display: block;
+  padding: 8px 16px;
+  background: rgba(255,255,255,.03);
+  border-bottom: 1px solid var(--stroke);
+  font-size: .66rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.code pre {
+  margin: 0;
+  padding: 16px 20px;
+  overflow-x: auto;
+  color: #d6dee9;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+}
+
+/* --- Output panel (below code) --- */
+.output {
+  margin: 0 0 20px;
+  padding: 12px 20px 14px;
+  border-radius: 0 0 12px 12px;
+  background: rgba(139,196,122,.05);
+  border: 1px solid rgba(139,196,122,.2);
+  border-top: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.7;
+  color: #c5d8c0;
+  white-space: pre;
+  overflow-x: auto;
+}
+.output::before {
+  content: "output";
+  display: block;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(139,196,122,.75);
+  margin-bottom: 6px;
+}
+
+/* --- Copy button --- */
+.code-copy {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 30px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: .72rem;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity .25s, background .2s, color .2s, border-color .2s;
+}
+.code:hover .code-copy { opacity: .7; }
+.code-copy:hover {
+  opacity: 1;
+  background: rgba(74,126,192,.15);
+  color: var(--accent-hi);
+  border-color: rgba(74,126,192,.4);
+}
+.code-copy.copied {
+  background: rgba(139,196,122,.18);
+  color: var(--accent-3);
+  border-color: rgba(139,196,122,.45);
+  opacity: 1;
+}
+@media (max-width: 760px) { .code-copy { opacity: .55; } }
+
+/* --- Callout boxes --- */
+.try {
+  margin: 16px 0 20px;
+  padding: 14px 18px 14px 46px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(245,201,92,.08), rgba(245,201,92,.02));
+  border: 1px solid rgba(245,201,92,.28);
+  font-size: .88rem;
+  line-height: 1.7;
+  color: #e6d9b6;
+  position: relative;
+}
+.try::before {
+  content: "✎";
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  color: var(--accent-warm);
+  font-size: 1rem;
+  filter: drop-shadow(0 0 8px rgba(245,201,92,.65));
+}
+.try strong { color: var(--accent-warm); font-weight: 600; }
+
+.intro-note {
+  margin: 0 0 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.14);
+  font-size: .9rem;
+  color: #d6dee9;
+  line-height: 1.75;
+}
+.intro-note strong { color: #f0f4f8; }
+
+.warn-note {
+  margin: 0 0 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(240,168,208,.09), rgba(240,168,208,.03));
+  border: 1px solid rgba(240,168,208,.28);
+  font-size: .9rem;
+  color: #f0d3e3;
+  line-height: 1.75;
+}
+.warn-note strong { color: var(--accent-pink); }
+
+/* --- Cheatsheet grid --- */
+.cheat {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 18px 0 8px;
+}
+.cheat div {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--stroke);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  color: #d1d9e6;
+  transition: border-color .3s, background .3s;
+}
+.cheat div:hover {
+  border-color: rgba(74,126,192,.5);
+  background: rgba(74,126,192,.08);
+}
+.cheat div b {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: .74rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.cheat div code {
+  color: var(--accent-hi);
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* --- Python course structure --- */
+.python-doc .chapter {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 44px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--stroke);
+  position: relative;
+}
+.python-doc .chapter::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-warm), transparent);
+}
+.python-doc .chapter .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--accent-warm);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(245,201,92,.1);
+  border: 1px solid rgba(245,201,92,.28);
+  text-shadow: 0 0 12px rgba(245,201,92,.5);
+  flex: none;
+}
+.python-doc .chapter .title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* --- Course table of contents --- */
+.toc {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 24px 0;
+}
+.toc a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--stroke);
+  transition: border-color .3s, background .3s, transform .3s var(--ease-out);
+}
+.toc a:hover {
+  border-color: rgba(74,126,192,.5);
+  background: rgba(74,126,192,.08);
+  transform: translateX(4px);
+}
+.toc .toc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--accent-warm);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(245,201,92,.1);
+  border: 1px solid rgba(245,201,92,.28);
+  flex: none;
+  letter-spacing: .1em;
+}
+.toc .toc-title { font-weight: 500; color: #fff; font-size: .94rem; }
+.toc .toc-sub { font-size: .78rem; color: var(--muted); margin-top: 3px; }
+
+/* --- Prev / Index / Next nav --- */
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 1px solid var(--stroke);
+}
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: .82rem;
+  font-weight: 500;
+  color: #c9dcf3;
+  background: linear-gradient(180deg, rgba(74,126,192,.14), rgba(74,126,192,.05));
+  border: 1px solid rgba(74,126,192,.32);
+  transition: background .3s, border-color .3s, transform .3s var(--ease-out);
+}
+.nav-links a:hover {
+  background: linear-gradient(180deg, rgba(74,126,192,.24), rgba(74,126,192,.1));
+  border-color: rgba(74,126,192,.6);
+  transform: translateY(-2px);
+}
+.nav-links a.disabled { opacity: .35; pointer-events: none; }
+.nav-links .center {
+  color: var(--muted);
+  font-size: .82rem;
+  text-decoration: none;
+}
+.nav-links .center:hover { color: var(--accent); }

@@ -1,0 +1,90 @@
+<section class="doc python-doc" aria-labelledby="c9">
+  <h1 id="c9">09 · Errors &amp; exceptions</h1>
+
+  <p>Programs break. That's normal. What matters is how gracefully they break — and how clearly they tell you what went wrong.</p>
+
+  <h2>Meeting the common errors</h2>
+  <div class="cheat">
+    <div><b>SyntaxError</b>typo — missing colon, unmatched bracket</div>
+    <div><b>NameError</b>used a variable that doesn't exist</div>
+    <div><b>TypeError</b>wrong type — <code>"a" + 1</code></div>
+    <div><b>ValueError</b>right type, wrong value — <code>int("abc")</code></div>
+    <div><b>IndexError</b>list index out of range</div>
+    <div><b>KeyError</b>dict key doesn't exist</div>
+    <div><b>FileNotFoundError</b>the file isn't there</div>
+    <div><b>ZeroDivisionError</b>divided by zero</div>
+  </div>
+
+  <h2>try / except</h2>
+  <div class="code" data-lang="python">
+<pre>try:
+    n = int("hello")
+except ValueError:
+    print("That wasn't a number.")</pre>
+  </div>
+  <div class="output">That wasn't a number.</div>
+
+  <p>Catch specific errors. Catching everything (<code>except:</code> alone) hides bugs you'd rather see.</p>
+
+  <div class="code" data-lang="python">
+<pre>try:
+    value = int(input("Enter a number: "))
+    print(10 / value)
+except ValueError:
+    print("Not a number.")
+except ZeroDivisionError:
+    print("Can't divide by zero.")
+except Exception as e:
+    print(f"Something else went wrong: {e}")</pre>
+  </div>
+
+  <h2>finally — always runs</h2>
+  <p>Use <code>finally</code> for cleanup that must happen whether or not an error occurred.</p>
+  <div class="code" data-lang="python">
+<pre>try:
+    f = open("data.txt")
+    content = f.read()
+except FileNotFoundError:
+    print("No file — starting fresh.")
+finally:
+    print("Done trying.")</pre>
+  </div>
+  <p>In practice, <code>with open(...)</code> handles the cleanup for you. But <code>finally</code> is still useful for other resources.</p>
+
+  <h2>Raising your own errors</h2>
+  <div class="code" data-lang="python">
+<pre>def set_age(age):
+    if age &lt; 0:
+        raise ValueError("Age cannot be negative.")
+    return age
+
+set_age(-1)
+# ValueError: Age cannot be negative.</pre>
+  </div>
+  <p>Raising an error early is often the kindest thing you can do — it stops a bad value from flowing through the rest of your program.</p>
+
+  <h2>Custom exceptions</h2>
+  <div class="code" data-lang="python">
+<pre>class LoginError(Exception):
+    pass
+
+def login(user):
+    if not user:
+        raise LoginError("Username is empty.")
+
+try:
+    login("")
+except LoginError as e:
+    print(f"Login failed: {e}")</pre>
+  </div>
+
+  <div class="try">
+    <strong>Try this:</strong> write a function <code>safe_divide(a, b)</code> that returns <code>a / b</code>, but catches <code>ZeroDivisionError</code> and returns <code>None</code> instead of crashing. Then call it with <code>(10, 2)</code> and <code>(5, 0)</code>.
+  </div>
+
+  <div class="nav-links">
+    <a href="apps/python/08-packages.html" data-internal>← Packages</a>
+    <a class="center" href="apps/python/index.html" data-internal>Course index</a>
+    <a href="apps/python/10-project.html" data-internal>Project →</a>
+  </div>
+</section>

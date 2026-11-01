@@ -1,0 +1,413 @@
+/* ============================================================
+   TOKENS — foundation: reset, colors, elevation, motion
+   ============================================================
+
+   Design Read (antislop Part 3):
+     Reading this as: personal portfolio desktop OS for visitors
+     who want a calm, explororable space, in a warm "Ember Dusk"
+     visual language.
+     Dials: ENERGY 2 / RHYTHM 2 / MOTION 2.
+       ENERGY 2 - calm with a real opening moment (the boot orb)
+       RHYTHM 2 - mostly consistent, with deliberate breaks
+                  (boot screen, reading-mode book layout, terminal)
+       MOTION 2 - state transitions + loading moment, no parallax
+
+   Typeface reasons (R-06):
+     Inter - wide language coverage, tabular numerals for the clock,
+             cv02/cv03/cv04/cv11/ss01 features for the personality
+     JetBrains Mono - the site has real terminal and code surfaces,
+             not decorative monospace; this is the kindest mono for
+             reading code
+
+   Icon set reason (R-04):
+     Font Awesome 6 - chosen for breadth (brand glyphs for Windows,
+     Linux, LinkedIn, Python) and consistent weight; thin-stroke
+     alternatives lack the brand marks this UI needs
+
+   Palette reason (R-29):
+     Two identity accents (--accent indigo, --accent-2 violet).
+     --accent-3 (green), --accent-warm (gold), --accent-pink (rose)
+     are SEMANTIC state colors (success/warning/error) and the
+     terminal syntax palette; they do not count against the
+     identity cap.
+
+   Avatar pulse (R-22, F-22):
+     The .avatar box-shadow breath is the identity motif of the
+     About window; it runs infinite but is paused under
+     [data-motion="reduced"] and prefers-reduced-motion.
+
+   Motion dial reasons (R-19, F-16):
+     Boot orb loader - allowed because it is a transient loading
+     moment, not steady-state UI. Window open/close use scale +
+     translate + blur because they announce a new surface; this
+     matches MOTION 2.
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* ========== Backgrounds — warm charcoal ========== */
+  --bg-deep:    #08070a;
+  --bg:         #0c0b0f;
+  --bg-2:       #110f14;
+
+  /* ========== Surfaces / elevation ========== */
+  --panel:        rgba(18, 16, 21, .9);
+  --panel-solid:  #131015;
+  --surface-2:    rgba(23, 20, 27, .92);
+  --surface-3:    rgba(29, 25, 33, .94);
+
+  /* ========== Strokes ========== */
+  --stroke:        rgba(255, 255, 255, .07);
+  --stroke-strong: rgba(255, 255, 255, .14);
+
+  /* ========== Text / ink hierarchy — warm cream ========== */
+  --text:      #f6f1e9;
+  --text-soft: #ccc3b8;
+  --muted:     #96918a;
+  --dim:       #605c58;
+
+  /* ========== Accents — Ember Dusk palette ========== */
+  --accent:        #6a90d6;
+  --accent-hi:     #93b2e6;
+  --accent-lo:     #4868a8;
+  --accent-glow:   rgba(106, 144, 214, .45);
+  --accent-ink:    #d0e0f5;
+
+  --accent-2:      #a888cc;
+  --accent-2-hi:   #c4a8e8;
+  --accent-2-glow: rgba(168, 136, 204, .45);
+
+  --accent-3:      #8fb66a;
+  --accent-3-hi:   #afd18c;
+  --accent-3-glow: rgba(143, 182, 106, .42);
+
+  --accent-warm:      #e8b44a;
+  --accent-warm-hi:   #f7cc68;
+  --accent-warm-glow: rgba(232, 180, 74, .48);
+
+  --accent-pink:      #e39cb5;
+  --accent-pink-hi:   #f2b8ca;
+  --accent-pink-glow: rgba(227, 156, 181, .42);
+
+  /* Semantic */
+  --success: #8fb66a;
+  --warning: #e8b44a;
+  --error:   #e26c6c;
+  --info:    #6a90d6;
+
+  /* ========== Reading surface — warm paper ========== */
+  --bg-reading:              #1a1612;
+  --text-reading:            #e8e1d5;
+  --text-reading-strong:     #f7f2e8;
+  --text-reading-muted:      #a8a294;
+  --text-reading-dim:        #756f63;
+  --stroke-reading:          rgba(255, 240, 220, .08);
+  --stroke-reading-strong:   rgba(255, 240, 220, .14);
+  --code-bg-reading:         #13100c;
+  --code-text-reading:       #ddd4c6;
+  --code-border-reading:     rgba(255, 240, 220, .08);
+  --inline-code-bg:          rgba(106, 144, 214, .12);
+  --inline-code-text:        #a4bfe6;
+  --inline-code-border:      rgba(106, 144, 214, .24);
+
+  /* ========== Shadows ========== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-sm: 0 2px 6px -1px rgba(0, 0, 0, .4),
+               0 1px 2px rgba(0, 0, 0, .3);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, .55),
+               0 2px 6px -2px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, .75),
+               0 8px 20px -8px rgba(0, 0, 0, .5);
+  --shadow-xl: 0 40px 100px -30px rgba(0, 0, 0, .9),
+               0 12px 32px -12px rgba(0, 0, 0, .6);
+
+  --shadow-window:
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 1px 0 rgba(255, 255, 255, .06) inset,
+    0 40px 100px -30px rgba(0, 0, 0, .9),
+    0 12px 32px -12px rgba(0, 0, 0, .6),
+    0 0 0 1px rgba(0, 0, 0, .55);
+
+  --shadow-window-focus:
+    0 0 0 1px rgba(106, 144, 214, .18) inset,
+    0 1px 0 rgba(255, 255, 255, .08) inset,
+    0 40px 100px -30px rgba(0, 0, 0, .95),
+    0 12px 32px -12px rgba(0, 0, 0, .65),
+    0 0 0 1px rgba(106, 144, 214, .22),
+    0 0 60px -12px rgba(106, 144, 214, .28);
+
+  /* ========== Reusable gradients ========== */
+  --grad-panel:     linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,.01) 100%);
+  --grad-button:    linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 100%);
+  --grad-accent:    linear-gradient(180deg, rgba(106,144,214,.20) 0%, rgba(106,144,214,.06) 100%);
+  --grad-accent-hi: linear-gradient(180deg, rgba(106,144,214,.30) 0%, rgba(106,144,214,.12) 100%);
+  --grad-warm:      linear-gradient(180deg, rgba(232,180,74,.18) 0%, rgba(232,180,74,.04) 100%);
+  --grad-highlight: linear-gradient(90deg, transparent, rgba(232,180,74,.7), transparent);
+  --grad-text:      linear-gradient(120deg,
+                      #f6f1e9 0%,
+                      #93b2e6 35%,
+                      #c4a8e8 65%,
+                      #f7cc68 100%);
+
+  /* ========== Radii ========== */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ========== Spacing ========== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* ========== Type scale ========== */
+  --text-xs:   .68rem;
+  --text-sm:   .78rem;
+  --text-base: .88rem;
+  --text-md:   .98rem;
+  --text-lg:   1.1rem;
+  --text-xl:   1.4rem;
+  --text-2xl:  1.9rem;
+  --text-3xl:  2.4rem;
+
+  /* ========== Motion ========== */
+  --ease:        cubic-bezier(.22, .8, .25, 1);
+  --ease-out:    cubic-bezier(.16, 1, .3, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-fast:    .15s;
+  --dur:         .25s;
+  --dur-slow:    .45s;
+
+  /* ========== Layout ========== */
+  --bar-h: 52px;
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-feature-settings: "cv02","cv03","cv04","cv11","ss01";
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -.005em;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; }
+
+/* F-19: cursor affordance set once in the base layer (R-39).
+   Every enabled interactive element shows pointer; disabled
+   shows not-allowed. Per-element cursor: pointer declarations
+   elsewhere are now redundant but harmless. */
+a[href], button, summary, label[for], .cmd-item, [role="button"],
+[role="menuitem"], [role="radio"], [role="option"], .shot,
+.blog-card, .toc a, .nav-links a, .blog-back, .tag {
+  cursor: pointer;
+}
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+
+::selection { background: rgba(106, 144, 214, .40); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-hi);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(106, 144, 214, .15);
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.screen.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 10001;
+  padding: 10px 18px;
+  background: var(--panel-solid);
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+  font-size: .85rem;
+  font-weight: 500;
+}
+.skip-link:focus {
+  left: 8px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(106, 144, 214, .18);
+}
+
+/* ============================================================
+   THEME VARIANTS
+   ============================================================ */
+[data-accent="meadow"] {
+  --accent:        #8fb66a;
+  --accent-hi:     #afd18c;
+  --accent-lo:     #6a9444;
+  --accent-glow:   rgba(143, 182, 106, .45);
+  --accent-ink:    #d8efc4;
+}
+[data-accent="honey"] {
+  --accent:        #e8b44a;
+  --accent-hi:     #f7cc68;
+  --accent-lo:     #b8872a;
+  --accent-glow:   rgba(232, 180, 74, .45);
+  --accent-ink:    #fbe5b8;
+}
+[data-accent="lavender"] {
+  --accent:        #a888cc;
+  --accent-hi:     #c4a8e8;
+  --accent-lo:     #8266a5;
+  --accent-glow:   rgba(168, 136, 204, .45);
+  --accent-ink:    #e8dcf5;
+}
+[data-accent="rose"] {
+  --accent:        #e39cb5;
+  --accent-hi:     #f2b8ca;
+  --accent-lo:     #b97090;
+  --accent-glow:   rgba(227, 156, 181, .45);
+  --accent-ink:    #fbe2eb;
+}
+
+/* ============================================================
+   MOTION OVERRIDE
+   ============================================================ */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+}
+
+/* ============================================================
+   WALLPAPER OVERRIDE
+   ============================================================ */
+[data-wallpaper="win"] #desktop {
+  background-image: url('../pic/win_bag.webp') !important;
+}
+[data-wallpaper="linux"] #desktop {
+  background-image: url('../pic/linux_bag.webp') !important;
+}
+[data-wallpaper="none"] #desktop {
+  background-image: none !important;
+  background-color: var(--bg-deep);
+}
+
+/* ============================================================
+   TERMINAL FONT SIZE
+   ============================================================ */
+[data-term-size="small"]  .terminal { font-size: .78rem; }
+[data-term-size="large"]  .terminal { font-size: .92rem; }
+
+/* ============================================================
+   LIGHT THEME — warm paper light
+   Redefines surfaces, ink, strokes, shadows, and reading tokens.
+   Accent hues stay the same; the -hi variants darken for text
+   contrast on light backgrounds.
+   ============================================================ */
+[data-theme="light"] {
+  /* Backgrounds — intentionally NOT overridden. The desktop wallpaper
+     and base background stay dark in light mode (the user wants the
+     meadow wallpaper to remain vivid, not washed out). Only windows,
+     panels, reading surfaces, and text colors flip to light. */
+  /* --bg-deep, --bg, --bg-2 keep their dark values from :root */
+
+  /* Surfaces — these DO flip to light (windows, taskbar, panels) */
+  --panel:        rgba(245, 240, 230, .88);
+  --panel-solid:  #faf6ee;
+  --surface-2:    rgba(250, 246, 238, .92);
+  --surface-3:    rgba(255, 252, 245, .94);
+
+  /* Strokes */
+  --stroke:        rgba(60, 45, 25, .08);
+  --stroke-strong: rgba(60, 45, 25, .16);
+
+  /* Text */
+  --text:      #1f1a14;
+  --text-soft: #3f382e;
+  --muted:     #6b6255;
+  --dim:       #998f80;
+
+  /* Reading surface */
+  --bg-reading:              #faf6ee;
+  --text-reading:            #2a241d;
+  --text-reading-strong:     #15110c;
+  --text-reading-muted:      #6b6357;
+  --text-reading-dim:        #938879;
+  --stroke-reading:          rgba(60, 45, 25, .1);
+  --stroke-reading-strong:   rgba(60, 45, 25, .18);
+  --code-bg-reading:         #f0ebde;
+  --code-text-reading:       #2a241d;
+  --code-border-reading:     rgba(60, 45, 25, .12);
+  --inline-code-bg:          rgba(106, 144, 214, .12);
+  --inline-code-text:        #3a5da8;
+  --inline-code-border:      rgba(106, 144, 214, .3);
+
+  /* Accent -hi variants darken for contrast */
+  --accent-hi:      #5276b8;
+  --accent-2-hi:    #8266a5;
+  --accent-3-hi:    #5a9444;
+  --accent-warm-hi: #b8872a;
+  --accent-pink-hi: #b97090;
+
+  /* Shadows — warmer, softer */
+  --shadow-window:
+    0 0 0 1px rgba(60, 45, 25, .06) inset,
+    0 1px 0 rgba(255, 255, 255, .6) inset,
+    0 40px 100px -30px rgba(80, 60, 30, .25),
+    0 12px 32px -12px rgba(80, 60, 30, .2),
+    0 0 0 1px rgba(60, 45, 25, .08);
+
+  --shadow-window-focus:
+    0 0 0 1px rgba(82, 118, 184, .2) inset,
+    0 1px 0 rgba(255, 255, 255, .6) inset,
+    0 40px 100px -30px rgba(80, 60, 30, .3),
+    0 12px 32px -12px rgba(80, 60, 30, .25),
+    0 0 0 1px rgba(82, 118, 184, .3),
+    0 0 60px -12px rgba(82, 118, 184, .18);
+
+  /* Gradients */
+  --grad-accent:    linear-gradient(180deg, rgba(106,144,214,.18) 0%, rgba(106,144,214,.06) 100%);
+  --grad-accent-hi: linear-gradient(180deg, rgba(106,144,214,.28) 0%, rgba(106,144,214,.12) 100%);
+  --grad-text:      linear-gradient(120deg, #15110c 0%, #5276b8 35%, #8266a5 65%, #b8872a 100%);
+}
+
+/* Light-theme accent combos — each accent gets its own light-appropriate -hi */
+[data-theme="light"][data-accent="meadow"]   { --accent-hi: #5a9444; }
+[data-theme="light"][data-accent="honey"]    { --accent-hi: #b8872a; }
+[data-theme="light"][data-accent="lavender"] { --accent-hi: #8266a5; }
+[data-theme="light"][data-accent="rose"]     { --accent-hi: #b97090; }
+
+
+/* F-06/F-07: visually-hidden helper for the document header + h1.
+   Uses the standard sr-only pattern (clipped, but readable by AT). */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,349 @@
+/* ============================================================
+   READING MODE — warm paper, centered column, book sidebar
+   ============================================================ */
+
+/* ---- Base surface ---- */
+.window--reading .window-body {
+  background: var(--bg-reading);
+  color: var(--text-reading);
+  font-size: .95rem;
+  line-height: 1.85;
+}
+
+/* ---- Body text ---- */
+.window--reading .window-body strong {
+  color: var(--text-reading-strong);
+}
+.window--reading .window-body .doc p,
+.window--reading .window-body .doc li,
+.window--reading .window-body .blog-post p,
+.window--reading .window-body .blog-post li {
+  color: var(--text-reading);
+}
+.window--reading .window-body .doc em {
+  color: var(--text-reading-muted);
+}
+
+/* ---- Subheads / meta ---- */
+.window--reading .window-body .doc-sub,
+.window--reading .window-body .blog-card-meta,
+.window--reading .window-body .post-header .post-date,
+.window--reading .window-body .toc .toc-sub {
+  color: var(--text-reading-muted);
+}
+
+/* ---- Hairlines ---- */
+.window--reading .window-body .doc-head {
+  border-bottom-color: var(--stroke-reading);
+}
+.window--reading .window-body .doc table th,
+.window--reading .window-body .blog-post th {
+  color: var(--text-reading-muted);
+  border-bottom-color: var(--stroke-reading-strong);
+}
+.window--reading .window-body .doc td,
+.window--reading .window-body .blog-post td {
+  color: var(--text-reading);
+  border-bottom-color: var(--stroke-reading);
+}
+.window--reading .window-body .blog-post hr {
+  border-top-color: var(--stroke-reading);
+}
+
+/* ---- Inline code ---- */
+.window--reading .window-body .doc code,
+.window--reading .window-body .blog-post code {
+  background: var(--inline-code-bg);
+  border: 1px solid var(--inline-code-border);
+  color: var(--inline-code-text);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: .86em;
+}
+
+/* ---- Block code reset (overrides inline) ---- */
+.window--reading .window-body .code pre code,
+.window--reading .window-body .blog-post pre code {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* ---- Block code containers — high contrast ---- */
+.window--reading .window-body .code {
+  background: #0d0b08 !important;
+  border: 1px solid rgba(255, 240, 220, .12) !important;
+  border-radius: 10px;
+  margin: 1.5em 0;
+}
+.window--reading .window-body .code::before {
+  background: rgba(255, 240, 220, .03);
+  border-bottom: 1px solid rgba(255, 240, 220, .1);
+  color: var(--text-reading-muted);
+}
+.window--reading .window-body .code pre {
+  padding: 1.2em 1.5em;
+  color: var(--code-text-reading);
+}
+.window--reading .window-body .blog-post pre {
+  background: #0d0b08;
+  border: 1px solid rgba(255, 240, 220, .12);
+  border-radius: 10px;
+  padding: 1.2em 1.5em;
+  color: var(--code-text-reading);
+}
+
+/* ---- hljs base text ---- */
+.window--reading .hljs {
+  color: var(--code-text-reading);
+  background: transparent;
+}
+
+/* ---- Editable code (Python course) ---- */
+.window--reading .code-editable {
+  background: #12100c !important;
+  border-color: var(--code-border-reading);
+}
+.window--reading .code-editable:hover {
+  border-color: rgba(106, 144, 214, .3);
+}
+.window--reading .code-editable:focus-within {
+  border-color: rgba(106, 144, 214, .55);
+}
+.window--reading .code-editable .code-highlight {
+  color: var(--code-text-reading);
+  background: transparent;
+}
+.window--reading .code-editable .code-highlight code {
+  color: var(--code-text-reading);
+  background: none;
+  border: none;
+  padding: 0;
+}
+.window--reading .code-editable .code-header {
+  background: rgba(255, 240, 220, .025);
+  border-bottom-color: var(--code-border-reading);
+}
+
+/* ---- Blockquote ---- */
+.window--reading .window-body .blog-post blockquote {
+  background: rgba(232, 180, 74, .06);
+  border-left-color: var(--accent-warm);
+  color: #f0e3c2;
+}
+
+/* ---- Blog cards ---- */
+.window--reading .window-body .blog-card {
+  background: rgba(255, 240, 220, .04);
+  border-color: var(--stroke-reading);
+}
+.window--reading .window-body .blog-card:hover {
+  background: rgba(255, 240, 220, .06);
+  border-color: rgba(106, 144, 214, .4);
+}
+.window--reading .window-body .blog-card-excerpt {
+  color: #d8d1c5;
+}
+.window--reading .window-body .blog-card-title {
+  color: var(--text-reading-strong);
+}
+
+/* ---- TOC / cheatsheet / intro-note ---- */
+.window--reading .window-body .toc a,
+.window--reading .window-body .cheat div,
+.window--reading .window-body .intro-note {
+  background: rgba(255, 240, 220, .04);
+  border-color: var(--stroke-reading);
+}
+.window--reading .window-body .toc a:hover,
+.window--reading .window-body .cheat div:hover {
+  background: rgba(106, 144, 214, .08);
+  border-color: rgba(106, 144, 214, .4);
+}
+
+/* ---- Roadmap node shadow ---- */
+.window--reading .window-body .roadmap > li::before {
+  box-shadow:
+    0 0 0 6px rgba(26, 22, 18, .96),
+    0 0 18px -4px rgba(106, 144, 214, .5);
+}
+
+/* ---- Settings ---- */
+.window--reading .window-body .settings-control {
+  background: rgba(255, 240, 220, .04);
+  border-color: var(--stroke-reading);
+}
+
+/* ---- "Try this" callout ---- */
+.window--reading .window-body .try {
+  background: linear-gradient(180deg, rgba(232, 180, 74, .12), rgba(232, 180, 74, .04));
+  border-color: rgba(232, 180, 74, .32);
+  color: #f0e0b8;
+}
+
+/* ---- Pyodide output ---- */
+.window--reading .window-body .learn-output {
+  background: rgba(14, 11, 8, .9);
+  border-top-color: rgba(143, 182, 106, .3);
+  color: #dbe0d0;
+}
+.window--reading .window-body .learn-output.is-error {
+  background: rgba(30, 10, 10, .7);
+  border-top-color: rgba(226, 108, 108, .4);
+  color: #f0c8c8;
+}
+
+/* ============================================================
+   CENTERED READING COLUMN — the "book" measure
+   ============================================================ */
+.window--reading .window-body .blog-post,
+.window--reading .window-body .python-doc {
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   TYPOGRAPHIC RHYTHM — space between sections
+   ============================================================ */
+.window--reading .window-body .blog-post h2,
+.window--reading .window-body .python-doc h2 {
+  margin-top: 2.2em;
+  margin-bottom: .7em;
+}
+.window--reading .window-body .blog-post h3,
+.window--reading .window-body .python-doc h3 {
+  margin-top: 1.8em;
+  margin-bottom: .5em;
+}
+.window--reading .window-body .blog-post p,
+.window--reading .window-body .python-doc p {
+  margin-bottom: 1.15em;
+}
+
+/* ============================================================
+   BOOK LAYOUT — auto-generated sidebar (via app.js)
+   ============================================================ */
+.window--reading .window-body .doc-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.window--reading .window-body .doc-content {
+  min-width: 0;
+}
+.window--reading .window-body .doc-content > .blog-post,
+.window--reading .window-body .doc-content > .python-doc {
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Sidebar */
+.window--reading .window-body .doc-sidebar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 4px 0;
+  font-size: .82rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 240, 220, .15) transparent;
+}
+.window--reading .window-body .doc-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.window--reading .window-body .doc-sidebar-title {
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-reading-muted);
+}
+.window--reading .window-body .doc-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--stroke-reading);
+}
+.window--reading .window-body .doc-sidebar-link {
+  display: block;
+  padding: 6px 0 6px 14px;
+  margin-left: -2px;
+  font-size: .82rem;
+  line-height: 1.4;
+  color: var(--text-reading-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+  cursor: pointer;
+}
+.window--reading .window-body .doc-sidebar-link:hover {
+  color: var(--text-reading-strong);
+  border-left-color: rgba(147, 178, 230, .45);
+}
+.window--reading .window-body .doc-sidebar-link.active {
+  color: #93b2e6;
+  border-left-color: #93b2e6;
+  font-weight: 500;
+}
+.window--reading .window-body .doc-sidebar-link.is-h3 {
+  padding-left: 26px;
+  font-size: .78rem;
+  opacity: .85;
+}
+.window--reading .window-body .doc-sidebar-link.is-h3.active {
+  opacity: 1;
+}
+
+/* Back link relocated to sidebar */
+.window--reading .window-body .doc-sidebar .blog-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 0 0 16px;
+  padding: 6px 10px;
+  font-size: .78rem;
+  border-radius: 6px;
+  background: rgba(255, 240, 220, .04);
+  border: 1px solid var(--stroke-reading);
+  color: var(--text-reading-muted);
+  text-decoration: none;
+}
+.window--reading .window-body .doc-sidebar .blog-back:hover {
+  color: var(--text-reading-strong);
+  border-color: rgba(147, 178, 230, .4);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .window--reading .window-body .doc-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .window--reading .window-body .doc-sidebar {
+    display: none;
+  }
+  .window--reading .window-body .blog-post,
+  .window--reading .window-body .python-doc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .window--reading .window-body {
+    font-size: .92rem;
+    line-height: 1.8;
+  }
+}
